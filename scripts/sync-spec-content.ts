@@ -5,6 +5,7 @@ const root = resolve(import.meta.dirname, "..");
 const specPath = resolve(root, "specs/arcademint-29-games-bilingual-master-spec.md");
 const outputPath = resolve(root, "src/content/games.generated.json");
 const spec = readFileSync(specPath, "utf8");
+const checkOnly = process.argv.includes("--check");
 
 type Faq = { question: string; answer: string };
 type GameLocale = {
@@ -244,5 +245,17 @@ if (failures.length) {
 }
 
 mkdirSync(dirname(outputPath), { recursive: true });
-writeFileSync(outputPath, `${JSON.stringify(games, null, 2)}\n`);
-console.log(`Generated ${games.length} bilingual games at ${outputPath}`);
+const generated = `${JSON.stringify(games, null, 2)}\n`;
+
+if (checkOnly) {
+  const committed = readFileSync(outputPath, "utf8");
+  if (committed !== generated) {
+    throw new Error(
+      "Generated catalog is out of sync with the master spec. Run `pnpm sync:content` and review the diff.",
+    );
+  }
+  console.log(`Verified ${games.length} bilingual games against the master spec.`);
+} else {
+  writeFileSync(outputPath, generated);
+  console.log(`Generated ${games.length} bilingual games at ${outputPath}`);
+}

@@ -2,10 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { Languages, Menu, Shuffle, X } from "lucide-react";
-import { otherLocale, type Locale } from "@/i18n/config";
-import { alternatePath, categoryPath, gamePath, localizedPath } from "@/i18n/paths";
-import { usePathname } from "next/navigation";
+import { Menu, Shuffle, X } from "lucide-react";
+import { LocaleSwitchLink } from "@/components/LocaleSwitchLink";
+import type { Locale } from "@/i18n/config";
+import { categoryPath, gamePath, localizedPath } from "@/i18n/paths";
 
 function randomIndex(length: number) {
   const values = new Uint32Array(1);
@@ -23,11 +23,9 @@ export function Header({ locale, gameSlugs }: { locale: Locale; gameSlugs: strin
       menu: en ? "Open menu" : "打开菜单", closeMenu: en ? "Close menu" : "关闭菜单",
     },
   };
-  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
-  const nextLocale = otherLocale(locale);
   const nav = [
     [copy.nav.allGames, localizedPath(locale, "#games")],
     [copy.nav.puzzle, categoryPath(locale, "puzzle")],
@@ -89,10 +87,7 @@ export function Header({ locale, gameSlugs }: { locale: Locale; gameSlugs: strin
         </nav>
 
         <div className="header-actions">
-          <Link className="language-link" href={alternatePath(pathname, nextLocale)} hrefLang={nextLocale === "en" ? "en" : "zh-CN"}>
-            <Languages size={16} aria-hidden="true" />
-            {nextLocale === "en" ? "English" : "简体中文"}
-          </Link>
+          <LocaleSwitchLink locale={locale} className="language-link" />
           <button className="random-button" type="button" onClick={playRandom}>
             <Shuffle size={16} aria-hidden="true" />
             <span>{copy.nav.random}</span>
@@ -128,9 +123,7 @@ export function Header({ locale, gameSlugs }: { locale: Locale; gameSlugs: strin
               ))}
             </nav>
             <div className="mobile-panel-actions">
-              <Link href={alternatePath(pathname, nextLocale)} onClick={() => setOpen(false)}>
-                <Languages aria-hidden="true" />{nextLocale === "en" ? "English" : "简体中文"}
-              </Link>
+              <LocaleSwitchLink locale={locale} onNavigate={() => setOpen(false)} />
               <button type="button" onClick={playRandom}><Shuffle aria-hidden="true" />{copy.nav.random}</button>
             </div>
           </div>

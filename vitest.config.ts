@@ -5,6 +5,10 @@ export default defineConfig({
   test: {
     environment: "node",
     include: ["tests/**/*.test.ts", "tests/**/*.test.tsx"],
-    coverage: { include: ["src/games/**/*.{ts,tsx}"], reporter: ["text", "html"] },
+    coverage: {
+      include: ["src/games/rules/**/*.ts", "src/games/logic/garden-rules.ts"],
+      reporter: ["text", "html"],
+      thresholds: { statements: 85, branches: 85, functions: 85, lines: 85 },
+    },
   },
 });

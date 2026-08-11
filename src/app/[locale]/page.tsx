@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowDownRight, Flower2, Gamepad2, Layers3, MonitorSmartphone, Sparkles } from "lucide-react";
@@ -83,7 +82,9 @@ export default async function HomePage({ params }: Props) {
           <div className="hero-machine">
             <span className="machine-top">ARCADE / 29</span>
             <div className="machine-screen">
-              <Image src="/images/og/home.webp" alt="" fill priority sizes="360px" />
+              {/* This is the LCP candidate; native markup avoids shipping the image component runtime. */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/images/og/home.webp" alt="" width={1200} height={630} fetchPriority="high" decoding="async" />
               <i className="pixel pixel-a" /><i className="pixel pixel-b" /><i className="pixel pixel-c" />
               <strong>PLAY</strong>
             </div>

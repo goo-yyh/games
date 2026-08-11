@@ -1,7 +1,7 @@
 "use client";
 
 import { Component, lazy, Suspense, type ComponentType, type ErrorInfo, type ReactNode, useCallback, useEffect, useRef, useState } from "react";
-import { Expand, Minimize, Pause, Play, RotateCcw, Volume2, VolumeX } from "lucide-react";
+import { Contrast, Expand, Minimize, Pause, Play, RotateCcw, Volume2, VolumeX } from "lucide-react";
 import type { Locale } from "@/i18n/config";
 import type { GamePhase, PlayableGameProps } from "./types";
 import { gameLoaders } from "./loaders";
@@ -29,6 +29,7 @@ export default function GameRuntime({ slug, locale, name }: { slug: string; loca
   const [status, setStatus] = useState(en ? "Game started" : "游戏已开始");
   const [resetKey, setResetKey] = useState(0);
   const [muted, setMuted] = useState(false);
+  const [highContrast, setHighContrast] = useState(false);
   const [fullscreen, setFullscreen] = useState(false);
   const shellRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<AudioContext | null>(null);
@@ -115,14 +116,15 @@ export default function GameRuntime({ slug, locale, name }: { slug: string; loca
   }
 
   return (
-    <div ref={shellRef} className="game-shell" data-phase={phase}>
+    <div ref={shellRef} className={`game-shell ${highContrast ? "is-high-contrast" : ""}`} data-phase={phase}>
       <div className="game-shell-bar">
         <div className="game-shell-title"><span aria-hidden="true" /><div><strong>{name}</strong><small>{phase === "playing" ? (en ? "Playing" : "进行中") : phase === "paused" ? (en ? "Paused" : "已暂停") : phase === "complete" ? (en ? "Complete" : "已完成") : (en ? "Game over" : "游戏结束")}</small></div></div>
         <div className="game-score"><small>{en ? "Score" : "分数"}</small><strong>{score}</strong></div>
         <div className="game-shell-controls">
-          <button type="button" onClick={() => { setPhase((current) => current === "paused" ? "playing" : "paused"); setStatus(phase === "paused" ? (en ? "Resumed" : "继续游戏") : (en ? "Paused" : "游戏已暂停")); }} aria-label={phase === "paused" ? (en ? "Resume" : "继续") : (en ? "Pause" : "暂停")}>{phase === "paused" ? <Play aria-hidden="true" /> : <Pause aria-hidden="true" />}</button>
+          <button type="button" onClick={() => { setPhase((current) => current === "paused" ? "playing" : "paused"); setStatus(phase === "paused" ? (en ? "Resumed" : "继续游戏") : (en ? "Paused" : "游戏已暂停")); }} aria-pressed={phase === "paused"} aria-label={phase === "paused" ? (en ? "Resume" : "继续") : (en ? "Pause" : "暂停")}>{phase === "paused" ? <Play aria-hidden="true" /> : <Pause aria-hidden="true" />}</button>
           <button type="button" onClick={restart} aria-label={en ? "Restart" : "重新开始"}><RotateCcw aria-hidden="true" /></button>
           <button type="button" onClick={() => setMuted((value) => !value)} aria-pressed={muted} aria-label={muted ? (en ? "Unmute" : "开启声音") : (en ? "Mute" : "静音")}>{muted ? <VolumeX aria-hidden="true" /> : <Volume2 aria-hidden="true" />}</button>
+          <button type="button" onClick={() => setHighContrast((value) => !value)} aria-pressed={highContrast} aria-label={en ? "High contrast" : "高对比度"}><Contrast aria-hidden="true" /></button>
           {typeof document !== "undefined" && document.fullscreenEnabled && <button type="button" onClick={toggleFullscreen} aria-label={fullscreen ? (en ? "Exit fullscreen" : "退出全屏") : (en ? "Fullscreen" : "全屏")}>{fullscreen ? <Minimize aria-hidden="true" /> : <Expand aria-hidden="true" />}</button>}
         </div>
       </div>
@@ -133,7 +135,7 @@ export default function GameRuntime({ slug, locale, name }: { slug: string; loca
           {(phase === "game-over" || phase === "complete") && <div className="phase-overlay" role="dialog" aria-modal="true" aria-labelledby="result-title"><strong id="result-title">{phase === "complete" ? (en ? "Round complete" : "本局完成") : (en ? "Game over" : "游戏结束")}</strong><p>{status}</p><button autoFocus type="button" onClick={restart}>{en ? "Play again" : "再玩一次"}</button></div>}
         </div>
       </GameErrorBoundary>
-      <p className="game-live" aria-live="polite" aria-atomic="true">{status}</p>
+      <p className="game-live" role="status" aria-live="polite" aria-atomic="true">{status}</p>
     </div>
   );
 }

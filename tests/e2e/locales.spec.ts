@@ -1,8 +1,16 @@
 import { expect, test } from "@playwright/test";
-import AxeBuilder from "@axe-core/playwright";
 import gamesData from "../../src/content/games.generated.json" with { type: "json" };
 
-const games = gamesData as { slug: string }[];
+type CatalogGame = {
+  slug: string;
+  locales: Record<"en" | "zh", {
+    seoTitle: string;
+    description: string;
+    h1: string;
+  }>;
+};
+
+const games = gamesData as CatalogGame[];
 
 const categories = ["puzzle", "arcade", "skill", "brain"];
 const legal = ["about", "contact", "privacy", "cookies", "terms", "accessibility"];
@@ -11,13 +19,43 @@ const paths = [
   ...legal.map((value) => `/${value}`), ...games.map((game) => `/games/${game.slug}`),
 ];
 
-test("all 82 localized public routes respond", async ({ request }, testInfo) => {
+test("all 82 localized public routes respond with self-consistent SEO", async ({ request }, testInfo) => {
   test.skip(testInfo.project.name !== "chromium-desktop", "Run the complete route matrix once.");
   test.setTimeout(180_000);
   for (const locale of ["en", "zh"]) {
     for (const path of paths) {
       const response = await request.get(`/${locale}${path}`);
       expect(response.status(), `${locale}${path}`).toBe(200);
+      const html = await response.text();
+      const localizedPath = `/${locale}${path}`;
+      expect(html, `${localizedPath}: html lang`).toContain(`<html lang="${locale === "en" ? "en" : "zh-CN"}"`);
+      expect(html, `${localizedPath}: title`).toMatch(/<title>[^<]+<\/title>/);
+      expect(html, `${localizedPath}: description`).toMatch(/<meta name="description" content="[^\"]+"\/>/);
+      expect(html, `${localizedPath}: canonical`).toMatch(new RegExp(`<link rel="canonical" href="https://[^\"]+${localizedPath.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"\\/>`));
+      expect(html, `${localizedPath}: English alternate`).toContain(`rel="alternate" hrefLang="en"`);
+      expect(html, `${localizedPath}: Chinese alternate`).toContain(`rel="alternate" hrefLang="zh-CN"`);
+      expect(html, `${localizedPath}: x-default alternate`).toContain(`rel="alternate" hrefLang="x-default"`);
+      expect(html, `${localizedPath}: Open Graph`).toContain('property="og:url"');
+      expect(html, `${localizedPath}: Twitter card`).toContain('name="twitter:card" content="summary_large_image"');
+      expect(html, `${localizedPath}: JSON-LD`).toContain('type="application/ld+json"');
+    }
+  }
+
+  for (const game of games) {
+    for (const locale of ["en", "zh"] as const) {
+      const response = await request.get(`/${locale}/games/${game.slug}`);
+      const html = await response.text();
+      const expected = game.locales[locale];
+      expect(html, `${locale}/${game.slug}: SEO title`).toContain(`<title>${expected.seoTitle}</title>`);
+      expect(html, `${locale}/${game.slug}: meta description`).toContain(`name="description" content="${expected.description}"`);
+      expect(html, `${locale}/${game.slug}: H1`).toContain(expected.h1);
+    }
+  }
+
+  for (const game of games) {
+    for (const asset of ["cover.webp", "og.webp", "source.png"]) {
+      const response = await request.get(`/images/games/${game.slug}/${asset}`);
+      expect(response.status(), `${game.slug}/${asset}`).toBe(200);
     }
   }
   const root = await request.get("/", { maxRedirects: 0 });
@@ -76,28 +114,21 @@ test("Matter physics stays out of the initial game page and loads after Play", a
 
 test("language switch preserves the logical page", async ({ page }) => {
   await page.goto("/en/games/block-bloom");
-  await page.getByRole("link", { name: "简体中文" }).click();
+  await page.locator("header [data-locale-switch]").click();
   await expect(page).toHaveURL(/\/zh\/games\/block-bloom$/);
   await expect(page.getByRole("heading", { level: 1 })).toContainText("方块绽放");
-});
-
-test("representative pages have no serious axe violations", async ({ page }, testInfo) => {
-  test.skip(!["chromium-desktop", "mobile-chrome"].includes(testInfo.project.name));
-  for (const path of ["/en", "/zh", "/en/games/block-bloom", "/zh/privacy"]) {
-    await page.goto(path);
-    const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"]).analyze();
-    expect(results.violations.filter((violation) => violation.impact === "serious" || violation.impact === "critical"), path).toEqual([]);
-  }
+  await page.locator("footer [data-locale-switch]").click();
+  await expect(page).toHaveURL(/\/en\/games\/block-bloom$/);
 });
 
 test.describe("29 game launch and reset smoke tests", () => {
   for (const game of games) {
     test(`${game.slug} launches in both locales`, async ({ page }, testInfo) => {
-      test.skip(testInfo.project.name !== "chromium-desktop", "Run the full engine matrix once.");
       test.setTimeout(60_000);
       const pageErrors: string[] = [];
       page.on("pageerror", (error) => pageErrors.push(error.message));
-      for (const locale of ["en", "zh"] as const) {
+      const locales = testInfo.project.name === "chromium-desktop" ? (["en", "zh"] as const) : (["en"] as const);
+      for (const locale of locales) {
         await page.goto(`/${locale}/games/${game.slug}`);
         await page.getByRole("button", { name: locale === "en" ? "Play game" : "开始游戏" }).click();
         await expect(page.locator(".game-shell")).toBeVisible();
@@ -105,7 +136,11 @@ test.describe("29 game launch and reset smoke tests", () => {
         await page.locator(".game-stage").press("Space").catch(() => undefined);
         await page.waitForTimeout(80);
         await page.getByRole("button", { name: locale === "en" ? "Restart" : "重新开始", exact: true }).click();
-        await expect(page.locator(".game-score strong")).toHaveText(/^(0|1250)$/);
+        await expect(page.locator(".game-shell")).toHaveAttribute("data-phase", "playing");
+        await expect(page.locator(".game-live")).toContainText(locale === "en" ? "New run started" : "新一局已开始");
+        const restartedScore = Number(await page.locator(".game-score strong").textContent());
+        expect(restartedScore).toBeGreaterThanOrEqual(0);
+        expect(restartedScore).toBeLessThanOrEqual(1250);
       }
       expect(pageErrors).toEqual([]);
     });

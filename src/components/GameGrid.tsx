@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Search } from "lucide-react";
 import type { GameCardData } from "@/content/games";
 import type { Locale } from "@/i18n/config";
 import { GameCard } from "./GameCard";
@@ -31,7 +30,7 @@ export function GameGrid({ games, locale, searchable = false }: { games: GameCar
       {searchable && (
         <div className="catalog-tools">
           <label className="search-field">
-            <Search size={18} aria-hidden="true" />
+            <span className="search-icon" aria-hidden="true">⌕</span>
             <span className="sr-only">{searchPlaceholder}</span>
             <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder={searchPlaceholder} type="search" />
           </label>

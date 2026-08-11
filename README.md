@@ -13,35 +13,39 @@ ArcadeMint is a bilingual collection of 29 original, single-player browser games
 
 | # | Slug | English | 简体中文 |
 |---:|---|---|---|
-| 01 | `block-bloom` | Block Bloom | 方块绽放 |
-| 02 | `number-merge-2048` | Number Merge 2048 | 数字合并 2048 |
-| 03 | `neon-snake` | Neon Snake | 霓虹贪吃蛇 |
-| 04 | `sky-stack` | Sky Stack | 天空叠塔 |
-| 05 | `zigzag-drift` | Zigzag Drift | 折线漂移 |
-| 06 | `tap-hoops` | Tap Hoops | 点击投篮 |
-| 07 | `color-pour` | Color Pour | 彩色倒水 |
-| 08 | `penalty-hero` | Penalty Hero | 点球英雄 |
-| 09 | `slope-dash` | Slope Dash | 斜坡冲刺 |
-| 10 | `helix-drop` | Helix Drop | 螺旋下落 |
-| 11 | `tunnel-flux` | Tunnel Flux | 隧道流光 |
-| 12 | `bubble-pop-shooter` | Bubble Pop Shooter | 泡泡消除射手 |
-| 13 | `bolt-away` | Bolt Away | 螺栓拆解 |
-| 14 | `unblock-path` | Unblock Path | 滑块开路 |
-| 15 | `wave-rider` | Wave Rider | 波形骑手 |
-| 16 | `fruit-slice-rush` | Fruit Slice Rush | 水果切切冲刺 |
-| 17 | `hook-swing` | Hook Swing | 钩索飞荡 |
-| 18 | `trap-runner` | Trap Runner | 陷阱跑者 |
-| 19 | `rugged-wheels` | Rugged Wheels | 越野双轮 |
-| 20 | `classic-solitaire` | Classic Solitaire | 经典纸牌接龙 |
-| 21 | `sum-orchard` | Sum Orchard | 数字果园 |
-| 22 | `color-cross` | Color Cross | 色彩十字 |
-| 23 | `orbit-lines` | Orbit Lines | 轨道连线 |
-| 24 | `corner-stars` | Corner Stars | 直角星阵 |
-| 25 | `sidefall-blocks` | Sidefall Blocks | 侧落方块 |
-| 26 | `triad-capture` | Triad Capture | 三色框选 |
-| 27 | `echo-path` | Echo Path | 回声路径 |
-| 28 | `target-basket` | Target Basket | 目标数字篮 |
-| 29 | `math-grid-sprint` | Math Grid Sprint | 数学方格冲刺 |
+| 01 | `block-bloom` | [Block Bloom](https://games-umber-pi.vercel.app/en/games/block-bloom) | [方块绽放](https://games-umber-pi.vercel.app/zh/games/block-bloom) |
+| 02 | `number-merge-2048` | [Number Merge 2048](https://games-umber-pi.vercel.app/en/games/number-merge-2048) | [数字合并 2048](https://games-umber-pi.vercel.app/zh/games/number-merge-2048) |
+| 03 | `neon-snake` | [Neon Snake](https://games-umber-pi.vercel.app/en/games/neon-snake) | [霓虹贪吃蛇](https://games-umber-pi.vercel.app/zh/games/neon-snake) |
+| 04 | `sky-stack` | [Sky Stack](https://games-umber-pi.vercel.app/en/games/sky-stack) | [天空叠塔](https://games-umber-pi.vercel.app/zh/games/sky-stack) |
+| 05 | `zigzag-drift` | [Zigzag Drift](https://games-umber-pi.vercel.app/en/games/zigzag-drift) | [之字漂移](https://games-umber-pi.vercel.app/zh/games/zigzag-drift) |
+| 06 | `tap-hoops` | [Tap Hoops](https://games-umber-pi.vercel.app/en/games/tap-hoops) | [点击投篮](https://games-umber-pi.vercel.app/zh/games/tap-hoops) |
+| 07 | `color-pour` | [Color Pour](https://games-umber-pi.vercel.app/en/games/color-pour) | [彩色水排序](https://games-umber-pi.vercel.app/zh/games/color-pour) |
+| 08 | `penalty-hero` | [Penalty Hero](https://games-umber-pi.vercel.app/en/games/penalty-hero) | [点球英雄](https://games-umber-pi.vercel.app/zh/games/penalty-hero) |
+| 09 | `slope-dash` | [Slope Dash](https://games-umber-pi.vercel.app/en/games/slope-dash) | [斜坡冲刺](https://games-umber-pi.vercel.app/zh/games/slope-dash) |
+| 10 | `helix-drop` | [Helix Drop](https://games-umber-pi.vercel.app/en/games/helix-drop) | [螺旋坠落](https://games-umber-pi.vercel.app/zh/games/helix-drop) |
+| 11 | `tunnel-flux` | [Tunnel Flux](https://games-umber-pi.vercel.app/en/games/tunnel-flux) | [极速隧道](https://games-umber-pi.vercel.app/zh/games/tunnel-flux) |
+| 12 | `bubble-pop-shooter` | [Bubble Pop Shooter](https://games-umber-pi.vercel.app/en/games/bubble-pop-shooter) | [泡泡射手](https://games-umber-pi.vercel.app/zh/games/bubble-pop-shooter) |
+| 13 | `bolt-away` | [Bolt Away](https://games-umber-pi.vercel.app/en/games/bolt-away) | [螺丝拆板](https://games-umber-pi.vercel.app/zh/games/bolt-away) |
+| 14 | `unblock-path` | [Unblock Path](https://games-umber-pi.vercel.app/en/games/unblock-path) | [滑块解围](https://games-umber-pi.vercel.app/zh/games/unblock-path) |
+| 15 | `wave-rider` | [Wave Rider](https://games-umber-pi.vercel.app/en/games/wave-rider) | [波形穿越](https://games-umber-pi.vercel.app/zh/games/wave-rider) |
+| 16 | `fruit-slice-rush` | [Fruit Slice Rush](https://games-umber-pi.vercel.app/en/games/fruit-slice-rush) | [水果切割冲刺](https://games-umber-pi.vercel.app/zh/games/fruit-slice-rush) |
+| 17 | `hook-swing` | [Hook Swing](https://games-umber-pi.vercel.app/en/games/hook-swing) | [钩索摆荡](https://games-umber-pi.vercel.app/zh/games/hook-swing) |
+| 18 | `trap-runner` | [Trap Runner](https://games-umber-pi.vercel.app/en/games/trap-runner) | [陷阱跑者](https://games-umber-pi.vercel.app/zh/games/trap-runner) |
+| 19 | `rugged-wheels` | [Rugged Wheels](https://games-umber-pi.vercel.app/en/games/rugged-wheels) | [崎岖车轮](https://games-umber-pi.vercel.app/zh/games/rugged-wheels) |
+| 20 | `classic-solitaire` | [Classic Solitaire](https://games-umber-pi.vercel.app/en/games/classic-solitaire) | [经典纸牌接龙](https://games-umber-pi.vercel.app/zh/games/classic-solitaire) |
+| 21 | `sum-orchard` | [Sum Orchard](https://games-umber-pi.vercel.app/en/games/sum-orchard) | [数字果园](https://games-umber-pi.vercel.app/zh/games/sum-orchard) |
+| 22 | `color-cross` | [Color Cross](https://games-umber-pi.vercel.app/en/games/color-cross) | [色彩十字](https://games-umber-pi.vercel.app/zh/games/color-cross) |
+| 23 | `orbit-lines` | [Orbit Lines](https://games-umber-pi.vercel.app/en/games/orbit-lines) | [轨道连线](https://games-umber-pi.vercel.app/zh/games/orbit-lines) |
+| 24 | `corner-stars` | [Corner Stars](https://games-umber-pi.vercel.app/en/games/corner-stars) | [星角拼图](https://games-umber-pi.vercel.app/zh/games/corner-stars) |
+| 25 | `sidefall-blocks` | [Sidefall Blocks](https://games-umber-pi.vercel.app/en/games/sidefall-blocks) | [侧落方块](https://games-umber-pi.vercel.app/zh/games/sidefall-blocks) |
+| 26 | `triad-capture` | [Triad Capture](https://games-umber-pi.vercel.app/en/games/triad-capture) | [三色框选](https://games-umber-pi.vercel.app/zh/games/triad-capture) |
+| 27 | `echo-path` | [Echo Path](https://games-umber-pi.vercel.app/en/games/echo-path) | [回声连线](https://games-umber-pi.vercel.app/zh/games/echo-path) |
+| 28 | `target-basket` | [Target Basket](https://games-umber-pi.vercel.app/en/games/target-basket) | [目标数字篮](https://games-umber-pi.vercel.app/zh/games/target-basket) |
+| 29 | `math-grid-sprint` | [Math Grid Sprint](https://games-umber-pi.vercel.app/en/games/math-grid-sprint) | [数学方格冲刺](https://games-umber-pi.vercel.app/zh/games/math-grid-sprint) |
+
+## Garden Logic
+
+Garden Logic is a nine-game Brain/Puzzle collection built around seeded, solvable board generation and short score-or-time sessions. Its English and Chinese collection pages are [Garden Logic](https://games-umber-pi.vercel.app/en/collections/garden-logic) and [花园逻辑](https://games-umber-pi.vercel.app/zh/collections/garden-logic). Rows 21–29 above provide the nine slugs and all 18 localized game URLs.
 
 ## Stack and architecture
 
@@ -80,12 +84,22 @@ Until `NEXT_PUBLIC_LAUNCH_READY=true`, every environment—including a Vercel Pr
 pnpm lint                    # ESLint
 pnpm typecheck               # strict TypeScript
 pnpm test                    # all Vitest suites
+pnpm test:watch              # Vitest watch mode
+pnpm test:coverage           # Vitest coverage report
 pnpm test:i18n               # catalog/localization suite
 pnpm test:seo                # metadata/sitemap suite
-pnpm validate                # catalog, images, sitemap, ads settings
-pnpm build                   # validation + static production build
+pnpm test:storage            # browser-storage prohibition tests
+pnpm validate                # spec sync, catalog, images, sitemap, ads settings
+pnpm validate:catalog        # catalog/image/route validation
+pnpm validate:locales        # localized catalog validation
+pnpm validate:performance    # gzip JS/image budgets for the latest .next build
+pnpm build                   # validation + static build + performance budgets
 pnpm test:e2e                # configured browser matrix
+pnpm test:a11y               # focused desktop/mobile accessibility suite
+pnpm sync:content            # regenerate bilingual catalog from the master spec
+pnpm check:content           # fail if generated content drifted from the spec
 pnpm generate:images         # regenerate local cover/source/OG assets
+pnpm optimize:images         # deterministic image generation/optimization alias
 pnpm generate:ads            # generate ads.txt from publisher env
 ```
 
@@ -108,6 +122,8 @@ public/images/games/<slug>/og.webp     # 1200x630
 ```
 
 The generated assets are original, local, text-free, and validated for dimensions and file budget. `source.png` is never referenced by a page or Sitemap. The homepage social source was made with the built-in image generation workflow; `scripts/generate-images.ts` performs deterministic processing and game-cover generation.
+
+Canvas arcade engines cap device-pixel ratio at 2 and keep semantic controls in the DOM. Tap Hoops uses a tested jump envelope plus rim-aware swish streaks, while Slope Dash generates safe world-space chunks with ramps, gaps, barriers, velocity, and damping. Hook Swing, Trap Runner, and Rugged Wheels ship validated static definitions for 15 courses, 15 rooms, and 12 tracks respectively; none of that progress is persisted.
 
 ## Adding game 30
 

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { canPlaceBloom, move2048, placeBloom, slideLine } from "../../src/games/logic/ClassicGames";
-import { rectFromPoints, sumRect } from "../../src/games/logic/GardenGames";
+import { rectFromPoints, sumRect } from "../../src/games/logic/garden-rules";
 import { createRandom } from "../../src/games/random";
 
 describe("Block Bloom rules", () => {

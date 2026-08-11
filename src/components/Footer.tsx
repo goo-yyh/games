@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { LocaleSwitchLink } from "@/components/LocaleSwitchLink";
 import { getSiteCopy } from "@/content/site";
 import type { Locale } from "@/i18n/config";
 import { categoryPath, localizedPath } from "@/i18n/paths";
@@ -29,6 +30,7 @@ export function Footer({ locale }: { locale: Locale }) {
           <Link href={localizedPath(locale, "/about")}>{copy.nav.about}</Link>
           <Link href={localizedPath(locale, "/contact")}>{copy.footer.contact}</Link>
           <Link href={localizedPath(locale, "/accessibility")}>{copy.footer.accessibility}</Link>
+          <LocaleSwitchLink locale={locale} showIcon={false} />
         </div>
         <div>
           <h2>{copy.footer.legal}</h2>

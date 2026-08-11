@@ -15,8 +15,12 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - Do not import a game engine into a page, card, catalog, header, or homepage bundle. Add every new slug to the explicit lazy map in `src/games/loaders.ts` and load it only after Play.
 - Matter.js may be imported only by `src/games/physics/PhysicsGames.tsx`, which serves Hook Swing and Rugged Wheels.
 - Never copy third-party game code, names, levels, UI, characters, brands, sound, or images. Every public asset and guide must be owned or generated for this repository.
+- When a game rule changes, update its pure engine tests and both localized public descriptions in the same change.
+- Seed every procedural generator used by tests and validate that generated boards, courses, and level data remain playable.
+- Color must never be the only carrier of gameplay information; pair it with symbols, patterns, labels, or position.
 - Every new game requires complete independent English and Simplified Chinese SEO/copy, at least three FAQs, localized controls/HUD/results, related links, source/cover/OG images, rule tests, and both-locale E2E smoke coverage.
+- After catalog or localized-content changes, run `pnpm check:content`, `pnpm validate:catalog`, and `pnpm validate:locales`.
 - Page, Sitemap, canonical, breadcrumb, and related URLs must use the shared locale path helpers. Production canonical origins come only from `NEXT_PUBLIC_SITE_URL`.
 - Keep Preview, Development, and any deployment without `NEXT_PUBLIC_LAUNCH_READY=true` at `noindex,nofollow,noarchive`. Do not point canonical or hreflang at a Preview host.
 - Ads remain off unless Production configuration is complete. Ads must stay away from Play, Pause, Restart, result layers, virtual controls, and game touch areas; never refresh ads automatically.
-- Before changing a shared engine or publishing Production, run `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm validate`, `pnpm build`, and the relevant Playwright matrix.
+- Before changing a shared engine or publishing Production, run `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm test:i18n`, `pnpm test:seo`, `pnpm validate`, `pnpm build`, and the relevant Playwright matrix.

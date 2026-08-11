@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import type { GameCardData } from "@/content/games";
 import { gamePresentation } from "@/content/game-presentation";
 import type { Locale } from "@/i18n/config";
@@ -16,12 +15,15 @@ export function GameCard({ game, locale, compact = false }: { game: GameCardData
           className="game-cover"
           style={{ "--card-accent": presentation.accent, "--card-accent-2": presentation.accent2 } as React.CSSProperties}
         >
-          <Image
+          {/* Local pre-sized WebP assets do not need the next/image client runtime. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src={`/images/games/${game.slug}/cover.webp`}
             alt={copy.imageAlt}
             width={1200}
             height={675}
-            sizes={compact ? "210px" : "(max-width: 639px) 100vw, (max-width: 899px) 50vw, (max-width: 1100px) 33vw, 25vw"}
+            loading="lazy"
+            decoding="async"
           />
           <span className="cover-grid" aria-hidden="true" />
           <span className="cover-orbit cover-orbit-one" aria-hidden="true" />
