@@ -6,6 +6,7 @@ const kib = 1024;
 const root = process.cwd();
 const nextDir = path.join(root, ".next");
 const vercelNextStaticDir = path.join(root, ".vercel", "output", "static", "_next");
+const pageClientFiles = new Map();
 
 function fail(message) {
   console.error(`Build budget failed: ${message}`);
@@ -39,6 +40,7 @@ function initialJavaScript(relativeHtml) {
       fail(`missing client asset ${source}`);
       return total;
     }
+    pageClientFiles.set(path.basename(file), file);
     return total + gzipSize(file);
   }, 0);
 }
@@ -125,7 +127,11 @@ const chunksDirs = [path.join(nextDir, "static", "chunks")];
 if (process.env.VERCEL) chunksDirs.push(path.join(vercelNextStaticDir, "static", "chunks"));
 const referencedChunkFiles = discoverReferencedClientChunks();
 const chunkFiles = [...new Map(
-  [...chunksDirs.flatMap(walk).filter((file) => file.endsWith(".js")), ...referencedChunkFiles]
+  [
+    ...chunksDirs.flatMap(walk).filter((file) => file.endsWith(".js")),
+    ...referencedChunkFiles,
+    ...pageClientFiles.values(),
+  ]
     .map((file) => [path.basename(file), file]),
 ).values()];
 if (!chunkFiles.length) fail("no JavaScript chunks found in Next.js or Vercel build output");
