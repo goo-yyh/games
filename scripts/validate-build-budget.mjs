@@ -56,8 +56,29 @@ function walk(directory) {
 }
 
 function discoverReferencedClientChunks() {
-  const artifactFiles = walk(path.join(nextDir, "server", "app"))
-    .filter((file) => /\.(?:html|js|json|rsc)$/.test(file));
+  const appDir = path.join(nextDir, "server", "app");
+  const routeBuildDirs = [
+    "[locale]/page",
+    "[locale]/[page]/page",
+    "[locale]/category/[category]/page",
+    "[locale]/collections/garden-logic/page",
+    "[locale]/games/[slug]/page",
+    "_not-found/page",
+    "_global-error/page",
+  ];
+  const knownArtifacts = [
+    path.join(appDir, "en.html"),
+    path.join(appDir, "en", "games", "block-bloom.html"),
+    ...routeBuildDirs.flatMap((directory) => [
+      path.join(appDir, `${directory}_client-reference-manifest.js`),
+      path.join(appDir, directory, "build-manifest.json"),
+      path.join(appDir, directory, "react-loadable-manifest.json"),
+    ]),
+  ];
+  const artifactFiles = [...new Set([
+    ...knownArtifacts.filter((file) => fs.existsSync(file)),
+    ...walk(appDir).filter((file) => /\.(?:html|js|json|rsc)$/.test(file)),
+  ])];
   const pending = [];
 
   for (const file of artifactFiles) {
