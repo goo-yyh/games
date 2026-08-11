@@ -55,6 +55,35 @@ function walk(directory) {
   }
 }
 
+function discoverReferencedClientChunks() {
+  const artifactFiles = walk(path.join(nextDir, "server", "app"))
+    .filter((file) => /\.(?:html|js|json|rsc)$/.test(file));
+  const pending = [];
+
+  for (const file of artifactFiles) {
+    const content = fs.readFileSync(file, "utf8");
+    for (const match of content.matchAll(/(?:\/_next\/)?(static\/chunks\/[A-Za-z0-9_.-]+\.js)/g)) {
+      pending.push(match[1]);
+    }
+  }
+
+  const discovered = new Map();
+  while (pending.length) {
+    const source = pending.pop();
+    const file = resolveClientAsset(source);
+    if (!file || discovered.has(path.basename(file))) continue;
+    discovered.set(path.basename(file), file);
+
+    const content = fs.readFileSync(file, "utf8");
+    for (const match of content.matchAll(/([A-Za-z0-9][A-Za-z0-9_.-]*\.js)/g)) {
+      const nestedSource = `static/chunks/${match[1]}`;
+      if (resolveClientAsset(nestedSource)) pending.push(nestedSource);
+    }
+  }
+
+  return [...discovered.values()];
+}
+
 if (!fs.existsSync(nextDir)) {
   fail(".next does not exist; run pnpm build first");
   process.exit();
@@ -73,8 +102,10 @@ for (const [page, budget, label] of pageBudgets) {
 
 const chunksDirs = [path.join(nextDir, "static", "chunks")];
 if (process.env.VERCEL) chunksDirs.push(path.join(vercelNextStaticDir, "static", "chunks"));
+const referencedChunkFiles = discoverReferencedClientChunks();
 const chunkFiles = [...new Map(
-  chunksDirs.flatMap(walk).filter((file) => file.endsWith(".js")).map((file) => [path.basename(file), file]),
+  [...chunksDirs.flatMap(walk).filter((file) => file.endsWith(".js")), ...referencedChunkFiles]
+    .map((file) => [path.basename(file), file]),
 ).values()];
 if (!chunkFiles.length) fail("no JavaScript chunks found in Next.js or Vercel build output");
 const chunks = chunkFiles
