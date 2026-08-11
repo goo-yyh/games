@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { Languages } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { otherLocale, type Locale } from "@/i18n/config";
 import { alternatePath } from "@/i18n/paths";
@@ -30,7 +29,7 @@ export function LocaleSwitchLink({
       onClick={onNavigate}
       data-locale-switch
     >
-      {showIcon && <Languages size={16} aria-hidden="true" />}
+      {showIcon && <span className="nav-icon" aria-hidden="true">◎</span>}
       {label}
     </Link>
   );

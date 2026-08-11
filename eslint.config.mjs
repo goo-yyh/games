@@ -19,6 +19,7 @@ export default defineConfig([
   },
   globalIgnores([
     ".next/**",
+    ".vercel/**",
     "out/**",
     "build/**",
     "coverage/**",

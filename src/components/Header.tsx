@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { Menu, Shuffle, X } from "lucide-react";
 import { LocaleSwitchLink } from "@/components/LocaleSwitchLink";
 import type { Locale } from "@/i18n/config";
 import { categoryPath, gamePath, localizedPath } from "@/i18n/paths";
@@ -89,7 +88,7 @@ export function Header({ locale, gameSlugs }: { locale: Locale; gameSlugs: strin
         <div className="header-actions">
           <LocaleSwitchLink locale={locale} className="language-link" />
           <button className="random-button" type="button" onClick={playRandom}>
-            <Shuffle size={16} aria-hidden="true" />
+            <span className="nav-icon" aria-hidden="true">⇄</span>
             <span>{copy.nav.random}</span>
           </button>
           <button
@@ -101,7 +100,7 @@ export function Header({ locale, gameSlugs }: { locale: Locale; gameSlugs: strin
             aria-controls="mobile-navigation"
             onClick={() => setOpen((value) => !value)}
           >
-            {open ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
+            <span className="nav-icon" aria-hidden="true">{open ? "×" : "☰"}</span>
           </button>
         </div>
       </div>
@@ -113,7 +112,7 @@ export function Header({ locale, gameSlugs }: { locale: Locale; gameSlugs: strin
           <div ref={panelRef} id="mobile-navigation" className="mobile-panel" role="dialog" aria-modal="true" aria-label={copy.nav.menu}>
             <div className="mobile-panel-top">
               <span className="menu-eyebrow">ArcadeMint</span>
-              <button type="button" aria-label={copy.nav.closeMenu} onClick={() => setOpen(false)}><X aria-hidden="true" /></button>
+              <button type="button" aria-label={copy.nav.closeMenu} onClick={() => setOpen(false)}><span className="nav-icon" aria-hidden="true">×</span></button>
             </div>
             <nav aria-label={locale === "en" ? "Mobile navigation" : "移动导航"}>
               {nav.map(([label, href], index) => (
@@ -124,7 +123,7 @@ export function Header({ locale, gameSlugs }: { locale: Locale; gameSlugs: strin
             </nav>
             <div className="mobile-panel-actions">
               <LocaleSwitchLink locale={locale} onNavigate={() => setOpen(false)} />
-              <button type="button" onClick={playRandom}><Shuffle aria-hidden="true" />{copy.nav.random}</button>
+              <button type="button" onClick={playRandom}><span className="nav-icon" aria-hidden="true">⇄</span>{copy.nav.random}</button>
             </div>
           </div>
         </div>

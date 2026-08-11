@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowDownRight, Flower2, Gamepad2, Layers3, MonitorSmartphone, Sparkles } from "lucide-react";
 import { AdSlot } from "@/components/Ads";
 import { FaqList } from "@/components/FaqList";
 import { GameCard } from "@/components/GameCard";
 import { GameGrid } from "@/components/GameGrid";
 import { JsonLd } from "@/components/JsonLd";
+import { UiIcon } from "@/components/UiIcon";
 import { games, gardenLogicSlugs, getGame, toGameCardData } from "@/content/games";
 import { categoryContent, getSiteCopy } from "@/content/site";
 import { absoluteUrl, siteConfig } from "@/config/site";
@@ -38,7 +38,7 @@ export default async function HomePage({ params }: Props) {
   const copy = getSiteCopy(locale);
   const featured = featuredSlugs.map(getGame).filter(Boolean);
   const garden = gardenLogicSlugs.map(getGame).filter(Boolean);
-  const categoryIcons = { puzzle: Layers3, arcade: Gamepad2, skill: Sparkles, brain: Flower2 };
+  const categoryIcons = { puzzle: "layers", arcade: "gamepad", skill: "sparkles", brain: "flower" } as const;
   const websiteJsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -69,7 +69,7 @@ export default async function HomePage({ params }: Props) {
           <h1>{copy.home.h1}</h1>
           <p className="hero-body">{copy.home.hero}</p>
           <div className="hero-actions">
-            <Link className="button button-primary" href="#games">{copy.home.primaryCta}<ArrowDownRight aria-hidden="true" /></Link>
+            <Link className="button button-primary" href="#games">{copy.home.primaryCta}<UiIcon name="arrow" /></Link>
             <Link className="button button-secondary" href={gamePath(locale, "block-bloom")}>{copy.home.secondaryCta}</Link>
           </div>
           <ul className="trust-row">
@@ -124,8 +124,8 @@ export default async function HomePage({ params }: Props) {
         <div className="section-heading"><div><p className="eyebrow">{locale === "en" ? "WHY ARCADEMINT" : "为什么选择 ARCADEMINT"}</p><h2>{copy.home.whyTitle}</h2></div></div>
         <div className="why-grid">
           {copy.home.why.map(([title, body], index) => {
-            const Icon = [Sparkles, MonitorSmartphone, Gamepad2][index];
-            return <article key={title}><span><Icon aria-hidden="true" /></span><p>0{index + 1}</p><h3>{title}</h3><div className="rule" /><p>{body}</p></article>;
+            const icon = ["sparkles", "monitor", "gamepad"] as const;
+            return <article key={title}><span><UiIcon name={icon[index]} /></span><p>0{index + 1}</p><h3>{title}</h3><div className="rule" /><p>{body}</p></article>;
           })}
         </div>
       </section>
@@ -133,8 +133,7 @@ export default async function HomePage({ params }: Props) {
       <section className="category-links page-shell">
         {(Object.keys(categoryContent) as (keyof typeof categoryContent)[]).map((slug, index) => {
           const category = categoryContent[slug][locale];
-          const Icon = categoryIcons[slug];
-          return <Link key={slug} href={categoryPath(locale, slug)}><span>0{index + 1}</span><Icon aria-hidden="true" /><strong>{category.label}</strong><small>{games.filter((game) => game.locales.en.categories.some((value) => value.toLowerCase() === slug)).length} {locale === "en" ? "games" : "款游戏"}</small><ArrowDownRight aria-hidden="true" /></Link>;
+          return <Link key={slug} href={categoryPath(locale, slug)}><span>0{index + 1}</span><UiIcon name={categoryIcons[slug]} /><strong>{category.label}</strong><small>{games.filter((game) => game.locales.en.categories.some((value) => value.toLowerCase() === slug)).length} {locale === "en" ? "games" : "款游戏"}</small><UiIcon name="arrow" /></Link>;
         })}
       </section>
 

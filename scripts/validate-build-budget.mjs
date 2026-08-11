@@ -5,6 +5,7 @@ import zlib from "node:zlib";
 const kib = 1024;
 const root = process.cwd();
 const nextDir = path.join(root, ".next");
+const vercelNextStaticDir = path.join(root, ".vercel", "output", "static", "_next");
 
 function fail(message) {
   console.error(`Build budget failed: ${message}`);
@@ -13,6 +14,13 @@ function fail(message) {
 
 function gzipSize(file) {
   return zlib.gzipSync(fs.readFileSync(file)).length;
+}
+
+function resolveClientAsset(source) {
+  const relative = source.replace(/^\/_next\//, "");
+  const candidates = [path.join(nextDir, relative)];
+  if (process.env.VERCEL) candidates.push(path.join(vercelNextStaticDir, relative));
+  return candidates.find((file) => fs.existsSync(file));
 }
 
 function initialJavaScript(relativeHtml) {
@@ -26,16 +34,25 @@ function initialJavaScript(relativeHtml) {
     [...html.matchAll(/<script[^>]+src="([^"]+\.js)"/g)].map((match) => match[1]),
   )];
   return sources.reduce((total, source) => {
-    const file = path.join(nextDir, source.replace(/^\/_next\//, ""));
+    const file = resolveClientAsset(source);
+    if (!file) {
+      fail(`missing client asset ${source}`);
+      return total;
+    }
     return total + gzipSize(file);
   }, 0);
 }
 
 function walk(directory) {
-  return fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
-    const target = path.join(directory, entry.name);
-    return entry.isDirectory() ? walk(target) : [target];
-  });
+  try {
+    return fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+      const target = path.join(directory, entry.name);
+      return entry.isDirectory() ? walk(target) : [target];
+    });
+  } catch (error) {
+    if (error && typeof error === "object" && "code" in error && error.code === "ENOENT") return [];
+    throw error;
+  }
 }
 
 if (!fs.existsSync(nextDir)) {
@@ -54,16 +71,20 @@ for (const [page, budget, label] of pageBudgets) {
   else console.log(`PASS ${label}: ${bytes}/${budget} bytes gzip`);
 }
 
-const chunksDir = path.join(nextDir, "static", "chunks");
-const chunks = walk(chunksDir)
-  .filter((file) => file.endsWith(".js"))
+const chunksDirs = [path.join(nextDir, "static", "chunks")];
+if (process.env.VERCEL) chunksDirs.push(path.join(vercelNextStaticDir, "static", "chunks"));
+const chunkFiles = [...new Map(
+  chunksDirs.flatMap(walk).filter((file) => file.endsWith(".js")).map((file) => [path.basename(file), file]),
+).values()];
+if (!chunkFiles.length) fail("no JavaScript chunks found in Next.js or Vercel build output");
+const chunks = chunkFiles
   .map((file) => ({ file, bytes: gzipSize(file) }))
   .sort((a, b) => b.bytes - a.bytes);
 const largestChunk = chunks[0];
 const asyncBudget = 70 * kib;
-if (largestChunk.bytes > asyncBudget) {
+if (largestChunk && largestChunk.bytes > asyncBudget) {
   fail(`largest JavaScript chunk ${path.basename(largestChunk.file)} is ${largestChunk.bytes} bytes gzip; target is ${asyncBudget}`);
-} else {
+} else if (largestChunk) {
   console.log(`PASS largest JavaScript chunk: ${largestChunk.bytes}/${asyncBudget} bytes gzip`);
 }
 
