@@ -1,0 +1,3586 @@
+[
+  {
+    "id": "G01",
+    "number": 1,
+    "slug": "block-bloom",
+    "mechanic": "A 10×10 block-placement puzzle. The player receives three pieces, places all three, then receives a new set. Completed rows and columns clear immediately.",
+    "controls": "Desktop: click a piece, then click a valid grid position; drag-and-drop is an enhancement. Mobile: tap a piece, then tap the highlighted destination; optional drag with pointer capture.",
+    "rules": [
+      "Board size is 10×10. Pieces use original polyomino definitions of 1–5 cells and cannot rotate in v1.",
+      "Generate a tray of three pieces. A new tray appears only after all three are placed.",
+      "Clear every completed row and column in the same resolution step. Support multi-line clears and combo feedback.",
+      "End the run when none of the remaining tray pieces can fit anywhere."
+    ],
+    "scoring": "1 point per placed cell; 10 points per cleared line; simultaneous lines receive a ×1.5 multiplier; consecutive scoring turns increase a visible combo up to ×3. No score is persisted.",
+    "implementation": [
+      "Use React state and pure TypeScript rule functions; DOM/CSS Grid is preferred over Canvas for accessibility.",
+      "Represent each piece as normalized cell offsets. Implement `canPlace`, `placePiece`, `findCompletedLines`, and `hasAnyMove` as independently tested pure functions.",
+      "Animate clears with CSS only; honor `prefers-reduced-motion`."
+    ],
+    "acceptance": [
+      "Reject overlap and out-of-bounds placements.",
+      "Clear simultaneous rows and columns exactly once.",
+      "Detect game over only when every remaining piece has no legal placement."
+    ],
+    "coverPrompt": "Original polished arcade cover: a dark 10x10 board with rounded jewel-like block shapes fitting into rows, one horizontal and one vertical line glowing as they clear, deep navy background, violet and mint highlights, clean 3D isometric composition, no text, no logo, no watermark, 16:9.",
+    "locales": {
+      "en": {
+        "slug": "block-bloom",
+        "name": "Block Bloom",
+        "keyword": "free block puzzle game online",
+        "seoTitle": "Block Bloom – Free Block Puzzle Game Online | ArcadeMint",
+        "description": "Place colorful shapes, clear rows and columns, and chase a new high score in Block Bloom, a free block puzzle you can play instantly in your browser.",
+        "h1": "Play Block Bloom Online",
+        "categories": [
+          "Puzzle",
+          "Skill"
+        ],
+        "difficulty": "Easy to learn",
+        "cardCopy": "Fit three colorful shapes at a time, clear complete rows and columns, and keep the board open.",
+        "imageAlt": "Block Bloom game cover — Fit three colorful shapes at a time, clear complete rows and columns, and keep the board open.",
+        "about": "Block Bloom is a calm block puzzle built for short breaks and longer score-chasing sessions. Choose one of the three shapes below the board, place it on an open space, and complete full rows or columns to clear room. Every placement matters because pieces cannot be rotated and a crowded corner can block a future move. There is no timer, account, or saved progress, so you can focus entirely on planning the next few turns. A page refresh creates a fresh board and resets the score.",
+        "howTo": [
+          "Select one of the three available shapes.",
+          "Place it on empty cells; occupied or out-of-bounds positions are rejected.",
+          "Complete a full horizontal row or vertical column to clear it.",
+          "Use all three shapes to receive the next set. The game ends when none can fit."
+        ],
+        "tips": [
+          "Keep the center flexible instead of filling it too early.",
+          "Create space for large squares and long bars before they appear.",
+          "Look for placements that clear a row and a column at the same time."
+        ],
+        "faq": [
+          {
+            "question": "Can I rotate the pieces?",
+            "answer": "No. Block Bloom is balanced around fixed pieces, so planning the available orientation is part of the puzzle."
+          },
+          {
+            "question": "Does Block Bloom save my high score?",
+            "answer": "No. The first version stores all game state in memory, and refreshing the page starts a completely new run."
+          },
+          {
+            "question": "Can I play on a phone?",
+            "answer": "Yes. The board and tray resize for touch screens, and every action can be completed with taps."
+          }
+        ],
+        "relatedSlugs": [
+          "number-merge-2048",
+          "color-pour",
+          "bubble-pop-shooter",
+          "unblock-path"
+        ]
+      },
+      "zh": {
+        "name": "方块绽放",
+        "keyword": "免费在线方块拼图",
+        "seoTitle": "方块绽放（Block Bloom）- 免费在线方块拼图 | ArcadeMint",
+        "description": "把彩色图形放入 10×10 棋盘，填满整行或整列即可消除。无需下载或登录，电脑和手机浏览器都能免费游玩。",
+        "h1": "在线玩方块绽放（Block Bloom）",
+        "categories": [
+          "益智",
+          "技巧"
+        ],
+        "difficulty": "容易上手",
+        "cardCopy": "每次摆放三块彩色图形，消除完整行列，并为后续方块保留足够空间。",
+        "imageAlt": "方块绽放 游戏封面，每次摆放三块彩色图形，消除完整行列，并为后续方块保留足够空间。",
+        "about": "方块绽放是一款节奏轻松的方块拼图。你需要从托盘中选择固定方向的图形，将它们放进棋盘，并通过填满整行或整列腾出空间。游戏没有倒计时、账号和云存档，当前局面与分数只保留在页面内存中；刷新页面后会立即生成一盘全新的游戏。",
+        "howTo": [
+          "从托盘中选择一块可用图形。",
+          "把图形放到棋盘的空白位置，重叠或越界的摆放不会生效。",
+          "填满一整行或一整列即可消除对应方格并得分。",
+          "用完三块图形后会获得下一组；当剩余图形全部无处可放时，本局结束。"
+        ],
+        "tips": [
+          "不要过早堵住棋盘中央，中央区域越灵活，后续选择越多。",
+          "提前为大正方形和长条图形预留空间。",
+          "优先寻找可以同时消除一行和一列的位置。"
+        ],
+        "faq": [
+          {
+            "question": "方块可以旋转吗？",
+            "answer": "首版不能旋转。固定方向是关卡判断与空间规划的一部分。"
+          },
+          {
+            "question": "会保存最高分吗？",
+            "answer": "不会。所有分数和棋盘状态都只存在于当前页面，刷新后完全重置。"
+          },
+          {
+            "question": "手机上可以玩吗？",
+            "answer": "可以。棋盘和托盘会根据屏幕缩放，点击或触摸即可完成全部操作。"
+          }
+        ],
+        "relatedSlugs": [
+          "number-merge-2048",
+          "color-pour",
+          "bubble-pop-shooter",
+          "unblock-path"
+        ]
+      }
+    }
+  },
+  {
+    "id": "G02",
+    "number": 2,
+    "slug": "number-merge-2048",
+    "mechanic": "A faithful 4×4 number-merging puzzle with original styling. Tiles slide in four directions; equal adjacent values merge once per move.",
+    "controls": "Desktop: Arrow keys or WASD. Mobile: swipe up, down, left, or right. Also provide visible directional buttons for keyboard and assistive fallback.",
+    "rules": [
+      "Start with two tiles, each valued 2 or 4.",
+      "After a valid move that changes the board, spawn one new tile in a random empty cell.",
+      "A tile created by a merge cannot merge again during the same move.",
+      "Show a win dialog at 2048 with Continue and New Game. End only when the board is full and no merge exists."
+    ],
+    "scoring": "Add the value of every newly merged tile to the score. Score, move count, and current board reset on refresh.",
+    "implementation": [
+      "Use React state with a pure matrix engine. Separate `compressLine`, `mergeLine`, `moveBoard`, and `canMove`.",
+      "Use stable tile IDs for animations so merged and spawned tiles animate correctly.",
+      "Inject a random-number function into the engine to make tests deterministic."
+    ],
+    "acceptance": [
+      "A created tile cannot merge twice in one move.",
+      "Do not spawn a tile after an input that leaves the board unchanged.",
+      "Recognize both the 2048 win state and the no-moves game-over state."
+    ],
+    "coverPrompt": "Original browser puzzle cover showing glossy numbered tiles 2, 4, 8, 16, 32, 64 and a luminous 2048 tile on a modern dark grid, elegant depth, warm amber and purple lighting, no copied interface, no text outside tile numbers, no logo, no watermark, 16:9.",
+    "locales": {
+      "en": {
+        "slug": "number-merge-2048",
+        "name": "Number Merge 2048",
+        "keyword": "play 2048 online free",
+        "seoTitle": "Number Merge 2048 – Free Online Number Puzzle | ArcadeMint",
+        "description": "Slide and combine matching tiles in Number Merge 2048. Play this free browser number puzzle instantly on desktop or mobile with no sign-up or download.",
+        "h1": "Play Number Merge 2048 Online",
+        "categories": [
+          "Puzzle"
+        ],
+        "difficulty": "Easy to learn",
+        "cardCopy": "Slide matching numbers together, build larger tiles, and try to reach 2048 without filling the grid.",
+        "imageAlt": "Number Merge 2048 game cover — Slide matching numbers together, build larger tiles, and try to reach 2048 without filling the grid.",
+        "about": "Number Merge 2048 is a clean browser version of the classic sliding number puzzle. Move every tile at once, combine equal values, and keep enough open cells for the next number. The rules are simple, but strong runs depend on consistent positioning and careful control of the largest tile. You can continue after reaching 2048 to explore higher values. Nothing is written to local storage, so a refresh shuffles a new opening and resets the board, score, and move count.",
+        "howTo": [
+          "Swipe or press an arrow key to move every tile in one direction.",
+          "When two equal tiles meet, they combine into one tile with double the value.",
+          "A new 2 or 4 appears after each move that changes the board.",
+          "Reach 2048 to win, or continue until no legal move remains."
+        ],
+        "tips": [
+          "Keep your largest tile in one corner and avoid moving it away.",
+          "Build ordered rows so smaller tiles feed toward the largest value.",
+          "Pause before every move when the board has only a few empty cells."
+        ],
+        "faq": [
+          {
+            "question": "Is this the original 2048 code?",
+            "answer": "No. The project must implement its own TypeScript engine, visual design, animations, and page content."
+          },
+          {
+            "question": "Can I continue after making 2048?",
+            "answer": "Yes. The win dialog includes a Continue option so you can attempt 4096 and beyond."
+          },
+          {
+            "question": "Why did my game reset?",
+            "answer": "Refreshing or reopening the page intentionally starts a new game because no progress is stored."
+          }
+        ],
+        "relatedSlugs": [
+          "block-bloom",
+          "color-pour",
+          "unblock-path",
+          "classic-solitaire"
+        ]
+      },
+      "zh": {
+        "name": "数字合并 2048",
+        "keyword": "在线 2048 小游戏",
+        "seoTitle": "数字合并 2048 - 免费在线 2048 小游戏 | ArcadeMint",
+        "description": "滑动棋盘并合并相同数字，逐步组成更大的方块，尝试得到 2048。无需注册或下载，电脑与手机都可直接游玩。",
+        "h1": "在线玩数字合并 2048",
+        "categories": [
+          "益智"
+        ],
+        "difficulty": "容易上手",
+        "cardCopy": "滑动并合并相同数字，在棋盘被填满前尽量组成 2048 或更大的数字。",
+        "imageAlt": "数字合并 2048 游戏封面，滑动并合并相同数字，在棋盘被填满前尽量组成 2048 或更大的数字。",
+        "about": "数字合并 2048 是一款经典的数字滑块拼图。每次向一个方向移动时，棋盘上的所有方块会一起滑动，相同数字在一次移动中可以合并。新数字会不断出现，因此你既要追求更大的方块，也要维持棋盘的可移动空间。页面刷新后，棋盘、分数和撤销记录全部重新开始。",
+        "howTo": [
+          "使用方向键、WASD 或触摸滑动，让所有数字向同一方向移动。",
+          "两个数值相同的方块碰到一起时会合并成更大的数字。",
+          "每次有效移动后，空位中会生成一个新的数字方块。",
+          "当棋盘没有空位且无法继续合并时，本局结束。"
+        ],
+        "tips": [
+          "尽量把最大数字固定在一个角落。",
+          "让数字按大小形成稳定顺序，减少来回打乱。",
+          "移动前先判断新方块可能出现的位置，避免封死整行。"
+        ],
+        "faq": [
+          {
+            "question": "一定要合成 2048 才算完成吗？",
+            "answer": "2048 是主要目标，但达到后可以继续挑战更大的数字，直到棋盘无法移动。"
+          },
+          {
+            "question": "是否支持撤销？",
+            "answer": "可以提供有限的当前会话撤销，但撤销历史不会保存，刷新后清空。"
+          },
+          {
+            "question": "游戏会记住我的棋盘吗？",
+            "answer": "不会。刷新页面或重新进入游戏都会开始一盘新的棋局。"
+          }
+        ],
+        "relatedSlugs": [
+          "block-bloom",
+          "color-pour",
+          "unblock-path",
+          "classic-solitaire"
+        ]
+      }
+    }
+  },
+  {
+    "id": "G03",
+    "number": 3,
+    "slug": "neon-snake",
+    "mechanic": "A grid-based classic snake game with a neon visual identity, responsive controls, increasing speed, and no persistent high score.",
+    "controls": "Desktop: Arrow keys or WASD. Mobile: swipe anywhere on the game or use a four-button D-pad. Prevent page scrolling while an active swipe starts inside the game.",
+    "rules": [
+      "Use a 24×24 logical grid. The snake advances one cell per tick.",
+      "Food never spawns on the snake. Eating food adds one segment and increases score.",
+      "Reverse-direction input is ignored to prevent instant self-collision.",
+      "Wall or self collision ends the run. Speed increases every five foods up to a tested cap."
+    ],
+    "scoring": "10 points per food plus a speed bonus after each five-food milestone. Show current length and score; reset both on refresh.",
+    "implementation": [
+      "Canvas 2D with crisp logical-grid rendering and a device-pixel-ratio cap of 2.",
+      "Keep simulation ticks fixed and render between ticks. Queue at most one direction change per tick.",
+      "Expose pure helpers for collision and valid food placement."
+    ],
+    "acceptance": [
+      "Food never appears inside the snake body.",
+      "Opposite-direction input is ignored.",
+      "Speed increases at configured milestones without exceeding the maximum tick rate."
+    ],
+    "coverPrompt": "Original neon arcade cover: a luminous segmented snake curving across a dark square grid toward a glowing fruit, cyan and magenta light trails, readable silhouette, energetic but clean, no text, no brand logo, no watermark, 16:9.",
+    "locales": {
+      "en": {
+        "slug": "neon-snake",
+        "name": "Neon Snake",
+        "keyword": "classic snake game online",
+        "seoTitle": "Neon Snake – Play the Classic Snake Game Online | ArcadeMint",
+        "description": "Play Neon Snake free in your browser. Eat glowing fruit, grow longer, and avoid walls and your own tail with keyboard or touch controls.",
+        "h1": "Play Neon Snake Online",
+        "categories": [
+          "Arcade",
+          "Skill"
+        ],
+        "difficulty": "Easy",
+        "cardCopy": "Guide a glowing snake to food, grow longer, and survive an increasingly fast grid.",
+        "imageAlt": "Neon Snake game cover — Guide a glowing snake to food, grow longer, and survive an increasingly fast grid.",
+        "about": "Neon Snake turns the familiar grid challenge into a bright, responsive browser game. Collect each glowing fruit to extend the snake, but remember that every point also makes the board more crowded. The pace rises in small steps, rewarding controlled turns instead of frantic input. Keyboard, swipe, and on-screen controls all use the same rules. The game never sends or saves your score; refreshing the page returns the snake to its starting length and generates a new food position.",
+        "howTo": [
+          "Choose a direction with an arrow key, WASD, a swipe, or the on-screen pad.",
+          "Eat the glowing fruit to grow by one segment and earn points.",
+          "Avoid the outer wall and every part of your own tail.",
+          "Survive as the movement speed increases."
+        ],
+        "tips": [
+          "Plan turns one or two cells early at higher speeds.",
+          "Use the outer edge only when you have a safe route back to open space.",
+          "Avoid tight spirals that leave no exit for the head."
+        ],
+        "faq": [
+          {
+            "question": "Can the snake move through walls?",
+            "answer": "No. The outer wall is solid in this version, and touching it ends the run."
+          },
+          {
+            "question": "Does the game work on touch screens?",
+            "answer": "Yes. Swipe controls and a visible D-pad are both available."
+          },
+          {
+            "question": "Is there a leaderboard?",
+            "answer": "No. Scores exist only for the current page session."
+          }
+        ],
+        "relatedSlugs": [
+          "zigzag-drift",
+          "slope-dash",
+          "tunnel-flux",
+          "fruit-slice-rush"
+        ]
+      },
+      "zh": {
+        "name": "霓虹贪吃蛇",
+        "keyword": "在线贪吃蛇小游戏",
+        "seoTitle": "霓虹贪吃蛇 - 免费在线贪吃蛇小游戏 | ArcadeMint",
+        "description": "控制发光小蛇吃掉食物并不断变长，同时避开墙壁和自己的身体。支持键盘与触摸操作，打开浏览器即可免费玩。",
+        "h1": "在线玩霓虹贪吃蛇",
+        "categories": [
+          "街机",
+          "技巧"
+        ],
+        "difficulty": "简单",
+        "cardCopy": "引导发光小蛇寻找食物，在速度不断提升的棋盘上尽可能生存更久。",
+        "imageAlt": "霓虹贪吃蛇 游戏封面，引导发光小蛇寻找食物，在速度不断提升的棋盘上尽可能生存更久。",
+        "about": "霓虹贪吃蛇保留了经典贪吃蛇最直接的规则：寻找食物、增长身体并避免碰撞。随着得分提高，小蛇移动会逐渐加快，留给你的转向时间越来越短。游戏不保存成绩或设置，刷新页面后会从初始长度和初始速度重新开始。",
+        "howTo": [
+          "使用方向键或屏幕上的方向控制小蛇移动。",
+          "吃到发光食物后，小蛇会增长并获得分数。",
+          "不能直接向当前移动方向的反方向掉头。",
+          "撞到边界或自己的身体时，本局结束。"
+        ],
+        "tips": [
+          "尽量沿棋盘边缘绕行，为中间区域保留回旋空间。",
+          "小蛇变长后提前规划两到三次转向。",
+          "速度提高时减少不必要的急转弯。"
+        ],
+        "faq": [
+          {
+            "question": "可以穿过墙壁吗？",
+            "answer": "不能。撞到棋盘边界会立即结束当前游戏。"
+          },
+          {
+            "question": "速度会一直变快吗？",
+            "answer": "速度会随得分分阶段提升，但会设置上限，确保操作仍然可控。"
+          },
+          {
+            "question": "能保存最高分吗？",
+            "answer": "不能。最高分仅在当前页面会话中显示，刷新后重置。"
+          }
+        ],
+        "relatedSlugs": [
+          "zigzag-drift",
+          "slope-dash",
+          "tunnel-flux",
+          "fruit-slice-rush"
+        ]
+      }
+    }
+  },
+  {
+    "id": "G04",
+    "number": 4,
+    "slug": "sky-stack",
+    "mechanic": "A one-button timing game. A platform moves horizontally above the tower; the overlap becomes the next platform and the overhang falls away.",
+    "controls": "Tap, click, or press Space/Enter to drop. R starts a new run only after game over; all visible buttons remain keyboard accessible.",
+    "rules": [
+      "Begin with a wide fixed base and one moving platform.",
+      "On drop, calculate overlap with the platform below. Keep the overlap and discard the overhang.",
+      "A near-perfect placement within a small tolerance restores a little width, never above the starting width.",
+      "No overlap ends the run. Movement speed and direction pattern become harder with height."
+    ],
+    "scoring": "1 point per successful layer; perfect placements add a streak bonus. Display tower height and best streak for the current run only.",
+    "implementation": [
+      "Canvas 2D with simple pseudo-isometric shading; no external sprites.",
+      "Use deterministic rectangle intersection math and a camera offset that follows the tower.",
+      "Falling overhangs are visual particles only and must not affect gameplay."
+    ],
+    "acceptance": [
+      "Overlap width is calculated correctly from both movement directions.",
+      "A zero-overlap drop ends the game.",
+      "Perfect placement never expands a platform beyond the original width."
+    ],
+    "coverPrompt": "Original arcade cover of a tall floating tower made from colorful rectangular platforms above soft clouds, one moving block about to land perfectly, dramatic upward perspective, purple night sky with mint glow, no text, no logo, no watermark, 16:9.",
+    "locales": {
+      "en": {
+        "slug": "sky-stack",
+        "name": "Sky Stack",
+        "keyword": "tower stacking game online",
+        "seoTitle": "Sky Stack – Free Tower Stacking Game Online | ArcadeMint",
+        "description": "Time every drop and build a tall, stable tower in Sky Stack, a free one-button stacking game for desktop and mobile browsers.",
+        "h1": "Play Sky Stack Online",
+        "categories": [
+          "Arcade",
+          "Skill"
+        ],
+        "difficulty": "Easy",
+        "cardCopy": "Drop moving platforms with perfect timing and build the tallest tower you can.",
+        "imageAlt": "Sky Stack game cover — Drop moving platforms with perfect timing and build the tallest tower you can.",
+        "about": "Sky Stack is a compact timing challenge about precision under pressure. Each new platform sweeps above the tower until you tap to drop it. Only the part that overlaps the layer below remains, so a small mistake makes every future placement harder. Perfect drops build a streak and can recover a little width. The controls use a single action, making the game comfortable on phones, keyboards, and trackpads. Refreshing the page removes the current tower and begins again from the base.",
+        "howTo": [
+          "Wait for the moving block to line up with the top of the tower.",
+          "Tap, click, or press Space to drop it.",
+          "Keep stacking while the usable platform becomes narrower.",
+          "A complete miss ends the run."
+        ],
+        "tips": [
+          "Watch the leading edge instead of the center of the block.",
+          "Use a steady rhythm at lower levels, then adjust as speed changes.",
+          "Perfect placements are valuable because they preserve or recover width."
+        ],
+        "faq": [
+          {
+            "question": "What counts as a perfect drop?",
+            "answer": "The two platform edges must land within the configured perfect-placement tolerance."
+          },
+          {
+            "question": "Can I pause the game?",
+            "answer": "Yes. The shared game toolbar includes Pause, and the game pauses automatically when the tab is hidden."
+          },
+          {
+            "question": "Will my tower remain after refresh?",
+            "answer": "No. Every tower exists only in the current page memory."
+          }
+        ],
+        "relatedSlugs": [
+          "zigzag-drift",
+          "tap-hoops",
+          "wave-rider",
+          "slope-dash"
+        ]
+      },
+      "zh": {
+        "name": "天空叠塔",
+        "keyword": "在线叠塔小游戏",
+        "seoTitle": "天空叠塔 - 免费在线叠塔小游戏 | ArcadeMint",
+        "description": "看准时机放下左右移动的平台，切掉悬空部分并不断向上叠高。单键即可操作，手机和电脑浏览器都能直接玩。",
+        "h1": "在线玩天空叠塔",
+        "categories": [
+          "街机",
+          "技巧"
+        ],
+        "difficulty": "简单",
+        "cardCopy": "在平台移动到合适位置时点击落下，减少错位并尽可能搭出更高的塔。",
+        "imageAlt": "天空叠塔 游戏封面，在平台移动到合适位置时点击落下，减少错位并尽可能搭出更高的塔。",
+        "about": "天空叠塔是一款只需要一次点击的时机挑战。每一层平台都会水平移动，你需要在它与下方平台尽量重合时将其放下。超出部分会被切除，下一层的可落区域也会变窄。完全错开后本局结束，刷新页面会清空当前高度与分数。",
+        "howTo": [
+          "点击、轻触或按空格键，让正在移动的平台落下。",
+          "与下层重合的部分会保留，悬空部分会被切除。",
+          "连续完美重合可以获得额外分数与视觉反馈。",
+          "当平台完全没有重合区域时，本局结束。"
+        ],
+        "tips": [
+          "观察平台速度，尽量建立稳定的点击节奏。",
+          "平台变窄后不要只盯边缘，关注中心线更容易判断。",
+          "连续完美放置会让后续容错更高。"
+        ],
+        "faq": [
+          {
+            "question": "需要控制左右移动吗？",
+            "answer": "不需要。平台自动移动，玩家只负责选择落下时机。"
+          },
+          {
+            "question": "塔有最高层数吗？",
+            "answer": "没有固定上限，直到一次平台完全落空为止。"
+          },
+          {
+            "question": "刷新后会保留最高塔吗？",
+            "answer": "不会。高度、分数和连续完美次数都会重置。"
+          }
+        ],
+        "relatedSlugs": [
+          "zigzag-drift",
+          "tap-hoops",
+          "wave-rider",
+          "slope-dash"
+        ]
+      }
+    }
+  },
+  {
+    "id": "G05",
+    "number": 5,
+    "slug": "zigzag-drift",
+    "mechanic": "A top-down endless path game. The vehicle continuously moves diagonally; each action switches between the two allowed directions.",
+    "controls": "Tap/click/Space switches direction. Do not use hold-to-steer. The game begins only after an explicit Play action.",
+    "rules": [
+      "Generate a connected zigzag road several segments ahead from a deterministic segment grammar.",
+      "The car moves at constant forward speed and switches diagonal heading on input.",
+      "Leaving the road polygon ends the run. Collectible stars appear only on reachable road centers.",
+      "Increase speed gradually and recycle segments behind the camera."
+    ],
+    "scoring": "Distance is the main score; stars add 25 points. Show a single-session best until refresh.",
+    "implementation": [
+      "Canvas 2D with polygon hit testing and object pooling for road segments.",
+      "Use swept collision or small fixed steps so the car cannot tunnel through narrow corners at high speed.",
+      "Path generation must guarantee continuity and a minimum reaction distance."
+    ],
+    "acceptance": [
+      "Generated road segments always connect without gaps.",
+      "A direction switch changes heading once per input.",
+      "Stars never spawn outside the reachable road centerline."
+    ],
+    "coverPrompt": "Original one-tap driving game cover: a tiny stylized car racing on a narrow floating zigzag road above a deep abstract void, glowing stars on the path, dynamic top-down perspective, violet and electric cyan lighting, no text, no logos, no watermark, 16:9.",
+    "locales": {
+      "en": {
+        "slug": "zigzag-drift",
+        "name": "Zigzag Drift",
+        "keyword": "one tap driving game online",
+        "seoTitle": "Zigzag Drift – Free One-Tap Driving Game Online | ArcadeMint",
+        "description": "Keep your car on a twisting road in Zigzag Drift. Tap to change direction, collect stars, and survive this free browser driving challenge.",
+        "h1": "Play Zigzag Drift Online",
+        "categories": [
+          "Arcade",
+          "Skill"
+        ],
+        "difficulty": "Medium",
+        "cardCopy": "Switch direction at the right moment and keep a tiny car on an endless zigzag road.",
+        "imageAlt": "Zigzag Drift game cover — Switch direction at the right moment and keep a tiny car on an endless zigzag road.",
+        "about": "Zigzag Drift is a one-action driving game where timing matters more than complicated steering. Your car moves automatically along a floating road, and every tap switches its direction. Turn too early or too late and the car slips over the edge. Stars reward confident lines, while the road gradually speeds up and introduces tighter patterns. The entire route is generated for the current run, and refreshing the page resets the distance, stars, and temporary best score.",
+        "howTo": [
+          "Start the run and watch the next corner.",
+          "Tap, click, or press Space to switch the car's diagonal direction.",
+          "Stay inside the road and collect optional stars.",
+          "Continue until the car leaves the path."
+        ],
+        "tips": [
+          "Make each turn near the inside corner instead of the outer edge.",
+          "Look one segment ahead rather than staring at the car.",
+          "Skip a risky star when collecting it would ruin your line."
+        ],
+        "faq": [
+          {
+            "question": "Can I steer left and right separately?",
+            "answer": "No. A single action alternates between the two directions, which keeps the challenge simple and precise."
+          },
+          {
+            "question": "Is the road always the same?",
+            "answer": "No. Valid road sections are generated during each run."
+          },
+          {
+            "question": "Does the game need a physics library?",
+            "answer": "No. Polygon movement and collision should be implemented with lightweight custom math."
+          }
+        ],
+        "relatedSlugs": [
+          "sky-stack",
+          "slope-dash",
+          "wave-rider",
+          "rugged-wheels"
+        ]
+      },
+      "zh": {
+        "name": "之字漂移",
+        "keyword": "在线单键驾驶小游戏",
+        "seoTitle": "之字漂移 - 免费在线单键驾驶小游戏 | ArcadeMint",
+        "description": "点击即可改变小车方向，在不断延伸的之字道路上收集星星并避免坠落。无需下载，手机和电脑都能直接游玩。",
+        "h1": "在线玩之字漂移",
+        "categories": [
+          "街机",
+          "技巧"
+        ],
+        "difficulty": "中等",
+        "cardCopy": "把握转弯时机，让小车留在无尽的之字道路上，并沿途收集星星。",
+        "imageAlt": "之字漂移 游戏封面，把握转弯时机，让小车留在无尽的之字道路上，并沿途收集星星。",
+        "about": "之字漂移把驾驶简化成一个动作：每次点击都会切换小车的前进方向。道路会不断向前生成，弯道间距和速度逐渐增加，你需要用稳定节奏应对越来越紧凑的路线。坠出道路后本局结束，刷新页面会重新生成路线并清零分数。",
+        "howTo": [
+          "点击、触摸或按空格键切换小车前进方向。",
+          "在到达每个拐角前完成转向，确保车辆仍留在道路上。",
+          "收集道路上的星星可获得额外分数。",
+          "车辆驶出道路后本局结束。"
+        ],
+        "tips": [
+          "不要等到车轮碰到边缘才转向，提前一点更稳定。",
+          "观察连续弯道的节奏，而不是只关注当前拐角。",
+          "星星位置危险时优先保证生存，不必强行收集。"
+        ],
+        "faq": [
+          {
+            "question": "可以控制车速吗？",
+            "answer": "首版不能主动加速或减速，速度会随行驶距离逐步提高。"
+          },
+          {
+            "question": "道路每次都一样吗？",
+            "answer": "不会。道路由前端程序在当前会话中生成，刷新后会得到新的路线。"
+          },
+          {
+            "question": "是否支持手机操作？",
+            "answer": "支持。整块游戏区域都可以作为触摸输入区。"
+          }
+        ],
+        "relatedSlugs": [
+          "sky-stack",
+          "slope-dash",
+          "wave-rider",
+          "rugged-wheels"
+        ]
+      }
+    }
+  },
+  {
+    "id": "G06",
+    "number": 6,
+    "slug": "tap-hoops",
+    "mechanic": "A one-button endless basketball challenge. Repeated taps apply upward impulse; gravity pulls the ball down while the camera advances to new hoops.",
+    "controls": "Tap/click/Space applies a capped upward impulse. On-screen Pause and Restart are outside the active play area.",
+    "rules": [
+      "The ball starts left of the first hoop and moves horizontally at a controlled speed.",
+      "A basket counts only when the ball crosses the hoop plane downward between the inner rim points.",
+      "After a score, spawn the next hoop at a reachable vertical position and move the scene forward.",
+      "Touching the floor or leaving the safe bounds ends the run."
+    ],
+    "scoring": "1 point per basket; a clean swish without rim contact adds a temporary ×2 streak bonus. Never count the same hoop twice.",
+    "implementation": [
+      "Canvas 2D with custom circle, segment, and rim collision; use fixed-step integration.",
+      "Track the previous and current ball position to detect downward plane crossing.",
+      "Generate reachable hoop heights using the tested jump envelope."
+    ],
+    "acceptance": [
+      "A hoop scores once only on a downward crossing.",
+      "Rim contacts do not create duplicate points.",
+      "Generated hoop positions remain reachable under the configured physics."
+    ],
+    "coverPrompt": "Original arcade basketball cover: a bright ball arcing through a floating neon hoop with a clean swish, abstract night court, energetic motion trails, deep navy, orange and cyan palette, no teams, no text, no logo, no watermark, 16:9.",
+    "locales": {
+      "en": {
+        "slug": "tap-hoops",
+        "name": "Tap Hoops",
+        "keyword": "basketball tap game online",
+        "seoTitle": "Tap Hoops – Free Basketball Game Online | ArcadeMint",
+        "description": "Tap to bounce through moving baskets in Tap Hoops, a free one-button basketball game you can play instantly on desktop or mobile.",
+        "h1": "Play Tap Hoops Online",
+        "categories": [
+          "Arcade",
+          "Skill"
+        ],
+        "difficulty": "Medium",
+        "cardCopy": "Tap to lift the ball, pass cleanly through moving hoops, and keep the streak alive.",
+        "imageAlt": "Tap Hoops game cover — Tap to lift the ball, pass cleanly through moving hoops, and keep the streak alive.",
+        "about": "Tap Hoops reduces basketball to one satisfying action. Tap to give the ball a short lift, let gravity bring it down, and guide it through each basket. Hoops move to new heights, so success comes from controlling the rhythm rather than tapping as quickly as possible. Clean swishes build a small score bonus, while a floor hit ends the run. There are no teams, licensed logos, accounts, or stored statistics. Reloading the page starts with the first hoop and a zero score.",
+        "howTo": [
+          "Tap, click, or press Space to push the ball upward.",
+          "Let the ball fall through the hoop from above.",
+          "Adjust the tapping rhythm for higher and lower baskets.",
+          "Keep scoring until the ball touches the floor or exits the play area."
+        ],
+        "tips": [
+          "Use short, spaced taps near the hoop instead of one long burst.",
+          "Approach high hoops early so the ball can descend through the rim.",
+          "Watch the ball's vertical speed, not only its position."
+        ],
+        "faq": [
+          {
+            "question": "Why did a pass through the hoop not score?",
+            "answer": "A valid basket must cross the scoring plane downward and remain between the inner rim points."
+          },
+          {
+            "question": "Are real basketball teams included?",
+            "answer": "No. The game uses an original neutral court and contains no league, player, or team branding."
+          },
+          {
+            "question": "Can I play with one hand?",
+            "answer": "Yes. Every gameplay action uses one tap or one key."
+          }
+        ],
+        "relatedSlugs": [
+          "penalty-hero",
+          "sky-stack",
+          "fruit-slice-rush",
+          "zigzag-drift"
+        ]
+      },
+      "zh": {
+        "name": "点击投篮",
+        "keyword": "在线投篮小游戏",
+        "seoTitle": "点击投篮 - 免费在线篮球小游戏 | ArcadeMint",
+        "description": "通过连续点击让篮球弹起，穿过左右移动的篮筐并延续得分。单键操作，适合手机和电脑浏览器快速游玩。",
+        "h1": "在线玩点击投篮",
+        "categories": [
+          "街机",
+          "技巧"
+        ],
+        "difficulty": "中等",
+        "cardCopy": "点击让篮球向上弹跳，穿过不断变化位置的篮筐，并保持连续命中。",
+        "imageAlt": "点击投篮 游戏封面，点击让篮球向上弹跳，穿过不断变化位置的篮筐，并保持连续命中。",
+        "about": "点击投篮是一款简单但需要节奏感的篮球小游戏。每次点击都会给篮球一个向上的冲量，你需要同时判断重力、水平位移和篮筐位置。成功穿框后会生成下一只篮筐，连续命中可获得更高奖励；刷新页面会清空本局连击与分数。",
+        "howTo": [
+          "点击、触摸或按空格键，让篮球获得向上的力量。",
+          "调整点击频率，使篮球从篮筐上方穿过并落入其中。",
+          "成功命中后，下一只篮筐会出现在新的位置。",
+          "篮球落出可玩区域或超时未命中时，本局结束。"
+        ],
+        "tips": [
+          "短促连续点击适合修正高度，长时间停顿会让球快速下落。",
+          "先把球送到篮筐上方，再减少点击让它自然落下。",
+          "篮筐移动时提前瞄准其运动方向。"
+        ],
+        "faq": [
+          {
+            "question": "篮球会自动向前移动吗？",
+            "answer": "会有受控的水平运动，玩家主要通过点击改变垂直速度。"
+          },
+          {
+            "question": "连续命中有什么作用？",
+            "answer": "连续命中会提高连击奖励，并可能加快篮筐变化速度。"
+          },
+          {
+            "question": "会保存我的连胜纪录吗？",
+            "answer": "不会。连击和分数只在当前页面中存在。"
+          }
+        ],
+        "relatedSlugs": [
+          "penalty-hero",
+          "sky-stack",
+          "fruit-slice-rush",
+          "zigzag-drift"
+        ]
+      }
+    }
+  },
+  {
+    "id": "G07",
+    "number": 7,
+    "slug": "color-pour",
+    "mechanic": "A liquid-sort puzzle with handcrafted, guaranteed-solvable levels stored in static TypeScript data. Advance through levels in memory; refresh returns to level 1.",
+    "controls": "Click/tap a source tube, then a destination tube. Escape or tapping the selected tube cancels. Buttons provide Undo, Restart Level, and Next Level after completion.",
+    "rules": [
+      "A pour is legal when the destination is empty or its top color matches the source top color.",
+      "Pour the largest contiguous group that fits; never split it unnecessarily.",
+      "A level is complete when every non-empty tube contains one color and is full.",
+      "Include at least 30 original levels, 4–8 colors, and up to two empty helper tubes."
+    ],
+    "scoring": "Display move count and an optional par target. No stars, score history, or unlocked-level data persists after refresh.",
+    "implementation": [
+      "Use DOM/SVG tubes and CSS transforms; keep rule logic in pure functions.",
+      "Store levels as compact arrays and validate them at build/test time for capacity and color counts.",
+      "Undo history lives only in component memory and is cleared on refresh or level change."
+    ],
+    "acceptance": [
+      "Reject pours onto a different top color or a full tube.",
+      "Move the complete contiguous top group up to destination capacity.",
+      "Recognize completion without treating empty tubes as unfinished."
+    ],
+    "coverPrompt": "Original relaxing puzzle cover: transparent glass tubes filled with layered glowing liquids in distinct colors, one smooth pour connecting matching colors, dark elegant tabletop, soft violet and mint light, no text, no logo, no watermark, 16:9.",
+    "locales": {
+      "en": {
+        "slug": "color-pour",
+        "name": "Color Pour",
+        "keyword": "water sort puzzle online",
+        "seoTitle": "Color Pour – Free Water Sort Puzzle Online | ArcadeMint",
+        "description": "Sort every color into its own tube in Color Pour, a free water sort puzzle with touch-friendly controls and handcrafted browser levels.",
+        "h1": "Play Color Pour Online",
+        "categories": [
+          "Puzzle"
+        ],
+        "difficulty": "Easy to medium",
+        "cardCopy": "Sort layered colors into matching tubes using as few pours as possible.",
+        "imageAlt": "Color Pour game cover — Sort layered colors into matching tubes using as few pours as possible.",
+        "about": "Color Pour is a relaxed sorting puzzle about moving the right group at the right time. Each tube holds layered colors, and a pour transfers the connected color from the top into an empty tube or onto the same color. The goal is to finish with one complete color in every used tube. Early levels explain the rule with generous space, while later layouts require temporary staging and careful ordering. Thirty original levels are bundled with the website; progress exists only while the page remains open.",
+        "howTo": [
+          "Select a tube that contains at least one color.",
+          "Choose an empty tube or one whose top color matches.",
+          "Continue pouring until every used tube contains only one color.",
+          "Use Undo for the current session or Restart Level to restore its initial layout."
+        ],
+        "tips": [
+          "Use empty tubes as temporary workspace, not permanent storage.",
+          "Finish a full single-color tube when doing so does not block another color.",
+          "Before pouring, check which color will be exposed underneath."
+        ],
+        "faq": [
+          {
+            "question": "Are the puzzles randomly generated?",
+            "answer": "The launch version uses original handcrafted level data so every published puzzle can be tested and solved."
+          },
+          {
+            "question": "Does Undo survive a refresh?",
+            "answer": "No. Undo history and level progress are memory-only."
+          },
+          {
+            "question": "Can I skip a level?",
+            "answer": "The normal flow requires solving the current level, but a developer-only level picker may be available in test mode."
+          }
+        ],
+        "relatedSlugs": [
+          "block-bloom",
+          "bolt-away",
+          "unblock-path",
+          "classic-solitaire"
+        ]
+      },
+      "zh": {
+        "name": "彩色水排序",
+        "keyword": "在线水排序游戏",
+        "seoTitle": "彩色水排序 - 免费在线水排序游戏 | ArcadeMint",
+        "description": "把分层颜色倒入不同试管，让每个试管最终只保留一种颜色。支持触摸、鼠标和撤销，刷新页面后从第一关重来。",
+        "h1": "在线玩彩色水排序",
+        "categories": [
+          "益智"
+        ],
+        "difficulty": "简单到中等",
+        "cardCopy": "在试管之间倒出顶层颜色，用尽量少的步骤把每种颜色整理到同一容器。",
+        "imageAlt": "彩色水排序 游戏封面，在试管之间倒出顶层颜色，用尽量少的步骤把每种颜色整理到同一容器。",
+        "about": "彩色水排序是一款需要规划步骤的分层整理谜题。只有顶部颜色相同且目标试管仍有空间时才能继续倒入，因此一次看似方便的操作也可能堵住后面的路线。关卡配置打包在前端，不需要数据库；当前关卡与撤销历史在刷新后全部回到初始状态。",
+        "howTo": [
+          "先选择装有颜色的试管，再选择要倒入的目标试管。",
+          "只有目标为空，或目标顶部颜色与待倒颜色相同时才能倾倒。",
+          "一次会倒出连续相同颜色，直到颜色变化或目标试管装满。",
+          "让每个非空试管只包含一种颜色即可完成关卡。"
+        ],
+        "tips": [
+          "尽量保留至少一个空试管作为临时空间。",
+          "不要过早把不同颜色压在关键颜色上方。",
+          "使用撤销检查另一条路线，但刷新后撤销历史会清空。"
+        ],
+        "faq": [
+          {
+            "question": "关卡是随机生成的吗？",
+            "answer": "首版以经过验证的本地关卡为主，确保每一关都存在可完成解法。"
+          },
+          {
+            "question": "可以撤销操作吗？",
+            "answer": "可以在当前页面会话中撤销有限步骤，但不会跨刷新保存。"
+          },
+          {
+            "question": "为什么有些颜色不能倒入？",
+            "answer": "目标试管必须为空或顶部颜色相同，并且还要有足够容量。"
+          }
+        ],
+        "relatedSlugs": [
+          "block-bloom",
+          "bolt-away",
+          "unblock-path",
+          "classic-solitaire"
+        ]
+      }
+    }
+  },
+  {
+    "id": "G08",
+    "number": 8,
+    "slug": "penalty-hero",
+    "mechanic": "A short single-player penalty contest against a transparent, seeded AI. The player alternates between five shots and five saves.",
+    "controls": "Shoot: swipe from the ball or drag an aim arrow, then release. Save: choose one of five goal zones with tap/click or keyboard numbers 1–5.",
+    "rules": [
+      "Run five shooting rounds and five goalkeeping rounds, alternating roles.",
+      "Shot direction follows aim; power and height derive from gesture length within safe caps.",
+      "The AI goalkeeper chooses a zone using weighted but non-reactive randomness. The AI shooter commits before the player's save choice.",
+      "Most goals wins; tied matches enter alternating sudden death."
+    ],
+    "scoring": "Show goals, saves, round, and final result. Do not record match history. Refresh returns to round one.",
+    "implementation": [
+      "Canvas 2D or layered DOM/SVG. Use simple projected ball motion rather than full 3D physics.",
+      "Make AI decisions before the outcome input to prevent cheating; expose the seed in tests only.",
+      "Use generic kits, flags, stadium, and trophy shapes with no real club or federation marks."
+    ],
+    "acceptance": [
+      "AI choice is fixed before player resolution.",
+      "Match ends after regulation when scores differ and enters sudden death when tied.",
+      "A shot outside the goal frame cannot score."
+    ],
+    "coverPrompt": "Original soccer penalty game cover: a fictional striker taking a dramatic penalty toward a diving goalkeeper in a stylized floodlit stadium, generic uniforms with no logos, clear ball trajectory, cinematic arcade art, no text, no watermark, 16:9.",
+    "locales": {
+      "en": {
+        "slug": "penalty-hero",
+        "name": "Penalty Hero",
+        "keyword": "soccer penalty game online",
+        "seoTitle": "Penalty Hero – Free Soccer Penalty Game Online | ArcadeMint",
+        "description": "Shoot, save, and win a fast penalty contest in Penalty Hero, a free single-player soccer game with no teams, download, or sign-up.",
+        "h1": "Play Penalty Hero Online",
+        "categories": [
+          "Arcade",
+          "Skill"
+        ],
+        "difficulty": "Easy",
+        "cardCopy": "Take five shots, make five saves, and beat a fair computer opponent in a quick penalty match.",
+        "imageAlt": "Penalty Hero game cover — Take five shots, make five saves, and beat a fair computer opponent in a quick penalty match.",
+        "about": "Penalty Hero delivers a complete soccer shootout in a few minutes. Aim each kick, balance placement with power, and then switch roles to read the computer's shot. The opponent uses committed choices rather than reacting after your input, so every save remains fair. Five shots and five saves determine the result, with sudden death if the scores are level. The stadium, uniforms, and cup are entirely fictional, and no match history or personal information is stored.",
+        "howTo": [
+          "Drag or swipe from the ball to choose shot direction and power.",
+          "When defending, select one of five save zones before the kick.",
+          "Alternate between shooting and goalkeeping for five rounds each.",
+          "Win by scoring more goals, or continue into sudden death after a tie."
+        ],
+        "tips": [
+          "Mix corner placement with occasional central shots.",
+          "Use controlled power; maximum force should be less accurate.",
+          "When saving, avoid repeating an obvious pattern."
+        ],
+        "faq": [
+          {
+            "question": "Does the computer react after seeing my choice?",
+            "answer": "No. AI choices are committed before the relevant player input is resolved."
+          },
+          {
+            "question": "Are real teams available?",
+            "answer": "No. All visual identities are original to avoid trademark and licensing issues."
+          },
+          {
+            "question": "How long is one match?",
+            "answer": "A normal match contains ten total attempts, plus sudden death only when tied."
+          }
+        ],
+        "relatedSlugs": [
+          "tap-hoops",
+          "zigzag-drift",
+          "rugged-wheels",
+          "slope-dash"
+        ]
+      },
+      "zh": {
+        "name": "点球英雄",
+        "keyword": "在线点球小游戏",
+        "seoTitle": "点球英雄 - 免费在线足球点球小游戏 | ArcadeMint",
+        "description": "完成五次射门与五次扑救，在快速点球对决中击败电脑对手。无需球队授权、下载或登录，浏览器打开即可玩。",
+        "h1": "在线玩点球英雄",
+        "categories": [
+          "街机",
+          "技巧"
+        ],
+        "difficulty": "简单",
+        "cardCopy": "完成五次射门和五次扑救，通过瞄准、力度与判断赢下单人点球对决。",
+        "imageAlt": "点球英雄 游戏封面，完成五次射门和五次扑救，通过瞄准、力度与判断赢下单人点球对决。",
+        "about": "点球英雄是一款单人足球点球挑战。射门阶段需要选择方向和力度，守门阶段则要根据提示判断来球方向。比赛采用有限轮次，电脑对手遵循透明且可测试的概率规则，不使用真实球队、球员或联赛素材。刷新页面后比赛从第一轮重新开始。",
+        "howTo": [
+          "射门时拖动或点击选择目标方向，并控制合适力度。",
+          "守门时在限定时间内选择扑救方向。",
+          "完成五次射门和五次扑救后比较总进球数。",
+          "若比分相同，可进入有限的加赛轮次决定胜负。"
+        ],
+        "tips": [
+          "射门不要总选择同一方向，电脑会根据公开权重做出判断。",
+          "力度过大可能降低准确度，先追求稳定命中。",
+          "守门时关注球员动作提示，但不要等待到最后一刻。"
+        ],
+        "faq": [
+          {
+            "question": "对手是真人吗？",
+            "answer": "不是。首版仅提供单人模式，所有对手行为都在浏览器本地计算。"
+          },
+          {
+            "question": "游戏里会使用真实球队吗？",
+            "answer": "不会。队徽、球衣、名称和场地均为原创或通用设计。"
+          },
+          {
+            "question": "比赛结果会保存吗？",
+            "answer": "不会。刷新页面后比分与轮次全部清零。"
+          }
+        ],
+        "relatedSlugs": [
+          "tap-hoops",
+          "zigzag-drift",
+          "rugged-wheels",
+          "slope-dash"
+        ]
+      }
+    }
+  },
+  {
+    "id": "G09",
+    "number": 9,
+    "slug": "slope-dash",
+    "mechanic": "A pseudo-3D endless rolling-ball game rendered in Canvas 2D. The ball moves forward automatically on a perspective track with lanes, gaps, ramps, and barriers.",
+    "controls": "Desktop: Left/Right arrows or A/D. Mobile: drag horizontally or use two large edge buttons. Downward page gestures outside the canvas still scroll normally.",
+    "rules": [
+      "Generate track chunks from a library of tested patterns with safe transitions.",
+      "Steering changes lateral velocity with damping; forward speed rises gradually.",
+      "Barrier collision or falling through a gap ends the run.",
+      "Coins are optional and must never require an impossible line."
+    ],
+    "scoring": "Distance increases continuously; coins add 20 points. Show speed tier and current run score only.",
+    "implementation": [
+      "Use custom perspective projection from simple 3D coordinates into Canvas 2D; do not add Three.js.",
+      "Simulate collision in world coordinates, not screen pixels.",
+      "Pre-generate enough track for reaction time and recycle old chunks."
+    ],
+    "acceptance": [
+      "Every adjacent track chunk has a valid connection.",
+      "World-space collision matches visible barriers and gaps.",
+      "Speed increases smoothly and respects the configured maximum."
+    ],
+    "coverPrompt": "Original futuristic rolling-ball game cover: a glossy luminous sphere racing down a steep segmented neon track over a dark geometric city, visible barriers and a safe gap route, strong depth and speed, cyan and violet glow, no text, no logo, no watermark, 16:9.",
+    "locales": {
+      "en": {
+        "slug": "slope-dash",
+        "name": "Slope Dash",
+        "keyword": "rolling ball slope game online",
+        "seoTitle": "Slope Dash – Free Rolling Ball Game Online | ArcadeMint",
+        "description": "Steer a fast ball down a glowing endless track in Slope Dash. Dodge barriers, cross gaps, and chase distance in this free browser game.",
+        "h1": "Play Slope Dash Online",
+        "categories": [
+          "Arcade",
+          "Skill"
+        ],
+        "difficulty": "Medium",
+        "cardCopy": "Steer a rolling ball down an endless neon track, dodge barriers, and survive the rising speed.",
+        "imageAlt": "Slope Dash game cover — Steer a rolling ball down an endless neon track, dodge barriers, and survive the rising speed.",
+        "about": "Slope Dash is a fast rolling-ball challenge built around smooth steering and readable obstacles. The track stretches toward the horizon while barriers, gaps, and ramps demand small corrections. Speed increases in measured tiers, allowing a run to become intense without changing the controls. Optional coins reward riskier paths, but every generated section must remain possible. The track, score, and coin count are created for the current page session and disappear after a refresh.",
+        "howTo": [
+          "Move left or right while the ball rolls forward automatically.",
+          "Stay on the track and avoid solid barriers.",
+          "Cross ramps and choose safe lines around gaps.",
+          "Travel as far as possible before falling or crashing."
+        ],
+        "tips": [
+          "Use short corrections; holding a direction too long creates excess momentum.",
+          "Center the ball before a new track pattern appears.",
+          "Prioritize survival over coins when speed is high."
+        ],
+        "faq": [
+          {
+            "question": "Is Slope Dash a true 3D game?",
+            "answer": "It uses lightweight world coordinates and perspective rendering in Canvas 2D, keeping the download small."
+          },
+          {
+            "question": "Are track sections random?",
+            "answer": "They are assembled from original, pre-tested patterns with rules that prevent impossible transitions."
+          },
+          {
+            "question": "Can I use a keyboard and touch screen?",
+            "answer": "Yes. Both control methods map to the same steering model."
+          }
+        ],
+        "relatedSlugs": [
+          "tunnel-flux",
+          "helix-drop",
+          "zigzag-drift",
+          "wave-rider"
+        ]
+      },
+      "zh": {
+        "name": "斜坡冲刺",
+        "keyword": "在线斜坡滚球游戏",
+        "seoTitle": "斜坡冲刺 - 免费在线斜坡滚球游戏 | ArcadeMint",
+        "description": "操控高速小球沿霓虹斜坡前进，躲避障碍、跨越缺口并挑战更远距离。支持键盘与触摸，刷新后重新开始。",
+        "h1": "在线玩斜坡冲刺",
+        "categories": [
+          "街机",
+          "技巧"
+        ],
+        "difficulty": "中等",
+        "cardCopy": "操控滚动小球沿无尽霓虹轨道前进，避开障碍并适应不断提升的速度。",
+        "imageAlt": "斜坡冲刺 游戏封面，操控滚动小球沿无尽霓虹轨道前进，避开障碍并适应不断提升的速度。",
+        "about": "斜坡冲刺是一款强调反应与细微控制的滚珠游戏。轨道会在前方持续生成，坡度、缺口和障碍组合逐渐变难，小球速度也会随距离提升。所有赛道片段都在浏览器内运行，本局距离和分数不会保存，刷新后立即开始新的路线。",
+        "howTo": [
+          "使用左右方向键、A/D 或触摸控制小球横向移动。",
+          "保持小球位于轨道范围内，并避开挡板和危险区域。",
+          "穿过安全门或收集物可获得额外分数。",
+          "掉下轨道或撞上致命障碍后，本局结束。"
+        ],
+        "tips": [
+          "高速时使用短而小的方向修正，避免过度转向。",
+          "把视线放在小球前方一段距离，提前判断障碍组合。",
+          "过缺口前尽量回到轨道中央。"
+        ],
+        "faq": [
+          {
+            "question": "赛道会重复吗？",
+            "answer": "赛道由原创片段按规则组合，单局中会出现变化，刷新后重新生成。"
+          },
+          {
+            "question": "手机上如何控制？",
+            "answer": "可使用屏幕左右触控区或拖动方式，横屏体验更稳定。"
+          },
+          {
+            "question": "是否保存最远距离？",
+            "answer": "不会。最远距离只在当前页面会话中显示。"
+          }
+        ],
+        "relatedSlugs": [
+          "tunnel-flux",
+          "helix-drop",
+          "zigzag-drift",
+          "wave-rider"
+        ]
+      }
+    }
+  },
+  {
+    "id": "G10",
+    "number": 10,
+    "slug": "helix-drop",
+    "mechanic": "A pseudo-3D tower game. The player rotates stacked circular platforms around a central column while a ball bounces vertically.",
+    "controls": "Drag left/right on touch or mouse to rotate. Arrow keys provide an accessible alternative. The ball bounces automatically.",
+    "rules": [
+      "Each platform is an angular ring with one or more gaps and marked danger arcs.",
+      "When the descending ball angle is over a gap, it falls to the next platform.",
+      "Landing on a normal arc bounces; landing on a danger arc ends the run.",
+      "Pass a fixed number of platforms to complete a tower, then generate a new in-memory tower with higher difficulty."
+    ],
+    "scoring": "1 point per platform passed; consecutive drops through multiple rings grant a combo. Refresh resets to tower one.",
+    "implementation": [
+      "Render elliptical rings in Canvas 2D sorted by vertical depth.",
+      "Collision uses platform height, ball vertical crossing, and normalized angular position.",
+      "Tower generation must guarantee at least one feasible path and avoid overlapping all safe arcs."
+    ],
+    "acceptance": [
+      "Angular gap and danger detection handles wraparound at 0/2π.",
+      "A platform is resolved only once per downward crossing.",
+      "Generated towers always contain a valid safe route."
+    ],
+    "coverPrompt": "Original helix arcade cover: a glowing ball dropping through gaps in a tall spiral tower of circular platforms, safe violet surfaces and clearly contrasting coral danger arcs, deep perspective, sleek 3D illustration, no text, no logo, no watermark, 16:9.",
+    "locales": {
+      "en": {
+        "slug": "helix-drop",
+        "name": "Helix Drop",
+        "keyword": "helix ball game online",
+        "seoTitle": "Helix Drop – Free Helix Ball Game Online | ArcadeMint",
+        "description": "Rotate the tower and drop a bouncing ball through safe gaps in Helix Drop, a free touch-friendly browser arcade game.",
+        "h1": "Play Helix Drop Online",
+        "categories": [
+          "Arcade",
+          "Skill"
+        ],
+        "difficulty": "Medium",
+        "cardCopy": "Rotate a tower, line up the gaps, and guide the bouncing ball past every dangerous platform.",
+        "imageAlt": "Helix Drop game cover — Rotate a tower, line up the gaps, and guide the bouncing ball past every dangerous platform.",
+        "about": "Helix Drop asks you to rotate the world instead of moving the ball. The ball bounces on stacked rings while you drag the tower to place a gap underneath it. Safe landings buy time; danger segments end the run; long drops through several openings build a combo. Towers are assembled from original ring patterns and become more demanding after each completion. No tower progress is saved, so refreshing the page always returns to a newly generated first tower.",
+        "howTo": [
+          "Drag left or right to rotate every platform around the central column.",
+          "Place a gap beneath the falling ball so it can descend.",
+          "Avoid marked danger sections when the ball lands.",
+          "Pass the required number of rings to finish the tower."
+        ],
+        "tips": [
+          "Rotate while the ball is rising so the target gap is ready before descent.",
+          "Use small movements near a danger arc.",
+          "Look several rings below when attempting a combo drop."
+        ],
+        "faq": [
+          {
+            "question": "Why does the tower rotate instead of the ball?",
+            "answer": "The ball follows automatic vertical physics; your only task is aligning the platforms."
+          },
+          {
+            "question": "Are levels stored?",
+            "answer": "Platform patterns are bundled or generated in the browser, but completed towers are not persisted."
+          },
+          {
+            "question": "Does the game require WebGL?",
+            "answer": "No. The visual depth is created with Canvas 2D ellipses and sorting."
+          }
+        ],
+        "relatedSlugs": [
+          "slope-dash",
+          "tunnel-flux",
+          "wave-rider",
+          "sky-stack"
+        ]
+      },
+      "zh": {
+        "name": "螺旋坠落",
+        "keyword": "在线螺旋塔小游戏",
+        "seoTitle": "螺旋坠落 - 免费在线螺旋塔小游戏 | ArcadeMint",
+        "description": "旋转螺旋塔，让弹跳小球从安全缺口连续下落，同时避开危险平台。触摸或拖动即可操作，浏览器中免费游玩。",
+        "h1": "在线玩螺旋坠落",
+        "categories": [
+          "街机",
+          "技巧"
+        ],
+        "difficulty": "中等",
+        "cardCopy": "旋转塔身对齐缺口，引导弹跳小球向下穿越，并避开所有危险色平台。",
+        "imageAlt": "螺旋坠落 游戏封面，旋转塔身对齐缺口，引导弹跳小球向下穿越，并避开所有危险色平台。",
+        "about": "螺旋坠落通过旋转塔身来改变小球下方的落点。普通平台可以承接小球，缺口允许继续下落，危险区域则会结束当前游戏。连续穿过多层可触发连坠奖励，但也需要更快判断。刷新页面后塔层布局、得分与连击全部重置。",
+        "howTo": [
+          "左右拖动或使用方向键旋转螺旋塔。",
+          "让小球对准平台缺口并继续向下坠落。",
+          "落在普通区域可以反弹，落在危险区域会失败。",
+          "连续穿越多层可以获得额外连击分数。"
+        ],
+        "tips": [
+          "先观察下一到两层缺口，避免只盯当前平台。",
+          "连续下坠时提前调整塔的角度。",
+          "危险区域较多时，宁可落在安全平台重新判断。"
+        ],
+        "faq": [
+          {
+            "question": "我控制的是小球还是塔？",
+            "answer": "玩家旋转塔身，小球会根据重力自动弹跳和下落。"
+          },
+          {
+            "question": "塔层每局相同吗？",
+            "answer": "布局会从经过验证的片段中生成，刷新后会重新组合。"
+          },
+          {
+            "question": "连续穿层有什么奖励？",
+            "answer": "连续穿过多层会提高当前连击和得分，但不会永久保存。"
+          }
+        ],
+        "relatedSlugs": [
+          "slope-dash",
+          "tunnel-flux",
+          "wave-rider",
+          "sky-stack"
+        ]
+      }
+    }
+  },
+  {
+    "id": "G11",
+    "number": 11,
+    "slug": "tunnel-flux",
+    "mechanic": "A first-person pseudo-3D reflex game. The player occupies an angle around a tunnel circumference while obstacle rings approach along the depth axis.",
+    "controls": "Left/Right arrows or A/D rotate; touch drag around the game area. Provide an optional sensitivity slider that is not persisted.",
+    "rules": [
+      "Obstacle rings contain blocked arcs and at least one safe opening.",
+      "Move the player angle into a safe arc before the ring reaches the camera plane.",
+      "Some rings rotate at predictable speeds; never combine speed and opening size into impossible patterns.",
+      "Collision ends the run; forward velocity rises by tier."
+    ],
+    "scoring": "Distance and passed-ring count. A narrow-gap bonus may add points but cannot alter survival rules.",
+    "implementation": [
+      "Canvas 2D radial projection; draw rings from far to near for correct depth.",
+      "Use angular interval collision with wraparound and depth crossing detection.",
+      "Generate patterns from validated templates with minimum opening width and lead time."
+    ],
+    "acceptance": [
+      "Angular collision supports intervals crossing zero degrees.",
+      "Obstacle templates satisfy minimum gap and reaction-time constraints.",
+      "The same ring cannot register both pass and collision."
+    ],
+    "coverPrompt": "Original first-person tunnel game cover: viewpoint rushing through concentric glowing polygon rings, one clear safe opening ahead and rotating geometric barriers, strong vanishing point, dark navy with cyan, violet and coral light, no text, no logo, no watermark, 16:9.",
+    "locales": {
+      "en": {
+        "slug": "tunnel-flux",
+        "name": "Tunnel Flux",
+        "keyword": "3d tunnel game online",
+        "seoTitle": "Tunnel Flux – Free 3D Tunnel Game Online | ArcadeMint",
+        "description": "Race through a glowing obstacle tunnel in Tunnel Flux. Rotate around the walls, find each opening, and survive this free browser reflex game.",
+        "h1": "Play Tunnel Flux Online",
+        "categories": [
+          "Arcade",
+          "Skill"
+        ],
+        "difficulty": "Hard",
+        "cardCopy": "Circle a rushing tunnel, find each opening, and avoid rotating geometric barriers.",
+        "imageAlt": "Tunnel Flux game cover — Circle a rushing tunnel, find each opening, and avoid rotating geometric barriers.",
+        "about": "Tunnel Flux is a high-speed reflex game set inside a glowing geometric tunnel. Move around the circular wall to line up with openings before each barrier reaches you. Early rings teach the movement with wide gaps, while later patterns rotate or combine arcs to test anticipation. The tunnel uses lightweight Canvas perspective rather than a large 3D engine, so it starts quickly on both desktop and mobile. Every run begins from zero after a refresh.",
+        "howTo": [
+          "Move left or right to rotate around the tunnel wall.",
+          "Identify the open arc in each approaching barrier.",
+          "Align with the gap before the ring reaches the foreground.",
+          "Pass as many rings as possible without touching a blocked section."
+        ],
+        "tips": [
+          "Read the next two rings instead of reacting only to the closest one.",
+          "Return toward a neutral angle after extreme movements.",
+          "For rotating barriers, aim where the opening will be, not where it is now."
+        ],
+        "faq": [
+          {
+            "question": "Can I change control sensitivity?",
+            "answer": "Yes. A session-only slider changes rotation sensitivity and resets on refresh."
+          },
+          {
+            "question": "Does Tunnel Flux use motion controls?",
+            "answer": "No. Launch controls are keyboard and touch drag only."
+          },
+          {
+            "question": "Are flashing effects used?",
+            "answer": "No rapid full-screen flashes are allowed; color and glow effects must remain accessibility-safe."
+          }
+        ],
+        "relatedSlugs": [
+          "slope-dash",
+          "helix-drop",
+          "wave-rider",
+          "zigzag-drift"
+        ]
+      },
+      "zh": {
+        "name": "极速隧道",
+        "keyword": "在线 3D 隧道躲避游戏",
+        "seoTitle": "极速隧道 - 免费在线 3D 隧道躲避游戏 | ArcadeMint",
+        "description": "在高速霓虹隧道中绕墙移动，寻找旋转障碍上的安全开口并持续前进。无需下载，键盘和触摸都可操作。",
+        "h1": "在线玩极速隧道",
+        "categories": [
+          "街机",
+          "技巧"
+        ],
+        "difficulty": "较难",
+        "cardCopy": "沿高速隧道环形移动，穿过每个安全开口，并躲开不断旋转的几何障碍。",
+        "imageAlt": "极速隧道 游戏封面，沿高速隧道环形移动，穿过每个安全开口，并躲开不断旋转的几何障碍。",
+        "about": "极速隧道是一款以视觉判断和快速转向为核心的反应游戏。玩家沿隧道内壁环形移动，前方障碍会旋转、收缩或改变开口位置。速度逐步提高，但所有障碍都必须给出可读的预警。当前距离仅保存在页面中，刷新后会从初始速度重新开始。",
+        "howTo": [
+          "使用左右方向键、A/D 或触摸拖动，沿隧道内壁移动。",
+          "观察前方障碍的开口并提前对齐。",
+          "安全穿过障碍即可增加距离和分数。",
+          "碰到实体障碍后本局结束。"
+        ],
+        "tips": [
+          "尽量平滑移动，不要在高速阶段频繁来回摆动。",
+          "优先观察距离更远的障碍轮廓。",
+          "旋转障碍的开口会移动，提前预判其到达位置。"
+        ],
+        "faq": [
+          {
+            "question": "这是真正的 3D 游戏吗？",
+            "answer": "可以使用 Canvas 2D 透视投影实现 3D 观感，无需加载大型 3D 引擎。"
+          },
+          {
+            "question": "是否有闪烁效果？",
+            "answer": "不得使用危险的高频闪烁，并需支持减少动态效果设置。"
+          },
+          {
+            "question": "刷新后会继续当前距离吗？",
+            "answer": "不会。刷新会重置距离、速度和障碍序列。"
+          }
+        ],
+        "relatedSlugs": [
+          "slope-dash",
+          "helix-drop",
+          "wave-rider",
+          "zigzag-drift"
+        ]
+      }
+    }
+  },
+  {
+    "id": "G12",
+    "number": 12,
+    "slug": "bubble-pop-shooter",
+    "mechanic": "A hex-grid bubble shooter with original colors and effects. Match groups of three or more; unsupported bubbles fall.",
+    "controls": "Move pointer or finger to aim; release/click to shoot. Keyboard Left/Right aims and Space fires. Show a projected bank-shot guide for one wall bounce.",
+    "rules": [
+      "Attach fired bubbles to the nearest valid hex cell.",
+      "Flood-fill same-color neighbors; remove groups of at least three.",
+      "After removal, find all bubbles disconnected from the ceiling and drop them.",
+      "After a configurable number of non-clearing shots, add a new row. Lose when a bubble crosses the danger line."
+    ],
+    "scoring": "10 per matched bubble, 20 per dropped bubble, and a chain multiplier for consecutive clearing shots.",
+    "implementation": [
+      "Canvas 2D with axial or offset hex coordinates.",
+      "Separate geometric aim/collision from grid-resolution logic.",
+      "Limit palette to five colors and add symbols/patterns so color is not the only distinction."
+    ],
+    "acceptance": [
+      "Hex attachment chooses a valid nearest empty cell.",
+      "Same-color flood fill removes only groups of three or more.",
+      "Disconnected clusters are detected from ceiling-connected cells."
+    ],
+    "coverPrompt": "Original bubble shooter cover: a sleek launcher aiming a bright bubble into a suspended hexagonal cluster of colorful symbol-marked bubbles, several unsupported bubbles falling with sparkles, dark arcade background, no text, no logo, no watermark, 16:9.",
+    "locales": {
+      "en": {
+        "slug": "bubble-pop-shooter",
+        "name": "Bubble Pop Shooter",
+        "keyword": "bubble shooter online free",
+        "seoTitle": "Bubble Pop Shooter – Free Bubble Shooter Online | ArcadeMint",
+        "description": "Aim and match colorful bubbles in Bubble Pop Shooter. Clear clusters, drop hanging bubbles, and play free online with no sign-up.",
+        "h1": "Play Bubble Pop Shooter Online",
+        "categories": [
+          "Puzzle",
+          "Arcade"
+        ],
+        "difficulty": "Easy",
+        "cardCopy": "Aim, match three bubbles, and drop unsupported clusters before the ceiling reaches the line.",
+        "imageAlt": "Bubble Pop Shooter game cover — Aim, match three bubbles, and drop unsupported clusters before the ceiling reaches the line.",
+        "about": "Bubble Pop Shooter combines precise aiming with light puzzle planning. Fire a bubble into the hexagonal field, connect at least three of the same type, and remove any cluster that loses its link to the ceiling. Missed clears eventually add another row, so bank shots and well-chosen targets matter. Symbols accompany the colors for better visibility. The board is generated for the current run only, and a refresh starts with a new arrangement and zero score.",
+        "howTo": [
+          "Aim the launcher with the pointer, touch, or keyboard.",
+          "Fire into a matching group to create a cluster of three or more.",
+          "Use side-wall bounces to reach protected areas.",
+          "Clear the board before bubbles cross the danger line."
+        ],
+        "tips": [
+          "Target support bubbles to drop large groups at once.",
+          "Check the next bubble before committing to a narrow shot.",
+          "Keep the center open so both wall angles remain useful."
+        ],
+        "faq": [
+          {
+            "question": "Can bubbles bounce off the walls?",
+            "answer": "Yes. The aim guide previews one wall bounce before the shot."
+          },
+          {
+            "question": "Is the game color-blind friendly?",
+            "answer": "Every bubble color also uses a distinct small symbol or pattern."
+          },
+          {
+            "question": "Does the board stay after refresh?",
+            "answer": "No. The opening layout and score reset."
+          }
+        ],
+        "relatedSlugs": [
+          "block-bloom",
+          "color-pour",
+          "bolt-away",
+          "number-merge-2048"
+        ]
+      },
+      "zh": {
+        "name": "泡泡射手",
+        "keyword": "在线泡泡射击游戏",
+        "seoTitle": "泡泡射手 - 免费在线泡泡射击游戏 | ArcadeMint",
+        "description": "瞄准并发射彩色泡泡，连接三个或更多同色泡泡并让悬空组合掉落。无需下载或登录，手机和电脑都可玩。",
+        "h1": "在线玩泡泡射手",
+        "categories": [
+          "益智",
+          "街机"
+        ],
+        "difficulty": "简单",
+        "cardCopy": "瞄准并连接三个同色泡泡，清除组合并在泡泡墙触线前完成挑战。",
+        "imageAlt": "泡泡射手 游戏封面，瞄准并连接三个同色泡泡，清除组合并在泡泡墙触线前完成挑战。",
+        "about": "泡泡射手是一款以瞄准和颜色匹配为核心的经典益智玩法。发射泡泡后，三个或更多相连的同色泡泡会消除，失去支撑的泡泡也会一起掉落。你需要规划反弹路线并管理新泡泡颜色，避免泡泡墙不断下降触及警戒线。",
+        "howTo": [
+          "移动瞄准线，选择直接射击或利用侧墙反弹。",
+          "发射泡泡，使其与至少两个同色泡泡相连。",
+          "形成三个或更多同色组合后会立即消除。",
+          "连续未消除会让泡泡墙下降；触及警戒线时本局结束。"
+        ],
+        "tips": [
+          "优先击落支撑大量泡泡的连接点。",
+          "利用墙壁反弹攻击被前排挡住的位置。",
+          "观察下一颗泡泡颜色，再决定当前射击路线。"
+        ],
+        "faq": [
+          {
+            "question": "泡泡必须三个相连吗？",
+            "answer": "是的，发射后形成至少三个相连的同色泡泡才会消除。"
+          },
+          {
+            "question": "可以看到下一颗泡泡吗？",
+            "answer": "可以。界面应显示下一颗颜色，便于玩家规划。"
+          },
+          {
+            "question": "关卡或分数会保存吗？",
+            "answer": "不会。刷新后会重新生成泡泡布局并清空分数。"
+          }
+        ],
+        "relatedSlugs": [
+          "block-bloom",
+          "color-pour",
+          "bolt-away",
+          "number-merge-2048"
+        ]
+      }
+    }
+  },
+  {
+    "id": "G13",
+    "number": 13,
+    "slug": "bolt-away",
+    "mechanic": "A static-level order puzzle inspired by mechanical disassembly, using original SVG plates and bolts. It does not reproduce another game's levels or art.",
+    "controls": "Click/tap an available bolt to move it into the first open holding slot. Click a slotted bolt and a valid empty hole to move it when a level permits. Keyboard navigation cycles bolts and confirms.",
+    "rules": [
+      "Each plate defines the bolts that secure it and a z-order for overlap.",
+      "Removing all securing bolts releases the plate with a short animation.",
+      "Bolts occupy a limited row of holding slots; matching sets of three identical bolt colors clear from the slots.",
+      "The level fails when every slot is occupied and no automatic set clears."
+    ],
+    "scoring": "Show move count, remaining plates, and optional par. Advance through at least 20 bundled levels in memory; refresh returns to level 1.",
+    "implementation": [
+      "Render plates and holes as SVG for responsive hit areas.",
+      "Store each level as validated JSON/TypeScript: plate polygons, bolt coordinates, colors, dependencies, slots, and solution metadata.",
+      "Write an offline solver used only in tests/build validation to confirm every level is solvable."
+    ],
+    "acceptance": [
+      "A covered or locked bolt cannot be selected.",
+      "Three matching tray bolts clear deterministically.",
+      "Every bundled level passes the solver and schema validation."
+    ],
+    "coverPrompt": "Original mechanical puzzle cover: layered abstract metal and wooden plates secured by colorful round bolts, a few bolts moving into a tidy holding tray, premium clean 3D render, dark workshop backdrop, no recognizable game UI, no text, no logo, no watermark, 16:9.",
+    "locales": {
+      "en": {
+        "slug": "bolt-away",
+        "name": "Bolt Away",
+        "keyword": "nuts and bolts puzzle online",
+        "seoTitle": "Bolt Away – Free Nuts and Bolts Puzzle Online | ArcadeMint",
+        "description": "Unscrew bolts, release layered plates, and manage limited holding slots in Bolt Away, a free original browser puzzle.",
+        "h1": "Play Bolt Away Online",
+        "categories": [
+          "Puzzle",
+          "Skill"
+        ],
+        "difficulty": "Medium",
+        "cardCopy": "Remove bolts in the right order, free overlapping plates, and avoid filling every holding slot.",
+        "imageAlt": "Bolt Away game cover — Remove bolts in the right order, free overlapping plates, and avoid filling every holding slot.",
+        "about": "Bolt Away is an original mechanical sorting puzzle about order and limited space. Tap an exposed bolt to remove it, match sets in the holding tray, and release each overlapping plate once its fasteners are gone. A move that looks useful can block the tray later, so the next few colors matter as much as the current plate. Launch includes at least twenty hand-built, solver-verified levels. Level progress and undo history stay in memory and return to the first puzzle when the page reloads.",
+        "howTo": [
+          "Select an exposed, removable bolt.",
+          "The bolt moves to the first open holding slot.",
+          "Create sets of three matching bolt colors to clear tray space.",
+          "Remove every required bolt and release all plates to complete the level."
+        ],
+        "tips": [
+          "Check upcoming exposed colors before filling the final empty slot.",
+          "Release upper plates early to reveal more choices.",
+          "Use Undo before a full tray becomes unrecoverable."
+        ],
+        "faq": [
+          {
+            "question": "Are these levels copied from another bolt game?",
+            "answer": "No. Every plate layout, dependency, color sequence, and visual asset must be original."
+          },
+          {
+            "question": "How do you know a level can be solved?",
+            "answer": "A build-time solver validates that each published level has at least one legal solution."
+          },
+          {
+            "question": "Is progress saved?",
+            "answer": "No. Refreshing starts level 1, while normal in-page advancement works until the tab is reloaded."
+          }
+        ],
+        "relatedSlugs": [
+          "color-pour",
+          "unblock-path",
+          "block-bloom",
+          "classic-solitaire"
+        ]
+      },
+      "zh": {
+        "name": "螺丝拆板",
+        "keyword": "在线螺丝解谜游戏",
+        "seoTitle": "螺丝拆板 - 免费在线螺丝解谜游戏 | ArcadeMint",
+        "description": "按正确顺序拧下螺丝，释放层叠板件并管理有限的临时孔位。原创关卡纯前端运行，刷新后回到第一关。",
+        "h1": "在线玩螺丝拆板",
+        "categories": [
+          "益智",
+          "技巧"
+        ],
+        "difficulty": "中等",
+        "cardCopy": "按顺序取下螺丝，释放相互覆盖的板件，并避免临时孔位全部被占满。",
+        "imageAlt": "螺丝拆板 游戏封面，按顺序取下螺丝，释放相互覆盖的板件，并避免临时孔位全部被占满。",
+        "about": "螺丝拆板是一款围绕顺序与空间关系设计的机械解谜游戏。每颗螺丝可能固定一块或多块板件，移除后板件会根据支撑状态移动或掉落。临时孔位数量有限，因此不能只看当前可拆螺丝，还要为后续步骤保留空间。所有关卡均保存在前端文件中。",
+        "howTo": [
+          "选择当前允许拆除的螺丝。",
+          "被解除全部固定的板件会移动或从场景中释放。",
+          "暂时无法归位的螺丝会占用顶部临时孔位。",
+          "在孔位耗尽前释放所有板件即可完成关卡。"
+        ],
+        "tips": [
+          "先找只固定一块板件的螺丝，减少连锁变化。",
+          "注意被其他板件遮挡的孔位和螺丝。",
+          "临时孔位剩余较少时，不要连续拆除同类但暂时无处安放的螺丝。"
+        ],
+        "faq": [
+          {
+            "question": "关卡会使用真实机械结构吗？",
+            "answer": "玩法采用抽象化板件和固定关系，不声称模拟真实工程装配。"
+          },
+          {
+            "question": "失败后可以立即重试吗？",
+            "answer": "可以。重试恢复当前关卡的初始布局；刷新则回到第一关。"
+          },
+          {
+            "question": "关卡数据需要数据库吗？",
+            "answer": "不需要。关卡以静态 TypeScript 或 JSON 文件随项目构建。"
+          }
+        ],
+        "relatedSlugs": [
+          "color-pour",
+          "unblock-path",
+          "block-bloom",
+          "classic-solitaire"
+        ]
+      }
+    }
+  },
+  {
+    "id": "G14",
+    "number": 14,
+    "slug": "unblock-path",
+    "mechanic": "A classic sliding-block logic game on a 6×6 board with original handcrafted levels. Pieces move only along their orientation.",
+    "controls": "Drag a piece along its axis or click it and use arrow keys. Provide Undo and Restart Level. Touch targets must meet minimum size.",
+    "rules": [
+      "Horizontal blocks move left/right; vertical blocks move up/down.",
+      "Blocks cannot overlap or leave the board, except the target crossing the designated exit.",
+      "Complete a level when the target block exits the board.",
+      "Include at least 30 original levels with verified minimum solution lengths."
+    ],
+    "scoring": "Move count compared with a displayed par. No stars or unlocks persist.",
+    "implementation": [
+      "DOM/CSS Grid or Canvas; DOM is preferred for semantic focusable pieces.",
+      "Represent occupied cells from piece definitions and validate every move with a pure reducer.",
+      "Use breadth-first search in tests to verify solvability and calculate par values."
+    ],
+    "acceptance": [
+      "Pieces move only along their declared axis.",
+      "Collision and board boundaries reject illegal moves.",
+      "BFS verifies all levels and supplied par values."
+    ],
+    "coverPrompt": "Original sliding block puzzle cover: a polished 6x6 tray filled with rounded horizontal and vertical blocks, one bright highlighted block aligned toward an open side exit, modern tactile materials, dark background, no text, no logo, no watermark, 16:9.",
+    "locales": {
+      "en": {
+        "slug": "unblock-path",
+        "name": "Unblock Path",
+        "keyword": "sliding block puzzle online",
+        "seoTitle": "Unblock Path – Free Sliding Block Puzzle Online | ArcadeMint",
+        "description": "Move blocking pieces and guide the highlighted block to the exit in Unblock Path, a free sliding puzzle with original browser levels.",
+        "h1": "Play Unblock Path Online",
+        "categories": [
+          "Puzzle",
+          "Skill"
+        ],
+        "difficulty": "Medium",
+        "cardCopy": "Slide horizontal and vertical blocks to open a route for the highlighted piece.",
+        "imageAlt": "Unblock Path game cover — Slide horizontal and vertical blocks to open a route for the highlighted piece.",
+        "about": "Unblock Path is a compact logic puzzle about making space in a crowded grid. Every block can slide only along its long axis, and the highlighted piece must reach the side exit. The early boards can be solved in a few moves; later ones require moving a blocker away, using the new space, and then returning another piece to a better position. Thirty original puzzles ship as static level data. Refreshing the browser returns to level one and clears the current move history.",
+        "howTo": [
+          "Drag a block only along its horizontal or vertical orientation.",
+          "Move blockers into open cells to create a route.",
+          "Guide the highlighted target through the exit.",
+          "Use Undo to review the current attempt or Restart Level to begin that board again."
+        ],
+        "tips": [
+          "Work backward from the exit and identify the final blocker.",
+          "A move away from the target can create the space needed later.",
+          "Compare your move count with par only after finding a reliable solution."
+        ],
+        "faq": [
+          {
+            "question": "Can blocks rotate?",
+            "answer": "No. Each block keeps its original orientation for the entire level."
+          },
+          {
+            "question": "How is the par score chosen?",
+            "answer": "An automated breadth-first solver calculates the minimum solution length for each bundled puzzle."
+          },
+          {
+            "question": "Will I return to my last level tomorrow?",
+            "answer": "No. The site intentionally stores no game progress."
+          }
+        ],
+        "relatedSlugs": [
+          "bolt-away",
+          "color-pour",
+          "number-merge-2048",
+          "classic-solitaire"
+        ]
+      },
+      "zh": {
+        "name": "滑块解围",
+        "keyword": "在线滑块解谜游戏",
+        "seoTitle": "滑块解围 - 免费在线滑块解谜游戏 | ArcadeMint",
+        "description": "移动横向和纵向方块，为高亮目标块打开通往出口的路线。原创关卡直接在浏览器运行，不需要登录或存档。",
+        "h1": "在线玩滑块解围",
+        "categories": [
+          "益智",
+          "技巧"
+        ],
+        "difficulty": "中等",
+        "cardCopy": "移动横向与纵向方块，为高亮目标块清出一条通往出口的路线。",
+        "imageAlt": "滑块解围 游戏封面，移动横向与纵向方块，为高亮目标块清出一条通往出口的路线。",
+        "about": "滑块解围是一款规则清晰的空间规划谜题。横向方块只能左右移动，纵向方块只能上下移动，你需要在有限棋盘中逐步腾出通道，让目标块抵达出口。关卡和最优步数保存在静态前端数据中，玩家进度不会写入任何存储。",
+        "howTo": [
+          "拖动或选择一个方块，沿它允许的方向移动。",
+          "方块不能穿过其他方块，也不能超出棋盘。",
+          "调整阻挡方块的位置，为高亮目标块打开通道。",
+          "把目标块移动到出口即可完成当前关卡。"
+        ],
+        "tips": [
+          "先判断真正挡住出口的关键方块，而不是随意移动所有方块。",
+          "部分方块需要先远离出口，才能为其他方块腾出空间。",
+          "关注每一步是否让目标块获得更多可移动距离。"
+        ],
+        "faq": [
+          {
+            "question": "方块可以旋转吗？",
+            "answer": "不能。每个方块的方向在关卡开始时固定。"
+          },
+          {
+            "question": "是否显示步数？",
+            "answer": "可以显示当前步数和关卡参考步数，但不保存历史成绩。"
+          },
+          {
+            "question": "刷新后会继续当前关卡吗？",
+            "answer": "不会。刷新页面后回到第一关。"
+          }
+        ],
+        "relatedSlugs": [
+          "bolt-away",
+          "color-pour",
+          "number-merge-2048",
+          "classic-solitaire"
+        ]
+      }
+    }
+  },
+  {
+    "id": "G15",
+    "number": 15,
+    "slug": "wave-rider",
+    "mechanic": "A one-button wave-navigation game. The player moves forward automatically along straight diagonal slopes: hold rises, release falls.",
+    "controls": "Hold mouse/touch/Space to rise; release to fall. Prevent context menus and scrolling only during an active game gesture.",
+    "rules": [
+      "Movement uses fixed diagonal speed rather than free acceleration.",
+      "Colliding with any course boundary or obstacle ends the run.",
+      "Generate course chunks with verified corridors and reaction time.",
+      "Collect optional shards placed on valid paths."
+    ],
+    "scoring": "Distance plus 10 points per shard. Speed and corridor complexity rise by tier, with a hard accessibility-safe cap.",
+    "implementation": [
+      "Canvas 2D with swept line collision against polygon boundaries.",
+      "Represent each course chunk as top/bottom polylines and optional internal obstacles.",
+      "Build a validation sampler that confirms at least one legal hold/release path through each template."
+    ],
+    "acceptance": [
+      "Hold and release produce exact opposite diagonal slopes.",
+      "Swept collision catches high-speed boundary crossings.",
+      "Every template passes automated path validation."
+    ],
+    "coverPrompt": "Original geometric wave game cover: a bright triangular energy wave tracing a sharp zigzag through a dark neon corridor with clean openings and crystalline shards, high contrast, dynamic side view, no text, no logo, no watermark, 16:9.",
+    "locales": {
+      "en": {
+        "slug": "wave-rider",
+        "name": "Wave Rider",
+        "keyword": "one button wave game online",
+        "seoTitle": "Wave Rider – Free One-Button Wave Game Online | ArcadeMint",
+        "description": "Hold to rise and release to fall in Wave Rider, a fast one-button browser game packed with original geometric obstacle courses.",
+        "h1": "Play Wave Rider Online",
+        "categories": [
+          "Arcade",
+          "Skill"
+        ],
+        "difficulty": "Hard",
+        "cardCopy": "Hold to climb, release to dive, and thread a sharp wave through a geometric course.",
+        "imageAlt": "Wave Rider game cover — Hold to climb, release to dive, and thread a sharp wave through a geometric course.",
+        "about": "Wave Rider is a pure timing game controlled by holding and releasing. The wave climbs on a fixed diagonal while you hold the input and dives when you let go, creating a sharp zigzag path through narrow geometric corridors. Original course pieces are assembled ahead of the player and validated so they remain possible. Optional shards encourage precise routes, but survival always comes first. Reloading the page resets the course, distance, and temporary score.",
+        "howTo": [
+          "Hold touch, mouse, or Space to move diagonally upward.",
+          "Release to move diagonally downward.",
+          "Stay between the course boundaries and avoid interior obstacles.",
+          "Collect shards only when the route remains safe."
+        ],
+        "tips": [
+          "Use short pulses in narrow corridors instead of long holds.",
+          "Aim for the center of an opening before the next direction change.",
+          "Learn the fixed slope angle; the wave does not drift or accelerate vertically."
+        ],
+        "faq": [
+          {
+            "question": "Is the control analog?",
+            "answer": "No. The wave has two fixed directions, which makes every outcome depend on timing."
+          },
+          {
+            "question": "Are impossible patterns possible?",
+            "answer": "No published template may ship unless the validation sampler finds a legal path."
+          },
+          {
+            "question": "Can the page scroll while I play?",
+            "answer": "Touch scrolling is prevented only for gestures that begin inside the active game area."
+          }
+        ],
+        "relatedSlugs": [
+          "tunnel-flux",
+          "slope-dash",
+          "hook-swing",
+          "zigzag-drift"
+        ]
+      },
+      "zh": {
+        "name": "波形穿越",
+        "keyword": "在线单键躲避游戏",
+        "seoTitle": "波形穿越 - 免费在线单键躲避游戏 | ArcadeMint",
+        "description": "按住上升、松开下降，控制尖锐波形穿过原创几何障碍。只需一个按键，适合电脑和手机浏览器快速挑战。",
+        "h1": "在线玩波形穿越",
+        "categories": [
+          "街机",
+          "技巧"
+        ],
+        "difficulty": "较难",
+        "cardCopy": "按住让波形上升，松开使其下降，在狭窄几何通道中保持精准路线。",
+        "imageAlt": "波形穿越 游戏封面，按住让波形上升，松开使其下降，在狭窄几何通道中保持精准路线。",
+        "about": "波形穿越是一款用一个按键控制垂直方向的高速技巧游戏。按住时轨迹向上，松开时轨迹向下，水平移动会自动进行。障碍通道逐渐变窄，速度也会提高，因此玩家需要保持稳定节奏而不是连续乱点。刷新页面后距离与关卡进度全部重置。",
+        "howTo": [
+          "按住鼠标、触摸屏或空格键，让波形向上移动。",
+          "松开输入，让波形向下移动。",
+          "在自动向前移动时穿过几何通道，避免碰到边界。",
+          "碰撞后本局结束，可立即重新开始。"
+        ],
+        "tips": [
+          "使用短按和短松形成小幅修正，比长时间按住更精确。",
+          "观察通道中线，避免贴着上下边缘飞行。",
+          "提前适应下一段坡度，不要等到进入狭窄口再调整。"
+        ],
+        "faq": [
+          {
+            "question": "游戏只有一个按键吗？",
+            "answer": "是的，核心玩法只使用按住与松开两种状态。"
+          },
+          {
+            "question": "关卡是无限的吗？",
+            "answer": "可以采用若干原创片段循环组合，直到玩家碰撞。"
+          },
+          {
+            "question": "是否支持减少动态效果？",
+            "answer": "支持。界面动画与背景效果需要遵循系统的减少动态设置。"
+          }
+        ],
+        "relatedSlugs": [
+          "tunnel-flux",
+          "slope-dash",
+          "hook-swing",
+          "zigzag-drift"
+        ]
+      }
+    }
+  },
+  {
+    "id": "G16",
+    "number": 16,
+    "slug": "fruit-slice-rush",
+    "mechanic": "A pointer-swipe slicing game with stylized original fruit shapes, procedural launch arcs, combo scoring, three misses, and non-graphic effects.",
+    "controls": "Drag pointer or finger across fruit. Mouse movement without an active press does not slice. Keyboard accessibility offers a focus cursor moved with arrows and Space to cut nearby targets.",
+    "rules": [
+      "Launch fruit in readable arcs from below the scene.",
+      "A swipe segment intersecting a fruit circle slices it once and produces two simple halves/particles.",
+      "Missing three fruit ends the run. Intersecting a dark hazard orb ends the run immediately.",
+      "Spawn rate and mixed waves increase gradually; never hide hazards directly behind fruit."
+    ],
+    "scoring": "10 points per fruit; multiple fruit cut by one continuous swipe receive an escalating combo. No score persists.",
+    "implementation": [
+      "Canvas 2D with line-segment/circle intersection and pooled particles.",
+      "Use vector fruit drawings, not copied sprites. Effects are juice-colored sparkles without gore.",
+      "Cap active objects and particles for mobile performance."
+    ],
+    "acceptance": [
+      "A fruit scores at most once.",
+      "One swipe can score multiple fruit and calculate the correct combo.",
+      "Hazards are not spawned fully occluded behind fruit at launch."
+    ],
+    "coverPrompt": "Original fruit slicing arcade cover: colorful stylized fruit flying in graceful arcs while a luminous swipe cuts through several pieces, one clearly separate dark hazard orb, sparkling non-graphic juice effects, deep navy background, no text, no logo, no watermark, 16:9.",
+    "locales": {
+      "en": {
+        "slug": "fruit-slice-rush",
+        "name": "Fruit Slice Rush",
+        "keyword": "fruit slicing game online",
+        "seoTitle": "Fruit Slice Rush – Free Fruit Slicing Game Online | ArcadeMint",
+        "description": "Swipe to slice flying fruit, build combos, and avoid hazard orbs in Fruit Slice Rush, a free touch-friendly browser arcade game.",
+        "h1": "Play Fruit Slice Rush Online",
+        "categories": [
+          "Arcade",
+          "Skill"
+        ],
+        "difficulty": "Easy",
+        "cardCopy": "Swipe through flying fruit, build combos, and keep clear of the dark hazard orbs.",
+        "imageAlt": "Fruit Slice Rush game cover — Swipe through flying fruit, build combos, and keep clear of the dark hazard orbs.",
+        "about": "Fruit Slice Rush is a quick swipe challenge with bright, non-graphic effects. Fruit rises in arcs across the screen, and a single clean gesture can cut several pieces for a combo. Missing three fruit ends the run, while touching a dark hazard orb ends it immediately. Spawn patterns become busier without placing hazards unfairly behind targets. Everything is drawn with original Canvas shapes, and refreshing the page clears the score and starts a new sequence.",
+        "howTo": [
+          "Press and drag across a fruit to slice it.",
+          "Cut several fruit in one continuous gesture to build a combo.",
+          "Let no more than two fruit fall without being sliced.",
+          "Avoid every dark hazard orb."
+        ],
+        "tips": [
+          "Use smooth, deliberate lines rather than scribbling across the screen.",
+          "Wait a fraction of a second for grouped fruit to align.",
+          "Lift the pointer when a hazard enters the path."
+        ],
+        "faq": [
+          {
+            "question": "Is there graphic violence?",
+            "answer": "No. Fruit separates into simple shapes and colorful particles only."
+          },
+          {
+            "question": "Can accidental mouse movement slice fruit?",
+            "answer": "No. A cut occurs only while the primary pointer is actively pressed."
+          },
+          {
+            "question": "Does the game support keyboard input?",
+            "answer": "Yes. A slower focus-cursor mode offers an alternative, while touch or pointer swipes remain the primary control."
+          }
+        ],
+        "relatedSlugs": [
+          "tap-hoops",
+          "neon-snake",
+          "wave-rider",
+          "sky-stack"
+        ]
+      },
+      "zh": {
+        "name": "水果切割冲刺",
+        "keyword": "在线切水果小游戏",
+        "seoTitle": "水果切割冲刺 - 免费在线切水果小游戏 | ArcadeMint",
+        "description": "滑动切开飞起的水果，连续命中形成组合，同时避开危险球。支持鼠标和触摸操作，刷新后重新开始一局。",
+        "h1": "在线玩水果切割冲刺",
+        "categories": [
+          "街机",
+          "技巧"
+        ],
+        "difficulty": "简单",
+        "cardCopy": "滑动切开飞起的水果，积累连续组合，并避开混在其中的黑色危险球。",
+        "imageAlt": "水果切割冲刺 游戏封面，滑动切开飞起的水果，积累连续组合，并避开混在其中的黑色危险球。",
+        "about": "水果切割冲刺是一款面向鼠标与触摸屏的快速反应游戏。水果会以不同角度和速度从底部飞出，玩家通过连续划动完成切割。一次划过多个水果可形成组合，但碰到危险球会立即受到惩罚或结束本局。所有分数与连击在刷新后清空。",
+        "howTo": [
+          "按住并拖动鼠标，或在触摸屏上滑动形成切割轨迹。",
+          "轨迹穿过水果时会将其切开并增加分数。",
+          "一次连续划动命中多个水果可获得组合奖励。",
+          "避免碰到黑色危险球，并尽量不要漏掉过多水果。"
+        ],
+        "tips": [
+          "等待多个水果靠近后再划出一条完整轨迹。",
+          "看到危险球时缩短滑动距离，避免误触。",
+          "从水果运动方向的前方切入，更容易连续命中。"
+        ],
+        "faq": [
+          {
+            "question": "游戏里会出现真实品牌或角色吗？",
+            "answer": "不会。水果、特效和危险物全部使用原创通用美术。"
+          },
+          {
+            "question": "漏掉水果会怎样？",
+            "answer": "连续漏掉一定数量后本局结束，具体阈值应在界面中说明。"
+          },
+          {
+            "question": "触摸屏是否支持多指？",
+            "answer": "首版只处理单指主轨迹，额外触点应被安全忽略。"
+          }
+        ],
+        "relatedSlugs": [
+          "tap-hoops",
+          "neon-snake",
+          "wave-rider",
+          "sky-stack"
+        ]
+      }
+    }
+  },
+  {
+    "id": "G17",
+    "number": 17,
+    "slug": "hook-swing",
+    "mechanic": "A physics swing game featuring an original orb-like explorer. Attach to valid anchors, release to preserve momentum, and reach the finish across static levels.",
+    "controls": "Hold/tap an anchor to attach; release input to detach. Space attaches to the nearest valid anchor in the forward cone. R restarts the current level.",
+    "rules": [
+      "An anchor is attachable only within maximum rope distance and clear line of sight.",
+      "Rope length is fixed during an attachment in v1.",
+      "Touching a hazard or falling below the level resets that level.",
+      "Include at least 15 short original levels. In-page completion advances; refresh returns to level 1."
+    ],
+    "scoring": "Level time and optional collectible count; no persisted medals or records.",
+    "implementation": [
+      "Use Matter.js in this game's lazy-loaded chunk or a small Verlet pendulum engine. Do not load physics code on other pages.",
+      "Define anchors, hazards, spawn, finish, and collectibles in static level files.",
+      "Render the character as simple original vector geometry, not a stickman copied from another game."
+    ],
+    "acceptance": [
+      "Reject anchors outside range or blocked by geometry.",
+      "Detaching preserves tangential velocity.",
+      "Every level can be completed in an automated or recorded smoke path."
+    ],
+    "coverPrompt": "Original grappling swing game cover: a small glowing orb explorer swinging from a cable between floating anchor points over geometric hazards, clear arc and forward motion, playful premium arcade art, violet sky and mint highlights, no text, no logo, no watermark, 16:9.",
+    "locales": {
+      "en": {
+        "slug": "hook-swing",
+        "name": "Hook Swing",
+        "keyword": "hook swing game online",
+        "seoTitle": "Hook Swing – Free Grappling Swing Game Online | ArcadeMint",
+        "description": "Attach, swing, and release through original obstacle courses in Hook Swing, a free grappling skill game for browser and mobile.",
+        "h1": "Play Hook Swing Online",
+        "categories": [
+          "Arcade",
+          "Skill"
+        ],
+        "difficulty": "Medium",
+        "cardCopy": "Attach to anchor points, release at the peak, and swing a small explorer to the finish.",
+        "imageAlt": "Hook Swing game cover — Attach to anchor points, release at the peak, and swing a small explorer to the finish.",
+        "about": "Hook Swing is a momentum puzzle about choosing when to hold on and when to let go. Attach the explorer to a nearby anchor, swing through the arc, and release near the peak to travel toward the next point. Short original levels introduce moving from anchor to anchor, clearing hazards, and collecting optional sparks. The physics module loads only after you press Play. Level progress lasts for the open page and resets to the first course after a refresh.",
+        "howTo": [
+          "Attach to a visible anchor within rope range.",
+          "Keep holding while the explorer swings around the point.",
+          "Release to carry momentum toward the next anchor.",
+          "Reach the finish marker without touching a hazard or falling."
+        ],
+        "tips": [
+          "Release shortly before the highest point to convert the swing into forward travel.",
+          "Choose a lower anchor when you need speed and a higher anchor when you need height.",
+          "Do not attach too early if the rope would pull you backward."
+        ],
+        "faq": [
+          {
+            "question": "Can the rope change length?",
+            "answer": "Not in v1. A fixed rope length keeps controls predictable and easier to learn."
+          },
+          {
+            "question": "How many levels are included?",
+            "answer": "At least fifteen tested, original levels are required for launch."
+          },
+          {
+            "question": "Is Matter.js loaded on the homepage?",
+            "answer": "No. The physics dependency must be dynamically imported only after this game starts."
+          }
+        ],
+        "relatedSlugs": [
+          "trap-runner",
+          "rugged-wheels",
+          "wave-rider",
+          "slope-dash"
+        ]
+      },
+      "zh": {
+        "name": "钩索摆荡",
+        "keyword": "在线钩索摆荡小游戏",
+        "seoTitle": "钩索摆荡 - 免费在线钩索技巧小游戏 | ArcadeMint",
+        "description": "连接锚点、借助惯性摆荡并在合适时机松开，穿过原创障碍抵达终点。支持键盘、鼠标与触摸操作。",
+        "h1": "在线玩钩索摆荡",
+        "categories": [
+          "街机",
+          "技巧"
+        ],
+        "difficulty": "中等",
+        "cardCopy": "连接锚点，在摆到高点时松开，并借助惯性把小小探险者送到终点。",
+        "imageAlt": "钩索摆荡 游戏封面，连接锚点，在摆到高点时松开，并借助惯性把小小探险者送到终点。",
+        "about": "钩索摆荡是一款基于摆动惯性和释放时机的物理技巧游戏。角色靠近有效锚点时可以连接绳索，随后围绕锚点摆动；在合适角度松开，就能飞向下一处锚点或终点。关卡数据保存在前端，刷新页面后会回到第一关。",
+        "howTo": [
+          "按住或点击可用锚点连接钩索。",
+          "保持连接，让角色围绕锚点摆动并积累速度。",
+          "在合适角度松开，借助惯性飞向下一锚点。",
+          "避开障碍并触碰终点区域完成关卡。"
+        ],
+        "tips": [
+          "通常在摆动接近最高点前松开，可以获得更远的水平距离。",
+          "不要连接距离过远或角度不利的锚点。",
+          "需要精确落点时，先用短摆动降低速度。"
+        ],
+        "faq": [
+          {
+            "question": "需要实时网络或多人服务器吗？",
+            "answer": "不需要。物理计算与关卡全部在浏览器本地运行。"
+          },
+          {
+            "question": "关卡失败后会保存位置吗？",
+            "answer": "不会。重试回到当前关卡起点，刷新回到第一关。"
+          },
+          {
+            "question": "为什么使用物理库？",
+            "answer": "可只在该游戏的异步代码块中加载轻量物理库，避免影响首页性能。"
+          }
+        ],
+        "relatedSlugs": [
+          "trap-runner",
+          "rugged-wheels",
+          "wave-rider",
+          "slope-dash"
+        ]
+      }
+    }
+  },
+  {
+    "id": "G18",
+    "number": 18,
+    "slug": "trap-runner",
+    "mechanic": "A short-room 2D platformer with original tile maps and surprising but fair triggers. No blood, copied levels, characters, or branding.",
+    "controls": "Desktop: A/D or arrows to move, W/Up/Space to jump. Mobile: left/right and jump buttons. Coyote time and jump buffering are required.",
+    "rules": [
+      "Each room has a start, exit, static solids, hazards, moving platforms, and optional trigger tiles.",
+      "Death instantly resets the current room after a short non-graphic animation.",
+      "Triggers must be telegraphed on first encounter or become predictable after one failure.",
+      "Include at least 15 original rooms; completing one advances in memory, refresh returns to room 1."
+    ],
+    "scoring": "Deaths and room time are shown for the current session only. The primary goal is completion, not a global score.",
+    "implementation": [
+      "Canvas 2D tile engine with axis-separated collision and a fixed timestep.",
+      "Store rooms in static JSON/TypeScript. Trigger scripts use a constrained declarative schema, not `eval`.",
+      "Provide developer hitbox/debug overlay behind a non-production flag."
+    ],
+    "acceptance": [
+      "Coyote time and jump buffering work within configured windows.",
+      "Room reset restores every trigger and moving object.",
+      "All 15 rooms have a verified completion path."
+    ],
+    "coverPrompt": "Original trap platformer cover: a tiny friendly geometric runner jumping across a compact side-view room as a floor tile drops and clearly marked spikes rise, expressive but non-graphic, dark premium arcade palette, no text, no logo, no watermark, 16:9.",
+    "locales": {
+      "en": {
+        "slug": "trap-runner",
+        "name": "Trap Runner",
+        "keyword": "trap platformer game online",
+        "seoTitle": "Trap Runner – Free Platform Trap Game Online | ArcadeMint",
+        "description": "Run, jump, learn the surprises, and clear original obstacle rooms in Trap Runner, a free browser platform game with no graphic violence.",
+        "h1": "Play Trap Runner Online",
+        "categories": [
+          "Arcade",
+          "Skill"
+        ],
+        "difficulty": "Hard",
+        "cardCopy": "Cross short platform rooms where floors shift, spikes appear, and every surprise remains learnable.",
+        "imageAlt": "Trap Runner game cover — Cross short platform rooms where floors shift, spikes appear, and every surprise remains learnable.",
+        "about": "Trap Runner is a compact platform game where the obvious route may change beneath your feet. Floors can drop, spikes can rise, and exits can shift, but every surprise must remain readable or learnable rather than random. Responsive movement includes coyote time and jump buffering so failures feel tied to decisions. Fifteen original rooms form a complete launch set with no graphic effects. Reloading the page returns to the first room and resets the session death counter.",
+        "howTo": [
+          "Move left or right and jump across the room.",
+          "Watch for visual clues that mark unstable or triggered objects.",
+          "After a failure, use what changed to choose a safer route.",
+          "Reach the exit to advance to the next room."
+        ],
+        "tips": [
+          "Test suspicious floor sections with a short approach.",
+          "Use the jump buffer near landing edges for consistent movement.",
+          "Do not rush a newly revealed trap; most rooms reward a brief pause."
+        ],
+        "faq": [
+          {
+            "question": "Are the traps random?",
+            "answer": "No. Each room uses authored trigger rules so players can learn from a failure."
+          },
+          {
+            "question": "Does the game show blood?",
+            "answer": "No. Failure uses a simple dissolve or reset animation."
+          },
+          {
+            "question": "Are these levels taken from Level Devil or Vex?",
+            "answer": "No. All maps, trigger sequences, characters, art, and code must be original."
+          }
+        ],
+        "relatedSlugs": [
+          "hook-swing",
+          "rugged-wheels",
+          "wave-rider",
+          "neon-snake"
+        ]
+      },
+      "zh": {
+        "name": "陷阱跑者",
+        "keyword": "在线陷阱闯关游戏",
+        "seoTitle": "陷阱跑者 - 免费在线平台陷阱闯关游戏 | ArcadeMint",
+        "description": "奔跑、跳跃并记住会变化的地板与机关，在短小原创房间中逐步找到安全路线。无血腥表现，刷新后回到第一关。",
+        "h1": "在线玩陷阱跑者",
+        "categories": [
+          "街机",
+          "技巧"
+        ],
+        "difficulty": "较难",
+        "cardCopy": "穿过会移动的地板、突然出现的尖刺和可学习的机关，完成一间间短平台关卡。",
+        "imageAlt": "陷阱跑者 游戏封面，穿过会移动的地板、突然出现的尖刺和可学习的机关，完成一间间短平台关卡。",
+        "about": "陷阱跑者是一款通过观察与重复尝试学习规则的平台游戏。部分地板会移动，机关会在接近时触发，终点前也可能出现新的变化；但所有陷阱都必须保持一致、可预判，不允许依赖纯随机恶意失败。游戏使用非血腥表现，刷新页面后从第一关开始。",
+        "howTo": [
+          "使用方向键或 A/D 移动，按空格、W 或屏幕按钮跳跃。",
+          "观察地板、标记和机关的触发规律。",
+          "失败后快速重试当前房间，并利用上一次获得的信息。",
+          "到达出口即可进入下一关。"
+        ],
+        "tips": [
+          "不要一直全速前进，在可疑地面前先小步试探。",
+          "记住触发位置，而不只是记住陷阱出现后的画面。",
+          "有些机关需要先触发，再退回安全区域等待。"
+        ],
+        "faq": [
+          {
+            "question": "陷阱会随机变化吗？",
+            "answer": "同一关的核心机关必须保持一致，玩家可以通过学习完成，而不是碰运气。"
+          },
+          {
+            "question": "游戏包含血腥内容吗？",
+            "answer": "不包含。失败使用柔和的动画、粒子或重置效果。"
+          },
+          {
+            "question": "进度会保存吗？",
+            "answer": "不会。刷新页面后回到第一关。"
+          }
+        ],
+        "relatedSlugs": [
+          "hook-swing",
+          "rugged-wheels",
+          "wave-rider",
+          "neon-snake"
+        ]
+      }
+    }
+  },
+  {
+    "id": "G19",
+    "number": 19,
+    "slug": "rugged-wheels",
+    "mechanic": "A side-view vehicle balance game with an original compact rover and short obstacle tracks. It uses 2D rigid-body physics and no licensed vehicles.",
+    "controls": "Desktop: Right/W accelerates, Left/S brakes or reverses, A/D tilts in air. Mobile: four large control buttons. Pause is separate.",
+    "rules": [
+      "Reach the finish with the rover body and at least one wheel intact/on track.",
+      "Head/body impact beyond a threshold or falling out of bounds resets the current level.",
+      "Checkpoints may exist inside longer tracks but are memory-only.",
+      "Include at least 12 original tracks with ramps, seesaws, bridges, rollers, and gentle moving obstacles."
+    ],
+    "scoring": "Level time and collected bolts. No saved vehicle upgrades, currency, or progression.",
+    "implementation": [
+      "Lazy-load Matter.js only after Play. Build rover from chassis, two wheels, axles, and constraints.",
+      "Store track geometry in static level files and use simple vector surfaces.",
+      "Use fixed physics parameters and automated replay smoke tests to reduce browser variance."
+    ],
+    "acceptance": [
+      "Vehicle constraints remain stable at target frame rates.",
+      "Crash and out-of-bounds conditions reset the correct checkpoint.",
+      "All tracks have a recorded successful smoke run."
+    ],
+    "coverPrompt": "Original physics driving cover: a charming compact two-wheel rover balancing over a rugged floating obstacle track with a ramp, seesaw and bridge, side view, dynamic suspension, premium colorful arcade rendering, no brand marks, no text, no logo, no watermark, 16:9.",
+    "locales": {
+      "en": {
+        "slug": "rugged-wheels",
+        "name": "Rugged Wheels",
+        "keyword": "physics driving game online",
+        "seoTitle": "Rugged Wheels – Free Physics Driving Game Online | ArcadeMint",
+        "description": "Drive and balance a small rover across original obstacle tracks in Rugged Wheels, a free browser physics game for keyboard and touch.",
+        "h1": "Play Rugged Wheels Online",
+        "categories": [
+          "Arcade",
+          "Skill"
+        ],
+        "difficulty": "Medium",
+        "cardCopy": "Balance a tiny two-wheel rover across ramps, bridges, bumps, and moving obstacles.",
+        "imageAlt": "Rugged Wheels game cover — Balance a tiny two-wheel rover across ramps, bridges, bumps, and moving obstacles.",
+        "about": "Rugged Wheels is a side-view balance challenge starring a small original rover. Accelerate carefully across ramps, flexible bridges, rollers, and seesaws while keeping the chassis under control. Air tilt helps prepare for landings, but speed is rarely the only answer. Twelve bundled tracks increase in complexity without adding upgrades, currencies, or saved progress. Checkpoints work only during the current level, and refreshing the page returns to the first track.",
+        "howTo": [
+          "Accelerate or reverse to move the rover along the track.",
+          "Use air tilt to line up the wheels before landing.",
+          "Slow down for seesaws, narrow bridges, and moving obstacles.",
+          "Cross the finish marker to advance to the next track."
+        ],
+        "tips": [
+          "Release acceleration before the crest of a steep ramp.",
+          "Land on both wheels when possible to protect the chassis.",
+          "Use small reverse inputs to recover from an over-rotation."
+        ],
+        "faq": [
+          {
+            "question": "Does the game use a real vehicle brand?",
+            "answer": "No. The rover and every visual element are original generic designs."
+          },
+          {
+            "question": "Are upgrades required?",
+            "answer": "No. Every level uses the same balanced vehicle parameters."
+          },
+          {
+            "question": "What happens at a checkpoint?",
+            "answer": "A crash restarts from the latest checkpoint during that open level only."
+          }
+        ],
+        "relatedSlugs": [
+          "hook-swing",
+          "trap-runner",
+          "zigzag-drift",
+          "slope-dash"
+        ]
+      },
+      "zh": {
+        "name": "崎岖车轮",
+        "keyword": "在线物理小车游戏",
+        "seoTitle": "崎岖车轮 - 免费在线物理小车闯关游戏 | ArcadeMint",
+        "description": "控制两轮小车前进、后退与保持平衡，穿过斜坡、桥梁和移动障碍。原创赛道纯前端运行，刷新后回到第一关。",
+        "h1": "在线玩崎岖车轮",
+        "categories": [
+          "街机",
+          "技巧"
+        ],
+        "difficulty": "中等",
+        "cardCopy": "保持两轮小车平衡，穿过坡道、桥梁、颠簸地面和不断变化的障碍。",
+        "imageAlt": "崎岖车轮 游戏封面，保持两轮小车平衡，穿过坡道、桥梁、颠簸地面和不断变化的障碍。",
+        "about": "崎岖车轮是一款强调油门与重心控制的物理驾驶游戏。车辆在斜坡、桥梁和不平路面上会产生明显的倾斜与弹跳，玩家需要在前进速度和车身姿态之间做出平衡。关卡与检查点存放在静态文件中，不需要数据库；刷新后会回到第一关。",
+        "howTo": [
+          "使用前进和后退按键，或屏幕左右控制区驱动车辆。",
+          "通过加速与反向输入调整车身角度。",
+          "越过坡道、桥梁和移动障碍，避免车辆翻转或坠落。",
+          "抵达终点标记即可完成当前关卡。"
+        ],
+        "tips": [
+          "上陡坡前保持适中速度，过快容易抬头翻车。",
+          "车辆离地时用轻微反向输入修正角度。",
+          "移动桥梁前先观察周期，不必一直踩住前进。"
+        ],
+        "faq": [
+          {
+            "question": "游戏里会出现真实汽车品牌吗？",
+            "answer": "不会。车辆外观、名称和声音都使用原创通用设计。"
+          },
+          {
+            "question": "翻车后从哪里开始？",
+            "answer": "可从当前关卡的最近检查点重试；刷新后回到第一关。"
+          },
+          {
+            "question": "需要后端物理计算吗？",
+            "answer": "不需要。所有物理模拟都在浏览器中完成。"
+          }
+        ],
+        "relatedSlugs": [
+          "hook-swing",
+          "trap-runner",
+          "zigzag-drift",
+          "slope-dash"
+        ]
+      }
+    }
+  },
+  {
+    "id": "G20",
+    "number": 20,
+    "slug": "classic-solitaire",
+    "mechanic": "A draw-one Klondike solitaire implementation using CSS-rendered cards and standard rules. The deck is shuffled in-browser; no images, account, or statistics service.",
+    "controls": "Click-to-select then click destination is required. Drag/drop and touch dragging are enhancements. Keyboard navigation moves focus across piles and activates selected cards.",
+    "rules": [
+      "Seven tableau columns contain 1–7 cards with only the top card face up; remaining cards form stock.",
+      "Tableau builds downward in alternating colors. Empty tableau accepts a king or a king-led sequence.",
+      "Foundations build upward by suit from ace to king.",
+      "Draw one from stock; recycle waste to stock when empty. Undo is session-only. Win when all 52 cards reach foundations."
+    ],
+    "scoring": "Show moves and elapsed time for the current deal. Do not implement persistent win rate, streaks, or leaderboards.",
+    "implementation": [
+      "Use semantic DOM buttons/cards and CSS suit symbols; no copyrighted deck artwork.",
+      "Model every move as a reversible command for Undo.",
+      "Use a cryptographically seeded Fisher–Yates shuffle in production and deterministic seeds in tests."
+    ],
+    "acceptance": [
+      "Enforce alternating-color tableau and same-suit foundation rules.",
+      "Reveal a newly exposed tableau card after a valid move.",
+      "Undo restores stock, waste, tableau, foundation, score, and face-up state exactly."
+    ],
+    "coverPrompt": "Original elegant solitaire cover: a clean spread of custom minimalist playing cards on a dark felt surface, visible ace foundation and alternating red-black tableau sequence, subtle violet and mint accents, no copied deck back, no text, no logo, no watermark, 16:9.",
+    "locales": {
+      "en": {
+        "slug": "classic-solitaire",
+        "name": "Classic Solitaire",
+        "keyword": "classic solitaire online free",
+        "seoTitle": "Classic Solitaire – Play Klondike Solitaire Free | ArcadeMint",
+        "description": "Play free draw-one Klondike Solitaire in your browser. Move cards by click, drag, or touch, use undo, and start a fresh shuffled deal anytime.",
+        "h1": "Play Classic Solitaire Online",
+        "categories": [
+          "Puzzle"
+        ],
+        "difficulty": "Classic",
+        "cardCopy": "Play a clean draw-one Klondike deal with click, drag, touch, undo, and no saved statistics.",
+        "imageAlt": "Classic Solitaire game cover — Play a clean draw-one Klondike deal with click, drag, touch, undo, and no saved statistics.",
+        "about": "Classic Solitaire provides a focused draw-one Klondike game with a clean, original card design. Build descending alternating-color sequences in the tableau, reveal hidden cards, and move each suit to its foundation from ace through king. You can play with click-to-move, drag, touch, or keyboard navigation, and Undo remains available during the current deal. The shuffle, move count, and timer are never saved; a browser refresh deals a completely new game.",
+        "howTo": [
+          "Move face-up cards onto the next higher rank of the opposite color.",
+          "Place kings or king-led sequences into empty tableau columns.",
+          "Turn cards from the stock and play useful waste cards.",
+          "Build each foundation by suit from ace to king to win."
+        ],
+        "tips": [
+          "Reveal face-down tableau cards before making low-value foundation moves.",
+          "Keep empty columns available for kings that unlock hidden cards.",
+          "Use Undo to inspect alternatives, but remember it resets with the page."
+        ],
+        "faq": [
+          {
+            "question": "Is this draw one or draw three?",
+            "answer": "The launch version uses draw-one rules for broad accessibility."
+          },
+          {
+            "question": "Are all deals guaranteed to be solvable?",
+            "answer": "No. Standard shuffled Klondike can produce deals that are not winnable."
+          },
+          {
+            "question": "Does the site track wins?",
+            "answer": "No. Win state, time, and moves are held only for the current page session."
+          }
+        ],
+        "relatedSlugs": [
+          "number-merge-2048",
+          "block-bloom",
+          "color-pour",
+          "unblock-path"
+        ]
+      },
+      "zh": {
+        "name": "经典纸牌接龙",
+        "keyword": "在线纸牌接龙",
+        "seoTitle": "经典纸牌接龙 - 免费在线 Klondike 接龙 | ArcadeMint",
+        "description": "免费玩翻一张模式的 Klondike 纸牌接龙，支持点击、拖动、触摸和撤销。无需注册，不保存胜率或历史牌局。",
+        "h1": "在线玩经典纸牌接龙",
+        "categories": [
+          "益智"
+        ],
+        "difficulty": "经典",
+        "cardCopy": "体验简洁的翻一张 Klondike 接龙，支持点击、拖动、触摸与当前牌局撤销。",
+        "imageAlt": "经典纸牌接龙 游戏封面，体验简洁的翻一张 Klondike 接龙，支持点击、拖动、触摸与当前牌局撤销。",
+        "about": "经典纸牌接龙采用翻一张的 Klondike 规则。你需要在七列牌堆间按红黑交替、数字递减的方式整理纸牌，并把同花色从 A 到 K 移入基础牌堆。洗牌、牌局与撤销历史只存在于当前页面，刷新后会获得一副全新的牌。",
+        "howTo": [
+          "在桌面牌列中按红黑交替、点数递减的顺序移动纸牌。",
+          "只有 K 或以 K 开头的序列可以移动到空列。",
+          "把 A 放入基础牌堆，并按同花色从 A 依次叠到 K。",
+          "点击牌库翻出下一张牌，完成四个基础牌堆即可获胜。"
+        ],
+        "tips": [
+          "优先翻开被盖住的牌，而不是只移动表面可见牌。",
+          "不要过早把所有低点数牌移入基础堆，以免阻塞桌面调整。",
+          "空列非常宝贵，尽量用于移动较长的 K 开头序列。"
+        ],
+        "faq": [
+          {
+            "question": "使用翻一张还是翻三张规则？",
+            "answer": "首版采用翻一张规则，降低上手门槛并便于触摸操作。"
+          },
+          {
+            "question": "可以撤销吗？",
+            "answer": "可以撤销当前牌局中的操作，但记录不会在刷新后保留。"
+          },
+          {
+            "question": "会统计胜率和连胜吗？",
+            "answer": "不会。网站不建立账号、统计表或本地长期存储。"
+          }
+        ],
+        "relatedSlugs": [
+          "number-merge-2048",
+          "block-bloom",
+          "color-pour",
+          "unblock-path"
+        ]
+      }
+    }
+  },
+  {
+    "id": "G21",
+    "number": 21,
+    "slug": "sum-orchard",
+    "mechanic": "An 8×12 orchard grid contains numbered fruit tokens. The player drags a rectangular selection over one or more tokens. A selection clears only when the sum of all included numbers equals the current target.",
+    "controls": "Desktop: press and drag from one cell to another, then release. Mobile: touch-drag with pointer capture. Keyboard: focus the grid, choose an anchor with Enter, extend with Shift + Arrow keys, and confirm with Enter.",
+    "rules": [
+      "The launch target is 12. Keep it fixed for the whole run so the player can scan quickly; do not copy the source game’s target, board artwork, scoring, or timing.",
+      "Selections are axis-aligned rectangles. Empty cells inside a rectangle contribute zero; numbered tokens contribute their visible value.",
+      "A correct selection removes every numbered token inside it. Tokens do not fall; the remaining negative space becomes part of the planning challenge.",
+      "When the board has no legal target rectangle, immediately generate a fresh solvable board and add a 5-second clear bonus.",
+      "The run lasts 90 seconds. Refreshing or pressing New Run discards the entire current board and score."
+    ],
+    "scoring": "Award 2 points per removed token, +4 for a one-cell exact match, and a chain bonus of +3 for each correct clear made within 2.5 seconds of the previous clear, capped at +15. Incorrect selections simply dissolve without a score or time penalty. 不保存高分、局数、设置或统计。",
+    "implementation": [
+      "Use React state and CSS Grid; do not use Canvas because each numbered token must remain readable to assistive technology.",
+      "Represent the board as `(number | null)[][]`. Implement `rectFromPoints`, `sumRect`, `clearRect`, `findLegalRects`, and `hasLegalMove` as pure functions.",
+      "Generate boards by first planting at least eight non-overlapping rectangles whose values sum to 12, then fill remaining cells with 1–9 and validate with the solver.",
+      "Use Pointer Events with `setPointerCapture`; clamp the live selection to the grid when a drag leaves the board.",
+      "In tests, inject a seeded random function through the game factory. Production must use an in-memory seed from `crypto.getRandomValues`."
+    ],
+    "acceptance": [
+      "A rectangle totaling 12 clears exactly the included non-empty cells and awards the correct score.",
+      "A rectangle totaling any other value changes neither board nor score.",
+      "Board generation always exposes at least one legal move and never loops indefinitely.",
+      "Pointer cancellation, resize, restart, route change, and refresh leave no timers or listeners running."
+    ],
+    "coverPrompt": "Original polished browser puzzle cover: an overhead orchard-style grid of glossy abstract fruit tokens carrying small digits, a translucent rectangular selection glowing around a group that totals twelve, deep navy garden background, lime and apricot accents, crisp modern game UI feeling, no text, no logo, no watermark, 16:9.",
+    "locales": {
+      "en": {
+        "slug": "sum-orchard",
+        "name": "Sum Orchard",
+        "keyword": "free number sum puzzle online",
+        "seoTitle": "Sum Orchard – Free Number Sum Puzzle Online | ArcadeMint",
+        "description": "Drag across numbered fruit, make the target total, and clear the orchard before time runs out in this free browser number puzzle.",
+        "h1": "Play Sum Orchard Online",
+        "categories": [
+          "Brain",
+          "Puzzle"
+        ],
+        "difficulty": "Easy to learn",
+        "cardCopy": "Draw a box around numbered fruit whose total matches the target, then chain quick clears before time expires.",
+        "imageAlt": "Sum Orchard game cover — Draw a box around numbered fruit whose total matches the target, then chain quick clears before time expires.",
+        "about": "Sum Orchard is a fast number puzzle about spotting totals inside a crowded fruit grid. Drag a rectangle around any group of numbered fruit that adds up to twelve, release to harvest it, and keep looking as the board opens up. Small exact matches are useful, but wider selections can produce stronger chains when you read the grid quickly. The run lasts only a minute and a half, and nothing is saved after the page closes or refreshes.",
+        "howTo": [
+          "Drag from one grid cell to another to create a rectangular selection.",
+          "Add every visible number inside the rectangle, including numbers between the corners.",
+          "Release when the total is exactly 12 to clear those fruit and earn points.",
+          "Keep making valid selections until the timer reaches zero. A new solvable board appears if no move remains."
+        ],
+        "tips": [
+          "Scan for single 12 tiles and simple pairs before searching larger rectangles.",
+          "Use empty spaces to build wide rectangles without adding unwanted values.",
+          "Plan the next selection before releasing the current one to maintain the chain bonus."
+        ],
+        "faq": [
+          {
+            "question": "Can I select fruit that are not touching?",
+            "answer": "Yes. Every numbered token inside the rectangle counts, while empty cells add nothing."
+          },
+          {
+            "question": "Why is the target always 12?",
+            "answer": "A fixed target keeps the game readable and makes fast visual scanning the main skill."
+          },
+          {
+            "question": "Does the game save my score?",
+            "answer": "No. Scores and boards exist only in the open page and reset on refresh."
+          },
+          {
+            "question": "Can I play with a keyboard?",
+            "answer": "Yes. The grid supports an anchor-and-extend keyboard selection flow in addition to pointer and touch input."
+          }
+        ],
+        "relatedSlugs": [
+          "color-cross",
+          "triad-capture",
+          "target-basket",
+          "math-grid-sprint"
+        ]
+      },
+      "zh": {
+        "name": "数字果园",
+        "keyword": "在线数字求和游戏",
+        "seoTitle": "数字果园 - 免费在线数字求和益智游戏 | ArcadeMint",
+        "description": "框选数字水果，让区域内数字之和等于目标值，并在倒计时结束前连续清除。纯前端运行，刷新后开始新棋盘。",
+        "h1": "在线玩数字果园",
+        "categories": [
+          "脑力",
+          "益智"
+        ],
+        "difficulty": "容易上手",
+        "cardCopy": "框选一片数字水果，使区域总和等于目标值，并在倒计时内连续完成清除。",
+        "imageAlt": "数字果园 游戏封面，框选一片数字水果，使区域总和等于目标值，并在倒计时内连续完成清除。",
+        "about": "数字果园是一款需要快速观察数字组合的网格谜题。拖出一个矩形后，区域内所有可见数字都会参与求和，只有总数恰好等于目标值时才能清除。空格计为零，可以帮助你连接更远的数字。每局时间有限，页面刷新后会重新生成可解棋盘。",
+        "howTo": [
+          "从一个格子拖到另一个格子，形成矩形选择区域。",
+          "把区域内所有可见数字相加，空格按零计算。",
+          "当总和恰好等于当前目标时，区域内数字会被清除并得分。",
+          "在倒计时结束前不断寻找新的有效矩形。"
+        ],
+        "tips": [
+          "先扫描单个目标数字和简单两数组合。",
+          "利用已经清空的格子扩大矩形，而不增加总和。",
+          "释放当前选择前先观察下一处组合，便于维持连击。"
+        ],
+        "faq": [
+          {
+            "question": "矩形内的数字必须相邻吗？",
+            "answer": "不需要。矩形内所有数字都会计入，空白格不增加总和。"
+          },
+          {
+            "question": "目标数字会变化吗？",
+            "answer": "首版可以在整局中保持固定目标，让快速扫描成为主要技巧。"
+          },
+          {
+            "question": "棋盘会保存吗？",
+            "answer": "不会。刷新页面会生成新的棋盘并清空分数。"
+          },
+          {
+            "question": "可以使用键盘游玩吗？",
+            "answer": "可以。除了鼠标与触摸拖动，棋盘也支持用键盘确定起点并扩展选择区域。"
+          }
+        ],
+        "relatedSlugs": [
+          "color-cross",
+          "triad-capture",
+          "target-basket",
+          "math-grid-sprint"
+        ]
+      }
+    }
+  },
+  {
+    "id": "G22",
+    "number": 22,
+    "slug": "color-cross",
+    "mechanic": "A 10×10 board contains colored symbol tiles and empty cells. Clicking an empty cell scans outward to the nearest tile in each cardinal direction. Matching opposite tiles clear as horizontal or vertical pairs.",
+    "controls": "Desktop and mobile: click or tap an empty cell. Keyboard: move a visible focus cursor with Arrow keys and activate a cell with Enter or Space.",
+    "rules": [
+      "For a chosen empty cell, find the nearest non-empty tile to the left, right, above, and below without wrapping around the board.",
+      "If the left and right nearest tiles share the same symbol, remove that horizontal pair. Apply the same rule independently to the upper and lower pair.",
+      "A move may remove two tiles on one axis or four tiles on both axes. A blank without a valid pair is a miss.",
+      "The run lasts 90 seconds. A miss subtracts 4 seconds, but never takes the timer below zero before resolution.",
+      "Colors must always be paired with distinct symbols so the puzzle remains playable without color perception."
+    ],
+    "scoring": "Award 3 points for each removed tile. Clearing both axes in one move adds an 8-point cross bonus. Clearing four crosses without a miss activates a 1.5× streak multiplier until the next miss. 不保存高分、局数、设置或统计。",
+    "implementation": [
+      "Use semantic buttons in a CSS Grid. Each tile must expose both color and symbol through visible glyphs and `aria-label` text.",
+      "Implement `nearestTile`, `evaluateCross`, `applyCrossClear`, `findAllValidEmptyCells`, and `isBoardComplete` as pure functions.",
+      "Generate the board by reverse-placing at least twelve valid cross opportunities, then add decoy tiles and validate that at least six moves are available.",
+      "After every clear, run the solver. If no move remains while tiles are still present, offer an in-memory Shuffle button costing 6 seconds.",
+      "The hover preview may outline candidate directions, but must not reveal whether the move is valid until activation."
+    ],
+    "acceptance": [
+      "Nearest-tile scans stop at board edges and ignore empty cells correctly.",
+      "Horizontal and vertical clears resolve independently and a dual-axis move removes each tile once.",
+      "A miss subtracts exactly four seconds and never creates a negative displayed time.",
+      "Every generated board has valid moves, and symbol labels remain unique in high-contrast mode."
+    ],
+    "coverPrompt": "Original abstract logic-game cover: a dark square grid with colored rune tiles around a glowing empty center cell, matching symbols aligned horizontally and vertically as a luminous cross, accessible shape-coded tiles, elegant indigo and emerald palette, no text, no logo, no watermark, 16:9.",
+    "locales": {
+      "en": {
+        "slug": "color-cross",
+        "name": "Color Cross",
+        "keyword": "free color logic puzzle online",
+        "seoTitle": "Color Cross – Free Color Logic Puzzle Online | ArcadeMint",
+        "description": "Click empty cells, match the nearest colors across rows or columns, and clear the board in Color Cross, a free online logic puzzle.",
+        "h1": "Play Color Cross Online",
+        "categories": [
+          "Brain",
+          "Puzzle"
+        ],
+        "difficulty": "Thoughtful",
+        "cardCopy": "Choose empty spaces where the nearest tiles form matching color pairs across a row, a column, or both.",
+        "imageAlt": "Color Cross game cover — Choose empty spaces where the nearest tiles form matching color pairs across a row, a column, or both.",
+        "about": "Color Cross turns empty space into the most important part of the board. Pick a blank cell and look outward in four directions. When the nearest tiles on opposite sides share the same symbol, they disappear. A carefully chosen cell can clear both a horizontal pair and a vertical pair at once. Every tile combines a color with a shape, so the puzzle is designed to remain understandable across different color-vision needs.",
+        "howTo": [
+          "Choose an empty cell on the board.",
+          "Look for the nearest tile to its left and right; a matching pair will clear.",
+          "Check the nearest tile above and below as well; both axes can score together.",
+          "Avoid blank cells with no matching opposite pair because a miss removes four seconds."
+        ],
+        "tips": [
+          "Search for cells that sit between two obvious matching symbols first.",
+          "Before clearing one pair, check whether it is needed to build a future cross.",
+          "Use the shape symbols rather than relying only on color."
+        ],
+        "faq": [
+          {
+            "question": "Do diagonal tiles count?",
+            "answer": "No. Color Cross checks only the four cardinal directions."
+          },
+          {
+            "question": "What happens when both pairs match?",
+            "answer": "All four tiles clear and the move receives a cross bonus."
+          },
+          {
+            "question": "Is there a color-blind mode?",
+            "answer": "The default design already pairs each color with a unique symbol, and a high-contrast toggle is available for the current session."
+          },
+          {
+            "question": "Is my setting saved?",
+            "answer": "No. Accessibility toggles and all game state reset when the page refreshes."
+          }
+        ],
+        "relatedSlugs": [
+          "sum-orchard",
+          "orbit-lines",
+          "corner-stars",
+          "echo-path"
+        ]
+      },
+      "zh": {
+        "name": "色彩十字",
+        "keyword": "在线颜色逻辑游戏",
+        "seoTitle": "色彩十字 - 免费在线颜色逻辑益智游戏 | ArcadeMint",
+        "description": "点击空白格，判断上下或左右最近的色块是否形成匹配组合，并逐步清空棋盘。支持颜色与符号双重提示。",
+        "h1": "在线玩色彩十字",
+        "categories": [
+          "脑力",
+          "益智"
+        ],
+        "difficulty": "需要思考",
+        "cardCopy": "选择空白位置，判断横向或纵向最近的色块能否组成匹配颜色对。",
+        "imageAlt": "色彩十字 游戏封面，选择空白位置，判断横向或纵向最近的色块能否组成匹配颜色对。",
+        "about": "色彩十字是一款围绕空白位置进行判断的逻辑游戏。点击一个空格时，系统会向上下左右寻找最近的非空色块；当横向或纵向形成符合规则的匹配组合时，对应色块会被清除。颜色必须同时配合符号或纹理，确保不依赖单一颜色识别。",
+        "howTo": [
+          "选择棋盘中的一个空白格。",
+          "系统寻找该位置上下左右最近的非空色块。",
+          "若横向或纵向两端满足匹配规则，对应色块会被清除。",
+          "不断制造新的空白与组合，直到完成棋盘目标或没有合法操作。"
+        ],
+        "tips": [
+          "先寻找横向和纵向都可能同时匹配的交叉位置。",
+          "清除外层色块可能暴露更远处的新组合。",
+          "同时观察符号和颜色，避免只依靠色差判断。"
+        ],
+        "faq": [
+          {
+            "question": "一定要上下左右都匹配吗？",
+            "answer": "不一定。可按规则允许横向、纵向或两者同时成立，并在界面中清楚提示。"
+          },
+          {
+            "question": "色盲玩家能识别棋子吗？",
+            "answer": "可以。每种颜色都必须搭配独立符号、纹理或形状。"
+          },
+          {
+            "question": "棋盘是否随机生成？",
+            "answer": "可以从可解模板生成并通过求解器验证，刷新后开始新的棋盘。"
+          },
+          {
+            "question": "辅助识别设置会保存吗？",
+            "answer": "不会。辅助识别开关和全部游戏状态都会在刷新页面后重置。"
+          }
+        ],
+        "relatedSlugs": [
+          "sum-orchard",
+          "orbit-lines",
+          "corner-stars",
+          "echo-path"
+        ]
+      }
+    }
+  },
+  {
+    "id": "G23",
+    "number": 23,
+    "slug": "orbit-lines",
+    "mechanic": "An 8×8 orbital board holds colored, shape-coded signal orbs. The player moves one orb along an unobstructed horizontal, vertical, or diagonal ray. A valid alignment of three or more matching orbs clears and scores.",
+    "controls": "Click or tap an orb, then choose a highlighted destination. Keyboard: move focus, press Enter to select, use Arrow keys to inspect destinations, and press Enter again to move.",
+    "rules": [
+      "An orb may move any distance in one of eight straight directions if every intermediate cell and the destination are empty.",
+      "After a move, scan the moved orb’s row, column, and two diagonals. Empty gaps may separate matching orbs, but an orb of another symbol blocks the scan in that direction.",
+      "If at least three matching orbs are connected through empty space across one axis, remove all matching orbs in that resolved line.",
+      "One move may create several axes. Merge the removal set so crossing orbs score only once.",
+      "The run lasts 110 seconds. A legal move that clears nothing subtracts 3 additional seconds."
+    ],
+    "scoring": "Three orbs award 6 points, four award 10, five award 16, and six or more award `count × 4`. Simultaneous axes add a 10-point orbit bonus. 不保存高分、局数、设置或统计。",
+    "implementation": [
+      "Use DOM/SVG rather than Canvas. Highlight legal destinations by ray-casting from the selected orb.",
+      "Implement `legalDestinations`, `scanAxis`, `resolveLines`, `mergeRemovalSets`, and `findProductiveMoves` as pure functions.",
+      "Different symbols are blockers even when they sit beyond blank cells. Write tests for both sides of the moved orb and for crossing axes.",
+      "Generate a board with 26–30 orbs, then use a shallow solver to verify at least four productive moves before accepting the layout.",
+      "When no productive move remains, enable a one-use Reorbit action that shuffles symbols among occupied cells and costs 8 seconds."
+    ],
+    "acceptance": [
+      "Legal destinations include all unobstructed cells on eight rays and exclude blocked or occupied cells.",
+      "Gap-separated matching orbs clear while a different symbol stops the scan.",
+      "Crossing line resolutions remove the shared orb only once and calculate bonuses correctly.",
+      "Generated boards expose productive moves and Reorbit cannot be used twice in one run."
+    ],
+    "coverPrompt": "Original sci-fi garden puzzle cover: luminous jewel-like signal orbs on an 8x8 orbital lattice, one orb sliding along a bright diagonal ray, three matching symbols aligned across open gaps, deep midnight background with teal, amber and violet light, no text, no logo, no watermark, 16:9.",
+    "locales": {
+      "en": {
+        "slug": "orbit-lines",
+        "name": "Orbit Lines",
+        "keyword": "free line matching puzzle online",
+        "seoTitle": "Orbit Lines – Free Line Matching Puzzle Online | ArcadeMint",
+        "description": "Slide an orb in a straight line, align three or more matching signals, and score before time expires in this free browser puzzle.",
+        "h1": "Play Orbit Lines Online",
+        "categories": [
+          "Brain",
+          "Puzzle",
+          "Skill"
+        ],
+        "difficulty": "Strategic",
+        "cardCopy": "Move one orb along a clear straight path and align matching signals across rows, columns, or diagonals.",
+        "imageAlt": "Orbit Lines game cover — Move one orb along a clear straight path and align matching signals across rows, columns, or diagonals.",
+        "about": "Orbit Lines is a movement puzzle where distance is free but direction matters. Select an orb, slide it across a clear row, column, or diagonal, and line up three or more matching signals. Empty spaces do not break a signal, but a different symbol blocks the connection. The board rewards planning several moves ahead because a harmless-looking orb can become either a bridge or a blocker.",
+        "howTo": [
+          "Select an orb to reveal every empty destination it can reach in a straight line.",
+          "Move to one highlighted square without jumping over another orb.",
+          "Create a row, column, or diagonal containing at least three matching signals.",
+          "Keep scoring until the timer ends; non-scoring moves cost three extra seconds."
+        ],
+        "tips": [
+          "Open long lanes before trying to complete a distant line.",
+          "Remember that a different symbol blocks matching orbs behind it.",
+          "Look for one move that completes a horizontal and diagonal line together."
+        ],
+        "faq": [
+          {
+            "question": "Can an orb jump over another orb?",
+            "answer": "No. Every cell between the start and destination must be empty."
+          },
+          {
+            "question": "Do matching orbs need to touch?",
+            "answer": "No. Empty gaps are allowed, but a different symbol blocks the connection."
+          },
+          {
+            "question": "What is Reorbit?",
+            "answer": "It is a one-use shuffle for a run that has no productive move. It costs eight seconds and is not saved."
+          },
+          {
+            "question": "Does the board persist after refresh?",
+            "answer": "No. Refreshing generates a new board and resets the score and timer."
+          }
+        ],
+        "relatedSlugs": [
+          "color-cross",
+          "corner-stars",
+          "sidefall-blocks",
+          "echo-path"
+        ]
+      },
+      "zh": {
+        "name": "轨道连线",
+        "keyword": "在线连珠益智游戏",
+        "seoTitle": "轨道连线 - 免费在线连珠益智游戏 | ArcadeMint",
+        "description": "沿无阻挡直线移动圆球，在横向、纵向或斜线方向连接三个以上同类信号，并在时间结束前持续得分。",
+        "h1": "在线玩轨道连线",
+        "categories": [
+          "脑力",
+          "益智",
+          "技巧"
+        ],
+        "difficulty": "策略型",
+        "cardCopy": "沿空旷直线移动一颗圆球，在横、竖或斜线方向连接三个以上相同信号。",
+        "imageAlt": "轨道连线 游戏封面，沿空旷直线移动一颗圆球，在横、竖或斜线方向连接三个以上相同信号。",
+        "about": "轨道连线是一款把直线移动和连珠消除结合起来的棋盘游戏。每次只能让一颗圆球沿无阻挡的横线、竖线或指定直线移动，落点形成三个或更多同类圆球时即可消除。无效移动会让棋盘增加新圆球，因此需要同时考虑当前得分与未来空间。",
+        "howTo": [
+          "选择一颗圆球，再选择同一条无阻挡直线上的空格。",
+          "圆球沿直线移动到目标位置。",
+          "若落点形成至少三个同类圆球的横线、竖线或斜线，它们会被清除。",
+          "没有形成组合时，棋盘会加入新的圆球；填满或时间结束后本局结束。"
+        ],
+        "tips": [
+          "移动前先确认路径中没有其他圆球阻挡。",
+          "优先准备一次移动即可完成的两端开放组合。",
+          "不要只追求当前三连，给较长连线保留空间会获得更高分。"
+        ],
+        "faq": [
+          {
+            "question": "圆球可以转弯移动吗？",
+            "answer": "不能。一次移动必须沿清晰、无阻挡的直线完成。"
+          },
+          {
+            "question": "斜线是否计分？",
+            "answer": "计分。横向、纵向和规则允许的对角线都可以形成组合。"
+          },
+          {
+            "question": "刷新后会保留棋盘吗？",
+            "answer": "不会。棋盘、计时和分数都会重置。"
+          },
+          {
+            "question": "移动后没有形成连线会怎样？",
+            "answer": "棋盘会加入新的圆球，因此每次没有消除的移动都需要为后续空间留出余地。"
+          }
+        ],
+        "relatedSlugs": [
+          "color-cross",
+          "corner-stars",
+          "sidefall-blocks",
+          "echo-path"
+        ]
+      }
+    }
+  },
+  {
+    "id": "G24",
+    "number": 24,
+    "slug": "corner-stars",
+    "mechanic": "A field of stars sits on a square lattice. The player selects three stars with the same symbol. The selection scores only when one star is the right-angle corner and the two arms have equal grid length.",
+    "controls": "Click or tap three stars. Clicking a selected star removes it from the current selection. Keyboard users move between stars and toggle selection with Space.",
+    "rules": [
+      "Use a 9×9 logical lattice containing 42–50 stars and empty nodes.",
+      "Three selected stars must share the same symbol. One point must form a 90-degree corner with the other two, and both arms must have equal length.",
+      "Arms may use horizontal, vertical, or 45-degree diagonal directions. Their direction vectors must be perpendicular by dot product.",
+      "No unselected star may lie strictly between the corner and either endpoint.",
+      "The run lasts 90 seconds. Shuffle may be used repeatedly; the first two uses cost 5 seconds each and later uses cost 9 seconds."
+    ],
+    "scoring": "Award 6 base points, +2 per grid unit of arm length, and +5 when the constellation uses at least one diagonal arm. Clearing three constellations within eight seconds starts a 2× Star Rush bonus for the next valid selection. 不保存高分、局数、设置或统计。",
+    "implementation": [
+      "Render stars and selection legs in a responsive SVG with a fixed logical viewBox. Hit targets must be at least 44 CSS pixels on touch screens.",
+      "Implement `findRightAngleVertex`, `armsEqual`, `isPerpendicular`, `isSegmentClear`, and `findValidConstellations` as pure geometry helpers.",
+      "Do not rely on floating-point equality. Normalize grid direction vectors and use integer dot products and squared lengths.",
+      "Generate boards by planting valid L triples first, then adding decoys. Reject a board with fewer than eight valid starting constellations.",
+      "Use symbol plus color coding and provide a session-only high-contrast toggle."
+    ],
+    "acceptance": [
+      "All four possible choices of corner vertex are evaluated.",
+      "Horizontal, vertical, and diagonal perpendicular vectors validate with integer geometry.",
+      "A star on either open segment invalidates the constellation while a star beyond an endpoint does not.",
+      "Shuffle applies the correct escalating time cost and preserves the number of remaining stars."
+    ],
+    "coverPrompt": "Original celestial logic puzzle cover: a dark geometric star field with three matching gem-like stars connected as a glowing perfect right-angle constellation, equal arms, subtle lattice, indigo night and soft gold accents, elegant minimal composition, no text, no logo, no watermark, 16:9.",
+    "locales": {
+      "en": {
+        "slug": "corner-stars",
+        "name": "Corner Stars",
+        "keyword": "free L shape puzzle online",
+        "seoTitle": "Corner Stars – Free L Shape Puzzle Online | ArcadeMint",
+        "description": "Select three matching stars, form a clean right-angle corner, and clear constellations in this free browser geometry puzzle.",
+        "h1": "Play Corner Stars Online",
+        "categories": [
+          "Brain",
+          "Puzzle"
+        ],
+        "difficulty": "Spatial",
+        "cardCopy": "Find three matching stars that form an equal-arm right angle without another star blocking either leg.",
+        "imageAlt": "Corner Stars game cover — Find three matching stars that form an equal-arm right angle without another star blocking either leg.",
+        "about": "Corner Stars is a geometry puzzle disguised as a tiny constellation hunt. Choose three matching stars that form a perfect right angle with two equal-length arms. The corner may face any direction, including diagonally, but another star cannot sit directly on either leg. Because every valid constellation removes its three stars, the field changes quickly and short patterns can reveal longer ones.",
+        "howTo": [
+          "Select three stars with the same symbol.",
+          "Make sure one selected star can act as the right-angle corner.",
+          "Check that both arms have the same grid length and no star blocks either segment.",
+          "Use Shuffle when the field becomes difficult, accepting its time cost."
+        ],
+        "tips": [
+          "Look for compact one-cell corners before checking longer arms.",
+          "Try each selected point as the possible corner instead of assuming the middle point is correct.",
+          "Save early Shuffle uses for boards with very few visible matches."
+        ],
+        "faq": [
+          {
+            "question": "Can a constellation be rotated?",
+            "answer": "Yes. Any orientation based on 45-degree grid directions is allowed if the arms are perpendicular and equal."
+          },
+          {
+            "question": "Can another star sit on a leg?",
+            "answer": "No. A star strictly between the corner and an endpoint blocks that constellation."
+          },
+          {
+            "question": "What happens after three valid stars are selected?",
+            "answer": "The game validates the geometry immediately, scores a legal corner, or briefly explains why the selection failed."
+          },
+          {
+            "question": "Are Shuffle uses saved?",
+            "answer": "No. The board, Shuffle count, score, and timer reset on refresh."
+          }
+        ],
+        "relatedSlugs": [
+          "orbit-lines",
+          "color-cross",
+          "triad-capture",
+          "echo-path"
+        ]
+      },
+      "zh": {
+        "name": "星角拼图",
+        "keyword": "在线 L 形几何拼图",
+        "seoTitle": "星角拼图 - 免费在线 L 形几何益智游戏 | ArcadeMint",
+        "description": "选择三颗相同星星，让它们组成两条等长直角边，并确保边线上没有其他星星阻挡。浏览器中直接免费游玩。",
+        "h1": "在线玩星角拼图",
+        "categories": [
+          "脑力",
+          "益智"
+        ],
+        "difficulty": "空间推理",
+        "cardCopy": "找出三颗相同星星，使它们组成等臂直角，并确保两条边之间没有阻挡。",
+        "imageAlt": "星角拼图 游戏封面，找出三颗相同星星，使它们组成等臂直角，并确保两条边之间没有阻挡。",
+        "about": "星角拼图是一款把颜色匹配与几何判断结合起来的益智游戏。三颗相同星星必须由一个直角顶点和两个端点组成，两条直角边长度相等，并且边线上不能存在阻挡星星。规则适合使用 SVG 清晰绘制选择关系，同时提供键盘选择路径。",
+        "howTo": [
+          "依次选择三颗符号或颜色相同的星星。",
+          "其中一颗必须成为直角顶点，另外两颗位于互相垂直的方向。",
+          "两条直角边的格距必须相等，边线上不能被其他星星阻挡。",
+          "有效组合会被清除并获得分数，继续寻找下一组。"
+        ],
+        "tips": [
+          "先找拥有同类水平邻居和垂直邻居的候选顶点。",
+          "注意距离不仅要方向垂直，还必须完全相等。",
+          "清除靠近中心的组合通常会暴露更多可能角形。"
+        ],
+        "faq": [
+          {
+            "question": "三个点只要形成直角就可以吗？",
+            "answer": "还不够。两条直角边必须等长，并满足无遮挡要求。"
+          },
+          {
+            "question": "颜色是唯一判断方式吗？",
+            "answer": "不是。每类星星还要使用不同符号或纹理。"
+          },
+          {
+            "question": "可以用键盘选择吗？",
+            "answer": "可以。焦点可在星星间移动，并通过确认键依次选择三点。"
+          },
+          {
+            "question": "重排次数会保存吗？",
+            "answer": "不会。刷新后棋盘、重排次数、分数与计时都会重置。"
+          }
+        ],
+        "relatedSlugs": [
+          "orbit-lines",
+          "color-cross",
+          "triad-capture",
+          "echo-path"
+        ]
+      }
+    }
+  },
+  {
+    "id": "G25",
+    "number": 25,
+    "slug": "sidefall-blocks",
+    "mechanic": "An 8-column board contains irregular stacks of symbol-coded blocks. The player chooses an exposed top block, shifts it horizontally to another column, then releases it to fall. Orthogonally connected groups clear after landing.",
+    "controls": "Drag an exposed block left or right and release above a destination column. Tap mode: select a block, tap a highlighted destination column. Keyboard: select a stack top, move the destination with Left/Right, and press Enter to drop.",
+    "rules": [
+      "Only the top block of a non-empty column is movable. A destination column must have capacity below the 10-row ceiling.",
+      "The block falls to the first available cell on its destination stack. The original column collapses immediately when its top block leaves.",
+      "After landing, find the complete orthogonally connected component of the moved block. Clear it only when it contains at least three matching blocks.",
+      "After a clear, collapse each column downward and resolve chain reactions until no group of three or more remains.",
+      "The run lasts 110 seconds. A legal drop that creates no clear subtracts 3 seconds; returning to the original column cancels without penalty."
+    ],
+    "scoring": "A group of three awards 6 points, four awards 10, five awards 16, and larger groups award `count × 4`. Each chain reaction multiplies that resolution step by its chain depth. 不保存高分、局数、设置或统计。",
+    "implementation": [
+      "Use CSS Grid for the board and CSS transforms for the dragged block. A short requestAnimationFrame animation may show the fall, but rules resolve in pure TypeScript first.",
+      "Represent each column as a bottom-up array. Implement `moveTopBlock`, `connectedComponent`, `findAllClearableGroups`, `collapseBoard`, and `resolveChains` as pure functions.",
+      "Make illegal destinations visibly unavailable and announce the reason through a polite live region.",
+      "Generate irregular stacks with 4–5 symbols, then verify at least five scoring moves via a one-ply solver.",
+      "Cancel active pointer interactions on blur, route change, resize, or component unmount."
+    ],
+    "acceptance": [
+      "Only stack-top blocks can move and full destination columns reject the drop.",
+      "Connected components use orthogonal adjacency only and resolve the moved block’s complete group.",
+      "Column collapse and multi-step chain scoring are deterministic.",
+      "Returning a block to its source cancels without score or time change."
+    ],
+    "coverPrompt": "Original falling-block puzzle cover: irregular stacks of rounded symbol-coded blocks in a dark garden arcade, one bright block sliding sideways above the columns and dropping into a matching cluster that bursts with particles, mint, coral and violet palette, no text, no logo, no watermark, 16:9.",
+    "locales": {
+      "en": {
+        "slug": "sidefall-blocks",
+        "name": "Sidefall Blocks",
+        "keyword": "free falling block puzzle online",
+        "seoTitle": "Sidefall Blocks – Free Falling Block Puzzle Online | ArcadeMint",
+        "description": "Slide an exposed block sideways, let gravity drop it, and clear connected color groups in this free online falling-block puzzle.",
+        "h1": "Play Sidefall Blocks Online",
+        "categories": [
+          "Puzzle",
+          "Skill"
+        ],
+        "difficulty": "Tactical",
+        "cardCopy": "Move an exposed block to another column, release it into gravity, and build larger matching groups for bonus points.",
+        "imageAlt": "Sidefall Blocks game cover — Move an exposed block to another column, release it into gravity, and build larger matching groups for bonus points.",
+        "about": "Sidefall Blocks mixes deliberate movement with simple gravity. Instead of steering a falling piece from the top, you take an exposed block from one stack, slide it to another column, and let it settle. A landing that connects three or more matching symbols clears the group, while bigger clusters and chain reactions create the best scores. Every move changes two columns, so a useful transfer can also expose the block you need next.",
+        "howTo": [
+          "Choose the top block from any non-empty column.",
+          "Move it horizontally to a column that still has room.",
+          "Release the block and let it fall onto the destination stack.",
+          "Connect at least three matching blocks to clear them and trigger possible chains."
+        ],
+        "tips": [
+          "Move blocks away from a column to expose a useful color underneath.",
+          "Build groups of four or five instead of taking every immediate three-block clear.",
+          "Check both the source and destination columns before committing to a drop."
+        ],
+        "faq": [
+          {
+            "question": "Can I move a block from the middle of a stack?",
+            "answer": "No. Only the currently exposed top block can move."
+          },
+          {
+            "question": "What happens if no group clears?",
+            "answer": "The move remains on the board and three seconds are removed from the timer."
+          },
+          {
+            "question": "Can one move create a chain reaction?",
+            "answer": "Yes. Columns collapse after each clear and any new group of three or more resolves at a higher multiplier."
+          },
+          {
+            "question": "Does the game remember my best chain?",
+            "answer": "No. All run statistics are temporary and reset with the page."
+          }
+        ],
+        "relatedSlugs": [
+          "orbit-lines",
+          "triad-capture",
+          "color-cross",
+          "sum-orchard"
+        ]
+      },
+      "zh": {
+        "name": "侧落方块",
+        "keyword": "在线方块下落游戏",
+        "seoTitle": "侧落方块 - 免费在线方块下落益智游戏 | ArcadeMint",
+        "description": "横向移动列顶的暴露方块，让它在目标列中下落并连接同色组合。规划重力与连锁，刷新后开始新棋盘。",
+        "h1": "在线玩侧落方块",
+        "categories": [
+          "益智",
+          "技巧"
+        ],
+        "difficulty": "战术规划",
+        "cardCopy": "把暴露方块移到另一列后释放，让重力落下并组成更大的同色连通组。",
+        "imageAlt": "侧落方块 游戏封面，把暴露方块移到另一列后释放，让重力落下并组成更大的同色连通组。",
+        "about": "侧落方块是一款先横移、再下落的重力拼图。玩家只能操作当前暴露的方块，把它移到另一列上方后释放；方块落入最低可用位置，形成足够大的同色连通组时即可清除。一次移动会改变多列高度，因此需要提前判断连锁和可操作空间。",
+        "howTo": [
+          "选择当前允许移动的暴露方块。",
+          "将它横向移动到目标列上方。",
+          "释放后方块会在重力作用下落到该列最低空位。",
+          "形成达到阈值的同色连通组后会清除并触发可能的连锁。"
+        ],
+        "tips": [
+          "不要只看目标列顶部，还要考虑落下后的最终位置。",
+          "优先把孤立色块连接到已有大组。",
+          "连锁清除可能改变多列高度，移动前先预测第二次落点。"
+        ],
+        "faq": [
+          {
+            "question": "所有方块都可以移动吗？",
+            "answer": "不能。只有规则指定的暴露方块可以横向移动。"
+          },
+          {
+            "question": "同色方块必须排成直线吗？",
+            "answer": "不必，按上下左右相连形成的连通组即可。"
+          },
+          {
+            "question": "游戏需要保存关卡吗？",
+            "answer": "不需要。棋盘与分数只存在于当前页面。"
+          },
+          {
+            "question": "游戏会记住最佳连锁吗？",
+            "answer": "不会。所有对局统计都只在当前页面中临时保留，刷新后会重置。"
+          }
+        ],
+        "relatedSlugs": [
+          "orbit-lines",
+          "triad-capture",
+          "color-cross",
+          "sum-orchard"
+        ]
+      }
+    }
+  },
+  {
+    "id": "G26",
+    "number": 26,
+    "slug": "triad-capture",
+    "mechanic": "A 9×9 field contains exactly three symbol families. The player drags a rectangle. A selection is valid when it contains the same non-zero count of all three symbols.",
+    "controls": "Pointer and touch use drag selection. Keyboard users anchor a cell, extend a rectangle, and confirm using the same pattern as Sum Orchard.",
+    "rules": [
+      "A valid rectangle may contain one, two, three, or four of each symbol. It may also include empty cells left by prior clears.",
+      "Counts must be equal and non-zero. A selection containing 2 leaves, 2 suns, and 2 drops is valid; 2, 2, and 1 is not.",
+      "Correctly selected tokens disappear, then each column falls downward and refills from the top with a balanced random stream.",
+      "The refill generator must avoid creating an endless automatic clear because selections only resolve when the player releases a rectangle.",
+      "The run lasts 90 seconds. Invalid rectangles do not cost time but break the current combo."
+    ],
+    "scoring": "One triad awards 6 points, two triads 16, three triads 30, and four triads 48. Consecutive valid captures made within four seconds increase a visible combo multiplier from 1× to 2.5×. 不保存高分、局数、设置或统计。",
+    "implementation": [
+      "Use CSS Grid with the shared rectangle-selection utility extracted from Sum Orchard.",
+      "Implement `countSymbolsInRect`, `isBalancedTriad`, `clearAndCollapse`, and `balancedRefill` as pure functions.",
+      "The refill bag must keep the long-run distribution of the three symbols within two tokens of one another.",
+      "While dragging, show the three live counts without declaring validity by color alone; add an icon and text status.",
+      "Provide seeded generator tests covering thousands of refills and verify distribution and board bounds."
+    ],
+    "acceptance": [
+      "Equal non-zero counts validate for one through four triads, while unequal or zero counts fail.",
+      "Clear, gravity, and refill preserve a 9×9 board with no out-of-bounds writes.",
+      "The refill bag remains statistically balanced across a long seeded sequence.",
+      "Invalid captures break the combo without subtracting time or changing the board."
+    ],
+    "coverPrompt": "Original colorful logic puzzle cover: a clean 9x9 field of three distinct garden symbols—leaf, water drop and sun gem—with a glowing rectangular selection containing equal groups, pieces lifting away in a balanced burst, dark navy backdrop, no text, no logo, no watermark, 16:9.",
+    "locales": {
+      "en": {
+        "slug": "triad-capture",
+        "name": "Triad Capture",
+        "keyword": "free three color puzzle online",
+        "seoTitle": "Triad Capture – Free Three-Color Puzzle Online | ArcadeMint",
+        "description": "Draw a rectangle containing equal sets of three symbols, clear the group, and build quick combos in this free browser puzzle.",
+        "h1": "Play Triad Capture Online",
+        "categories": [
+          "Brain",
+          "Puzzle"
+        ],
+        "difficulty": "Quick thinking",
+        "cardCopy": "Box equal numbers of three symbols—one of each, two of each, or more—and turn balanced selections into combos.",
+        "imageAlt": "Triad Capture game cover — Box equal numbers of three symbols—one of each, two of each, or more—and turn balanced selections into combos.",
+        "about": "Triad Capture is a balance puzzle built around three simple symbols. Draw a rectangle that contains the same number of leaves, drops, and suns, then release to clear the whole balanced group. A tiny one-of-each capture is safe, while a rectangle containing three or four complete triads earns much more. New pieces fall in after every success, so the board stays active until the short timer ends.",
+        "howTo": [
+          "Drag a rectangle across the symbol field.",
+          "Count the leaves, drops, and suns inside the selection.",
+          "Release when all three counts are equal and greater than zero.",
+          "Chain valid captures quickly to raise the temporary combo multiplier."
+        ],
+        "tips": [
+          "Start by finding compact one-of-each rectangles to understand the board.",
+          "Use empty cells to widen a selection without changing its symbol counts.",
+          "Watch the live count panel and prepare the next capture before the refill settles."
+        ],
+        "faq": [
+          {
+            "question": "Do the three symbols need to touch?",
+            "answer": "No. Only the totals inside the rectangle matter."
+          },
+          {
+            "question": "Can I capture more than one set at once?",
+            "answer": "Yes. Equal groups of two, three, or four of each symbol receive larger rewards."
+          },
+          {
+            "question": "Why do new pieces appear?",
+            "answer": "Columns refill after a valid capture so a single run can continue for the full timer."
+          },
+          {
+            "question": "Is the combo saved?",
+            "answer": "No. It belongs only to the current run and disappears on refresh or restart."
+          }
+        ],
+        "relatedSlugs": [
+          "sum-orchard",
+          "color-cross",
+          "sidefall-blocks",
+          "corner-stars"
+        ]
+      },
+      "zh": {
+        "name": "三色框选",
+        "keyword": "在线三色消除游戏",
+        "seoTitle": "三色框选 - 免费在线三色消除益智游戏 | ArcadeMint",
+        "description": "框选数量相等的三种符号，例如各一个、各两个或更多，即可完成平衡消除并积累连击。支持触摸与键盘。",
+        "h1": "在线玩三色框选",
+        "categories": [
+          "脑力",
+          "益智"
+        ],
+        "difficulty": "快速思考",
+        "cardCopy": "框住数量完全相等的三种符号，把平衡组合转化为消除与连续得分。",
+        "imageAlt": "三色框选 游戏封面，框住数量完全相等的三种符号，把平衡组合转化为消除与连续得分。",
+        "about": "三色框选要求玩家在矩形区域内保持三种符号数量完全相等。有效区域可以是每种一个、每种两个或更大的平衡组合，区域越大通常奖励越高。清除后不会保存棋盘或成绩，刷新页面会生成一盘新的可解布局。",
+        "howTo": [
+          "拖动形成一个轴对齐的矩形选择区域。",
+          "统计区域内三种符号各自的数量。",
+          "当三种数量相等且不全为零时，区域内符号会被清除并得分。",
+          "快速连续完成有效框选可增加连击奖励。"
+        ],
+        "tips": [
+          "先寻找每种一个的最小组合，再观察是否能扩大区域。",
+          "空白格不会改变数量，可用于连接分散符号。",
+          "选择前先分别计数三种符号，避免只凭视觉面积判断。"
+        ],
+        "faq": [
+          {
+            "question": "必须每种只有一个吗？",
+            "answer": "不必。只要三种符号数量完全相等即可。"
+          },
+          {
+            "question": "空白格会影响判断吗？",
+            "answer": "不会。空白格计为零，但仍属于矩形范围。"
+          },
+          {
+            "question": "颜色辨识困难怎么办？",
+            "answer": "每种类型必须同时使用独立图形和文字辅助说明。"
+          },
+          {
+            "question": "连击会保存吗？",
+            "answer": "不会。连击只属于当前一局，刷新或重新开始后会消失。"
+          }
+        ],
+        "relatedSlugs": [
+          "sum-orchard",
+          "color-cross",
+          "sidefall-blocks",
+          "corner-stars"
+        ]
+      }
+    }
+  },
+  {
+    "id": "G27",
+    "number": 27,
+    "slug": "echo-path",
+    "mechanic": "A 10×10 board contains symbol tiles. The player draws an orthogonally adjacent path of at least three cells. The first and last tile must match; every interior tile must share one different symbol.",
+    "controls": "Drag across adjacent cells or tap cells one by one. Keyboard: start with Enter, extend using Arrow keys, Backspace one step, and confirm with Enter.",
+    "rules": [
+      "A path cannot leave the board, revisit a cell, cross a completed path, or use diagonal adjacency.",
+      "The two endpoint symbols must match. All interior cells must have one identical symbol that is different from the endpoint symbol.",
+      "A direct two-cell pair is not valid; at least one interior tile is required.",
+      "A successful path becomes a permanent glowing vine and its cells cannot be used again. This makes later non-crossing decisions meaningful.",
+      "The run ends after 120 seconds, when all cells are occupied, or when the solver confirms that no valid path remains."
+    ],
+    "scoring": "Award 4 points for a three-cell path, then +2 for each additional interior cell. Completing two paths that share a boundary but not a cell adds a 5-point neighbor bonus. 不保存高分、局数、设置或统计。",
+    "implementation": [
+      "Render the board with semantic tile buttons and an SVG overlay for the live and completed paths.",
+      "Implement `isAdjacent`, `validateEchoPath`, `wouldCross`, `findAnyValidPath`, and `neighborBonus` as pure functions.",
+      "Generate the board in reverse: lay down a set of non-overlapping valid paths, fill remaining cells with decoys, then hide the solution data from production state.",
+      "The public game must not ship or expose a “show solution” control. The generator’s solution is used only to guarantee playability and in tests.",
+      "Announce endpoint symbol, interior symbol, path length, and validation result through a concise live region."
+    ],
+    "acceptance": [
+      "Valid paths require matching endpoints, a uniform different interior, and at least three cells.",
+      "Diagonal steps, revisits, occupied cells, and attempted crossings are rejected.",
+      "The reverse generator always produces at least one solution and never exposes it to the client UI.",
+      "No-move detection terminates within the specified performance budget on a full 10×10 board."
+    ],
+    "coverPrompt": "Original path puzzle cover: a dark 10x10 tile garden with a glowing vine-like route connecting two matching gem symbols through several identical middle symbols, other completed paths weaving nearby without crossing, elegant teal and amber lighting, no text, no logo, no watermark, 16:9.",
+    "locales": {
+      "en": {
+        "slug": "echo-path",
+        "name": "Echo Path",
+        "keyword": "free color path puzzle online",
+        "seoTitle": "Echo Path – Free Color Path Puzzle Online | ArcadeMint",
+        "description": "Draw a path with matching endpoints and one shared middle symbol, avoid used cells, and clear the board in this free logic game.",
+        "h1": "Play Echo Path Online",
+        "categories": [
+          "Brain",
+          "Puzzle"
+        ],
+        "difficulty": "Challenging",
+        "cardCopy": "Connect matching endpoints through a run of one other symbol, while every completed route permanently occupies its cells.",
+        "imageAlt": "Echo Path game cover — Connect matching endpoints through a run of one other symbol, while every completed route permanently occupies its cells.",
+        "about": "Echo Path is a route-building puzzle with a strict pattern. Start on one symbol, travel through one or more copies of a second symbol, and finish on the same symbol you began with. Every successful route stays on the board as a glowing vine, so paths cannot reuse or cross occupied cells. Early choices shape the remaining space, turning a simple matching rule into a compact planning challenge.",
+        "howTo": [
+          "Start on a tile and move through orthogonally adjacent cells.",
+          "Use one repeated symbol for every interior tile.",
+          "Finish on a tile matching the starting symbol.",
+          "Avoid completed routes because their cells remain occupied for the rest of the run."
+        ],
+        "tips": [
+          "Complete constrained edge and corner paths before filling the center.",
+          "Keep long corridors open for endpoint pairs that are far apart.",
+          "Backtrack during a live path instead of committing to a route that blocks several cells."
+        ],
+        "faq": [
+          {
+            "question": "Can a path move diagonally?",
+            "answer": "No. Every step must be horizontal or vertical."
+          },
+          {
+            "question": "Can the middle contain several symbols?",
+            "answer": "No. All interior cells must share one symbol that differs from the endpoints."
+          },
+          {
+            "question": "Why do completed paths stay visible?",
+            "answer": "Permanent paths create the non-crossing planning challenge and show which cells are already used."
+          },
+          {
+            "question": "Does restarting restore the original board?",
+            "answer": "Restart creates a new in-memory board. Refreshing also starts a completely new run."
+          }
+        ],
+        "relatedSlugs": [
+          "color-cross",
+          "corner-stars",
+          "orbit-lines",
+          "math-grid-sprint"
+        ]
+      },
+      "zh": {
+        "name": "回声连线",
+        "keyword": "在线路径连接游戏",
+        "seoTitle": "回声连线 - 免费在线路径连接益智游戏 | ArcadeMint",
+        "description": "连接相同端点，路径中间只能使用同一种其他符号，并且不能经过已经占用的格子。逐步规划并清空棋盘。",
+        "h1": "在线玩回声连线",
+        "categories": [
+          "脑力",
+          "益智"
+        ],
+        "difficulty": "具有挑战",
+        "cardCopy": "用一种统一的中间符号连接相同端点，同时避开已经被其他路径占用的格子。",
+        "imageAlt": "回声连线 游戏封面，用一种统一的中间符号连接相同端点，同时避开已经被其他路径占用的格子。",
+        "about": "回声连线是一款强调路径规划和资源占用的逻辑游戏。每条路径从两个相同端点开始，中间经过的格子必须全部属于另一种统一符号；完成后整条路径会永久占用这些格子，影响后续连接。玩家需要决定先后顺序，避免早期路径堵死剩余端点。",
+        "howTo": [
+          "选择一个端点并沿相邻格子绘制路径。",
+          "路径终点必须是与起点相同的符号。",
+          "中间格子只能使用一种统一的其他符号，并且不能重复或穿过已占用格。",
+          "成功连接后路径固定，继续完成剩余端点。"
+        ],
+        "tips": [
+          "先处理可选路线最少的端点对。",
+          "长路径可能封锁棋盘中央，绘制前先检查剩余通道。",
+          "利用边缘路线，为中心区域保留更灵活的连接空间。"
+        ],
+        "faq": [
+          {
+            "question": "路径可以交叉吗？",
+            "answer": "不能。已完成路径会占用格子，其他路径不得穿过。"
+          },
+          {
+            "question": "中间可以混用多种符号吗？",
+            "answer": "不能。一条路径的所有中间格必须属于同一种符号类型。"
+          },
+          {
+            "question": "画错后可以撤销吗？",
+            "answer": "可以在当前会话中撤销或重置关卡，但不会跨刷新保存。"
+          },
+          {
+            "question": "重新开始会恢复原来的棋盘吗？",
+            "answer": "不会。重新开始会在内存中生成新棋盘，刷新页面也会开启全新一局。"
+          }
+        ],
+        "relatedSlugs": [
+          "color-cross",
+          "corner-stars",
+          "orbit-lines",
+          "math-grid-sprint"
+        ]
+      }
+    }
+  },
+  {
+    "id": "G28",
+    "number": 28,
+    "slug": "target-basket",
+    "mechanic": "Each round shows one target basket and six numbered fruit tokens. The player selects exactly two tokens whose values add to the target. A run contains twelve generated rounds.",
+    "controls": "Click, tap, or keyboard-select two fruit tokens. The first choice stays visibly selected; choosing it again cancels. Number keys 1–6 may select the corresponding visible token.",
+    "rules": [
+      "Every round has at least one valid pair and never requires selecting the same physical token twice.",
+      "Numbers range from 1 to 20. Targets range from 5 to 35 and are generated from one planted pair.",
+      "After two tokens are chosen, validate immediately. A correct pair advances after a short result animation; a wrong pair clears the selection after feedback.",
+      "Each round begins with 12 seconds. The run ends after twelve correct answers or when a round timer reaches zero.",
+      "Refresh returns to round one with a new sequence. Do not save accuracy, streaks, or completed rounds."
+    ],
+    "scoring": "A correct pair awards 100 points plus `remainingSeconds × 5`. Consecutive first-attempt answers add a streak bonus of 25, 50, 75, then 100 points. A wrong pair removes 2 seconds from the current round. 不保存高分、局数、设置或统计。",
+    "implementation": [
+      "Use semantic buttons and simple CSS motion; no Canvas is required.",
+      "Implement `generateRound`, `findValidPairs`, `evaluatePair`, and `calculateRoundScore` as pure functions.",
+      "Plant one solution pair, generate four decoys, shuffle, then verify whether multiple solutions exist. Multiple valid pairs are acceptable and all must score.",
+      "Avoid targets or options that make the answer visually ambiguous because of duplicated labels; duplicate values are allowed only when represented by separate tokens and handled by unique IDs.",
+      "Pause the timer when the document becomes hidden and resume without granting extra time."
+    ],
+    "acceptance": [
+      "Every generated round contains at least one legal pair and all legal pairs are accepted.",
+      "Duplicate numeric values remain distinct tokens and cannot be double-selected through one ID.",
+      "Wrong answers remove exactly two seconds while correct answers calculate time and streak bonuses correctly.",
+      "The run ends after twelve correct rounds or a zero timer and all restart paths reset to round one."
+    ],
+    "coverPrompt": "Original educational arcade cover: a charming abstract harvest basket displaying a glowing target number, six polished fruit tokens with small digits floating above, two correct tokens arcing toward the basket, rich dark garden background with warm orange and mint highlights, no title text, no logo, no watermark, 16:9.",
+    "locales": {
+      "en": {
+        "slug": "target-basket",
+        "name": "Target Basket",
+        "keyword": "free addition pair game online",
+        "seoTitle": "Target Basket – Free Addition Pair Game Online | ArcadeMint",
+        "description": "Choose two numbered fruit that add to the basket target and complete twelve quick rounds in this free online addition game.",
+        "h1": "Play Target Basket Online",
+        "categories": [
+          "Brain",
+          "Skill"
+        ],
+        "difficulty": "Family friendly",
+        "cardCopy": "Pick two numbered fruit whose sum matches the basket, then solve the next target before the round timer expires.",
+        "imageAlt": "Target Basket game cover — Pick two numbered fruit whose sum matches the basket, then solve the next target before the round timer expires.",
+        "about": "Target Basket is a short addition challenge made for quick mental warmups. Each basket displays a target number and six fruit tokens wait above it. Pick any two whose values add to the target, then move through twelve fresh rounds. Fast answers earn a time bonus, while a first-attempt streak rewards accuracy without requiring an account or a saved profile.",
+        "howTo": [
+          "Read the target number shown on the basket.",
+          "Select one numbered fruit, then choose a second fruit.",
+          "If the two values add to the target, the next round begins.",
+          "Complete twelve targets before any round timer reaches zero."
+        ],
+        "tips": [
+          "Subtract the first chosen value from the target to find the needed partner.",
+          "Scan the smallest and largest values before testing middle pairs.",
+          "Protect the first-attempt streak by checking both numbers before the second selection."
+        ],
+        "faq": [
+          {
+            "question": "Can a round have more than one correct pair?",
+            "answer": "Yes. Every pair that reaches the target is accepted."
+          },
+          {
+            "question": "What happens after a wrong answer?",
+            "answer": "The selection clears and two seconds are removed from the current round."
+          },
+          {
+            "question": "Is this game suitable for touch screens?",
+            "answer": "Yes. The six large fruit buttons are designed for both phones and tablets."
+          },
+          {
+            "question": "Are my accuracy results stored?",
+            "answer": "No. Accuracy, score, streak, and round progress reset when the page refreshes."
+          }
+        ],
+        "relatedSlugs": [
+          "math-grid-sprint",
+          "sum-orchard",
+          "triad-capture",
+          "color-cross"
+        ]
+      },
+      "zh": {
+        "name": "目标数字篮",
+        "keyword": "在线两数求和游戏",
+        "seoTitle": "目标数字篮 - 免费在线两数求和小游戏 | ArcadeMint",
+        "description": "选择两个数字水果，使它们的和等于篮子上的目标值，在时间内完成连续回合。适合快速练习加法与观察。",
+        "h1": "在线玩目标数字篮",
+        "categories": [
+          "脑力",
+          "技巧"
+        ],
+        "difficulty": "适合一般受众",
+        "cardCopy": "选择两个数字水果，让它们的和等于目标篮数字，并在回合计时结束前完成配对。",
+        "imageAlt": "目标数字篮 游戏封面，选择两个数字水果，让它们的和等于目标篮数字，并在回合计时结束前完成配对。",
+        "about": "目标数字篮是一款规则直接的两数求和小游戏。每回合显示一个目标值和一组数字水果，玩家需要选出恰好两个数字，使它们相加等于目标。完成后立即进入下一回合，数字范围和干扰项逐步变化。成绩只在当前页面显示。",
+        "howTo": [
+          "查看篮子上显示的目标数字。",
+          "从场景中选择第一个数字水果，再选择第二个。",
+          "若两数之和等于目标，则完成本回合并获得分数。",
+          "在每回合倒计时结束前完成规定数量的目标。"
+        ],
+        "tips": [
+          "先观察是否存在明显的整十或重复数字组合。",
+          "选中第一个数字后，立即计算目标与它的差值。",
+          "不要随机尝试，错误选择会消耗宝贵时间。"
+        ],
+        "faq": [
+          {
+            "question": "一次可以选择三个数字吗？",
+            "answer": "不能。每个目标必须由恰好两个数字组成。"
+          },
+          {
+            "question": "数字范围会变化吗？",
+            "answer": "会随回合逐渐扩大，但必须保持适合快速心算。"
+          },
+          {
+            "question": "这个游戏会记录学习数据吗？",
+            "answer": "不会。没有账号、成绩档案或长期统计。"
+          },
+          {
+            "question": "正确率结果会保存吗？",
+            "answer": "不会。刷新页面后，正确率、分数、连胜和回合进度都会重置。"
+          }
+        ],
+        "relatedSlugs": [
+          "math-grid-sprint",
+          "sum-orchard",
+          "triad-capture",
+          "color-cross"
+        ]
+      }
+    }
+  },
+  {
+    "id": "G29",
+    "number": 29,
+    "slug": "math-grid-sprint",
+    "mechanic": "Five row operands and five column operands define 25 arithmetic cells. The player chooses Addition, Subtraction, or Multiplication, then fills every answer as quickly and accurately as possible.",
+    "controls": "Select a cell and type with the physical keyboard or use the on-screen numeric keypad. Arrow keys move between cells; Enter submits the current value; Backspace edits.",
+    "rules": [
+      "Addition uses row values 1–49 and column values 1–50. Multiplication uses 2–9 on both axes.",
+      "Subtraction orders operands so every result is non-negative: each cell calculates the larger configured row minuend minus the smaller column subtrahend.",
+      "A mode is chosen before the timer starts. Changing mode after play begins requires confirmation and starts a completely new run.",
+      "Correct cells lock and become read-only. Incorrect answers stay editable and receive non-color error feedback.",
+      "The displayed score begins at 1250 and decreases by one per elapsed second, with a minimum completion score of 1."
+    ],
+    "scoring": "Final score is the remaining countdown score minus 8 points for each incorrect submission, never below 1 on a completed grid. Also display elapsed time and accuracy for the current run only. 不保存高分、局数、设置或统计。",
+    "implementation": [
+      "Use a native input or contenteditable-free controlled input for each answer cell. On mobile, show a custom numeric keypad while retaining accessible labels.",
+      "Implement `buildOperandSet`, `expectedAnswer`, `validateCell`, `nextIncompleteCell`, and `calculateFinalScore` as pure functions.",
+      "Prevent browser form submission and accidental page zoom from rapid keypad taps. Never intercept OS-level shortcuts outside the focused game shell.",
+      "Use `inputMode=\"numeric\"`, precise labels such as “Row 3 plus column 4,” and a live progress summary like “17 of 25 correct.”",
+      "Pause the countdown when the page is hidden, and fully clean up the interval on restart or unmount."
+    ],
+    "acceptance": [
+      "Each mode generates valid operand ranges and computes all 25 expected answers correctly.",
+      "Correct answers lock, incorrect answers remain editable, and wrong-attempt penalties are applied once per submission.",
+      "Keyboard and on-screen keypad navigation reaches every cell without focus loss.",
+      "Countdown pause, restart, mode change, unmount, and refresh leave no duplicate intervals."
+    ],
+    "coverPrompt": "Original math-game cover: a luminous 5x5 arithmetic grid floating over a dark botanical-tech background, row and column number markers, several answer cells lighting up correctly, subtle plus minus and multiply motifs as abstract symbols, sophisticated mint and gold palette, no text, no logo, no watermark, 16:9.",
+    "locales": {
+      "en": {
+        "slug": "math-grid-sprint",
+        "name": "Math Grid Sprint",
+        "keyword": "free 25 square math game online",
+        "seoTitle": "Math Grid Sprint – Free 25-Square Math Game Online | ArcadeMint",
+        "description": "Fill a 5×5 addition, subtraction, or multiplication grid before the score counts down in this free browser math game.",
+        "h1": "Play Math Grid Sprint Online",
+        "categories": [
+          "Brain",
+          "Skill"
+        ],
+        "difficulty": "Three modes",
+        "cardCopy": "Solve a 5×5 arithmetic grid using row and column numbers while the score steadily counts down.",
+        "imageAlt": "Math Grid Sprint game cover — Solve a 5×5 arithmetic grid using row and column numbers while the score steadily counts down.",
+        "about": "Math Grid Sprint turns twenty-five short calculations into one focused browser challenge. Choose addition, subtraction, or multiplication, read the number at the start of each row and column, and fill the answer where they meet. Correct cells lock immediately, while the score continues to count down until the grid is complete. The result is a compact practice session with no login, lesson history, or saved grade.",
+        "howTo": [
+          "Choose Addition, Subtraction, or Multiplication before starting.",
+          "Combine the number at the left of a row with the number above a column.",
+          "Enter the answer in their intersection and submit it.",
+          "Complete all 25 cells while preserving as much of the countdown score as possible."
+        ],
+        "tips": [
+          "Complete the easiest row first to build rhythm and reduce navigation time.",
+          "Use repeated patterns in multiplication rows instead of recalculating every cell from scratch.",
+          "Correct mistakes immediately because every wrong submission reduces the final score."
+        ],
+        "faq": [
+          {
+            "question": "Which operations are available?",
+            "answer": "The launch version includes addition, non-negative subtraction, and multiplication."
+          },
+          {
+            "question": "Can I leave a cell and return later?",
+            "answer": "Yes. Only correct cells lock; incomplete or incorrect cells remain editable."
+          },
+          {
+            "question": "Does the site track my practice history?",
+            "answer": "No. The first version has no account, database, grade history, or local storage."
+          },
+          {
+            "question": "What happens when I refresh?",
+            "answer": "The selected mode, operands, answers, score, time, and accuracy all reset."
+          }
+        ],
+        "relatedSlugs": [
+          "target-basket",
+          "sum-orchard",
+          "echo-path",
+          "color-cross"
+        ]
+      },
+      "zh": {
+        "name": "数学方格冲刺",
+        "keyword": "在线数学方格游戏",
+        "seoTitle": "数学方格冲刺 - 免费在线 5×5 数学小游戏 | ArcadeMint",
+        "description": "根据行列数字与指定运算填写 5×5 结果网格，在分数倒计时结束前完成加法、减法或乘法挑战。",
+        "h1": "在线玩数学方格冲刺",
+        "categories": [
+          "脑力",
+          "技巧"
+        ],
+        "difficulty": "三种模式",
+        "cardCopy": "根据每行和每列的数字填写 5×5 运算结果，在分数不断下降前完成整张方格。",
+        "imageAlt": "数学方格冲刺 游戏封面，根据每行和每列的数字填写 5×5 运算结果，在分数不断下降前完成整张方格。",
+        "about": "数学方格冲刺把基础运算放进 5×5 网格中。顶部和左侧分别给出数字，每个格子的答案由对应行列数字按照本局运算规则计算。玩家可以在加法、减法或乘法模式中完成整张表，分数会随时间下降，但输入与判定必须保持清晰、可访问。",
+        "howTo": [
+          "查看当前运算模式以及顶部、左侧的行列数字。",
+          "选择一个格子，计算对应两个数字的结果并输入。",
+          "正确答案会锁定，错误答案会提示但不直接暴露结果。",
+          "在分数倒计时降至最低前完成全部 25 个格子。"
+        ],
+        "tips": [
+          "先完成重复数字较多的行或列，建立快速输入节奏。",
+          "乘法模式可优先填写 0、1、2、5 和 10 的组合。",
+          "使用键盘方向键在格子间移动，减少鼠标往返时间。"
+        ],
+        "faq": [
+          {
+            "question": "包含哪些运算？",
+            "answer": "首版支持加法、非负结果的减法和基础乘法，可在开始前选择模式。"
+          },
+          {
+            "question": "错误答案会扣分吗？",
+            "answer": "可以设置轻微时间或分数惩罚，但必须在界面中明确说明。"
+          },
+          {
+            "question": "会保存我的完成时间吗？",
+            "answer": "不会。计时、答案和分数在刷新后全部清空。"
+          },
+          {
+            "question": "刷新页面后会怎样？",
+            "answer": "当前模式、行列数字、答案、分数、计时和正确率都会重置。"
+          }
+        ],
+        "relatedSlugs": [
+          "target-basket",
+          "sum-orchard",
+          "echo-path",
+          "color-cross"
+        ]
+      }
+    }
+  }
+]

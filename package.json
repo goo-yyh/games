@@ -1,0 +1,63 @@
+{
+  "name": "arcademint",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.26.0",
+  "engines": {
+    "node": "24.x"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "prebuild": "node scripts/generate-ads-txt.mjs",
+    "build": "pnpm validate && next build",
+    "postbuild": "node scripts/validate-build-budget.mjs",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:a11y": "playwright test tests/e2e/accessibility.spec.ts",
+    "test:storage": "vitest run tests/unit/storage.test.ts",
+    "validate": "pnpm check:content && tsx scripts/validate-site.ts",
+    "validate:catalog": "tsx scripts/validate-site.ts",
+    "validate:locales": "vitest run tests/i18n",
+    "validate:performance": "node scripts/validate-build-budget.mjs",
+    "sync:content": "tsx scripts/sync-spec-content.ts",
+    "check:content": "tsx scripts/sync-spec-content.ts --check",
+    "generate:images": "tsx scripts/generate-images.ts",
+    "optimize:images": "tsx scripts/generate-images.ts",
+    "generate:ads": "node scripts/generate-ads-txt.mjs",
+    "test:i18n": "vitest run tests/i18n",
+    "test:seo": "vitest run tests/seo",
+    "test:e2e:locales": "playwright test tests/e2e/locales.spec.ts"
+  },
+  "dependencies": {
+    "lucide-react": "^1.30.0",
+    "matter-js": "0.20.0",
+    "next": "16.3.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.12.1",
+    "@playwright/test": "^1.62.1",
+    "@testing-library/jest-dom": "6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/matter-js": "0.20.2",
+    "@types/node": "^24.10.4",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitest/coverage-v8": "4.1.10",
+    "eslint": "^9.39.2",
+    "eslint-config-next": "16.3.0",
+    "jsdom": "^27.4.0",
+    "sharp": "^0.35.3",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.10"
+  }
+}
