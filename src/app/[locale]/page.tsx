@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { ArrowDownRight, Flower2, Gamepad2, Layers3, MonitorSmartphone, Sparkles } from "lucide-react";
 import { AdSlot } from "@/components/Ads";
 import { FaqList } from "@/components/FaqList";
@@ -33,6 +34,7 @@ const featuredSlugs = ["block-bloom", "slope-dash", "bubble-pop-shooter", "class
 
 export default async function HomePage({ params }: Props) {
   const { locale: value } = await params;
+  if (!isLocale(value)) notFound();
   const locale = value as Locale;
   const copy = getSiteCopy(locale);
   const featured = featuredSlugs.map(getGame).filter(Boolean);

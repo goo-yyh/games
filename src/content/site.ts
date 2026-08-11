@@ -93,8 +93,9 @@ const homeFaq = {
   ],
 } satisfies Record<Locale, string[][]>;
 
-export function getSiteCopy(locale: Locale) {
-  const en = locale === "en";
+export function getSiteCopy(locale: Locale | string) {
+  const safeLocale: Locale = locale === "zh" ? "zh" : "en";
+  const en = safeLocale === "en";
   return {
     nav: {
       allGames: en ? "All games" : "全部游戏",
@@ -155,7 +156,7 @@ export function getSiteCopy(locale: Locale) {
             ["原创挑战", "首发游戏使用原创代码、视觉、关卡数据与页面内容。"],
           ],
       faqTitle: en ? "Questions, answered" : "常见问题",
-      faq: homeFaq[locale].map(([question, answer]) => ({ question, answer })),
+      faq: homeFaq[safeLocale].map(([question, answer]) => ({ question, answer })),
     },
     cards: {
       play: en ? "Play now" : "立即游玩",

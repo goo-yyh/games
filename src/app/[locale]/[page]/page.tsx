@@ -13,7 +13,6 @@ import { buildLocalizedMetadata } from "@/lib/seo";
 type Props = { params: Promise<{ locale: string; page: string }> };
 const legalPages: LegalSlug[] = ["about", "contact", "privacy", "cookies", "terms", "accessibility"];
 
-export const dynamicParams = false;
 export function generateStaticParams() { return legalPages.map((page) => ({ page })); }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

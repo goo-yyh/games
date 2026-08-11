@@ -14,7 +14,6 @@ import { buildLocalizedMetadata } from "@/lib/seo";
 type Props = { params: Promise<{ locale: string; category: string }> };
 const categories = Object.keys(categoryContent) as CategorySlug[];
 
-export const dynamicParams = false;
 export function generateStaticParams() { return categories.map((category) => ({ category })); }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

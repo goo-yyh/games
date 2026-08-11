@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { ArrowDownRight, BrainCircuit, Grid3X3, Route, Sigma } from "lucide-react";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { FaqList } from "@/components/FaqList";
@@ -23,6 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function GardenLogicPage({ params }: Props) {
   const { locale: value } = await params;
+  if (!isLocale(value)) notFound();
   const locale = value as Locale;
   const copy = gardenContent[locale];
   const ui = getSiteCopy(locale);

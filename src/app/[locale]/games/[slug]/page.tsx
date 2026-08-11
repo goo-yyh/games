@@ -15,7 +15,6 @@ import { categoryPath, gamePath, localizedPath } from "@/i18n/paths";
 import { buildLocalizedMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
-export const dynamicParams = false;
 export function generateStaticParams() { return games.map((game) => ({ slug: game.slug })); }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
