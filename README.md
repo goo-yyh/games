@@ -98,8 +98,8 @@ pnpm test:e2e                # configured browser matrix
 pnpm test:a11y               # focused desktop/mobile accessibility suite
 pnpm sync:content            # regenerate bilingual catalog from the master spec
 pnpm check:content           # fail if generated content drifted from the spec
-pnpm generate:images         # regenerate local cover/source/OG assets
-pnpm optimize:images         # deterministic image generation/optimization alias
+pnpm generate:images         # derive cover/OG assets from preserved ImageGen sources
+pnpm optimize:images         # deterministic crop/compression alias
 pnpm generate:ads            # generate ads.txt from publisher env
 ```
 
@@ -121,7 +121,7 @@ public/images/games/<slug>/cover.webp  # 1200x675
 public/images/games/<slug>/og.webp     # 1200x630
 ```
 
-The generated assets are original, local, text-free, and validated for dimensions and file budget. `source.png` is never referenced by a page or Sitemap. The homepage social source was made with the built-in image generation workflow; `scripts/generate-images.ts` performs deterministic processing and game-cover generation.
+All 31 source artworks (homepage, 29 games, and Garden Logic) were created with the built-in ImageGen workflow in a bright, airy 2D cartoon style. White and pale pastel backgrounds plus translucent linework keep the collection light without relying on 3D rendering. `source.png` is never referenced by a page or Sitemap. `scripts/generate-images.ts` preserves every source file and performs only deterministic crops and WebP compression; validation rejects missing, undersized, wrongly proportioned, or duplicate sources.
 
 Canvas arcade engines cap device-pixel ratio at 2 and keep semantic controls in the DOM. Tap Hoops uses a tested jump envelope plus rim-aware swish streaks, while Slope Dash generates safe world-space chunks with ramps, gaps, barriers, velocity, and damping. Hook Swing, Trap Runner, and Rugged Wheels ship validated static definitions for 15 courses, 15 rooms, and 12 tracks respectively; none of that progress is persisted.
 
@@ -130,7 +130,7 @@ Canvas arcade engines cap device-pixel ratio at 2 and keep semantic controls in 
 1. Add the full English and Chinese definition to the master content source, including unique SEO title, description, H1, About, How to play, Tips, at least three FAQs, image alt text, and related slugs.
 2. Add the slug to `src/games/loaders.ts`; never interpolate the route into an import path.
 3. Implement keyboard, pointer, and touch input, pause/restart, localized HUD/status/results, cleanup, and deterministic rule tests.
-4. Add presentation data and generate `source.png`, `cover.webp`, and `og.webp`.
+4. Add presentation data, create the original bright 2D `source.png` with ImageGen, then derive `cover.webp` and `og.webp` with `pnpm generate:images`.
 5. Update expected counts in validation, sitemap, route, and E2E tests.
 6. Run the complete build and Playwright gate before publishing.
 

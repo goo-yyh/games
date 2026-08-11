@@ -1,4 +1,5 @@
-import { access, stat } from "node:fs/promises";
+import { createHash } from "node:crypto";
+import { access, readFile, stat } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
 import { games } from "../src/content/games";
@@ -7,6 +8,7 @@ import { locales } from "../src/i18n/config";
 import sitemap from "../src/app/sitemap";
 
 const failures: string[] = [];
+const sourceDigests = new Set<string>();
 const assert = (condition: unknown, message: string) => { if (!condition) failures.push(message); };
 const slugs = new Set(games.map((game) => game.slug));
 const uniqueFields = Object.fromEntries(
@@ -57,8 +59,38 @@ for (const game of games) {
       failures.push(`Missing image ${game.slug}/${name}.`);
     }
   }
-  await access(path.join(directory, "source.png")).catch(() => failures.push(`Missing source image for ${game.slug}.`));
+  const source = path.join(directory, "source.png");
+  try {
+    const [metadata, bytes] = await Promise.all([sharp(source).metadata(), readFile(source)]);
+    const ratio = (metadata.width || 0) / (metadata.height || 1);
+    assert(metadata.format === "png", `${game.slug}/source.png must be PNG.`);
+    assert((metadata.width || 0) >= 1200 && (metadata.height || 0) >= 630, `${game.slug}/source.png is too small.`);
+    assert(ratio >= 1.7 && ratio <= 1.82, `${game.slug}/source.png must be approximately 16:9.`);
+    const digest = createHash("sha256").update(bytes).digest("hex");
+    assert(!sourceDigests.has(digest), `${game.slug}/source.png duplicates another ImageGen source.`);
+    sourceDigests.add(digest);
+  } catch {
+    failures.push(`Missing or unreadable source image for ${game.slug}.`);
+  }
 }
+
+for (const relativeSource of ["public/images/og/home-source.png", "public/images/collections/garden-logic/source.png"]) {
+  const source = path.join(process.cwd(), relativeSource);
+  try {
+    const [metadata, bytes] = await Promise.all([sharp(source).metadata(), readFile(source)]);
+    const ratio = (metadata.width || 0) / (metadata.height || 1);
+    assert(metadata.format === "png", `${relativeSource} must be PNG.`);
+    assert((metadata.width || 0) >= 1200 && (metadata.height || 0) >= 630, `${relativeSource} is too small.`);
+    assert(ratio >= 1.7 && ratio <= 1.82, `${relativeSource} must be approximately 16:9.`);
+    const digest = createHash("sha256").update(bytes).digest("hex");
+    assert(!sourceDigests.has(digest), `${relativeSource} duplicates another ImageGen source.`);
+    sourceDigests.add(digest);
+  } catch {
+    failures.push(`Missing or unreadable source image ${relativeSource}.`);
+  }
+}
+
+assert(sourceDigests.size === 31, `Expected 31 unique ImageGen source images, received ${sourceDigests.size}.`);
 
 const sitemapEntries = sitemap();
 assert(sitemapEntries.length === 82, `Sitemap must contain 82 entries, received ${sitemapEntries.length}.`);
@@ -84,5 +116,5 @@ if (failures.length) {
   console.error(failures.map((failure) => `- ${failure}`).join("\n"));
   process.exitCode = 1;
 } else {
-  console.log(`Validated 29 games, 58 localized game pages, 82 sitemap URLs, and 87 game image files.`);
+  console.log(`Validated 29 games, 58 localized game pages, 82 sitemap URLs, and 31 unique ImageGen sources.`);
 }
