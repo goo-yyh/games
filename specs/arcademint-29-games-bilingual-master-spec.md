@@ -8400,6 +8400,10 @@ Codex 完成后应在最终回复中报告：
 
 不会。刷新页面会生成新的棋盘并清空分数。
 
+**可以使用键盘游玩吗？**
+
+可以。除了鼠标与触摸拖动，棋盘也支持用键盘确定起点并扩展选择区域。
+
 **中文相关推荐：** [色彩十字](/zh/games/color-cross)、[三色框选](/zh/games/triad-capture)、[目标数字篮](/zh/games/target-basket)、[数学方格冲刺](/zh/games/math-grid-sprint)
 
 ### 本地化验收补充
@@ -8459,6 +8463,10 @@ Codex 完成后应在最终回复中报告：
 **棋盘是否随机生成？**
 
 可以从可解模板生成并通过求解器验证，刷新后开始新的棋盘。
+
+**辅助识别设置会保存吗？**
+
+不会。辅助识别开关和全部游戏状态都会在刷新页面后重置。
 
 **中文相关推荐：** [数字果园](/zh/games/sum-orchard)、[轨道连线](/zh/games/orbit-lines)、[星角拼图](/zh/games/corner-stars)、[回声连线](/zh/games/echo-path)
 
@@ -8520,6 +8528,10 @@ Codex 完成后应在最终回复中报告：
 
 不会。棋盘、计时和分数都会重置。
 
+**移动后没有形成连线会怎样？**
+
+棋盘会加入新的圆球，因此每次没有消除的移动都需要为后续空间留出余地。
+
 **中文相关推荐：** [色彩十字](/zh/games/color-cross)、[星角拼图](/zh/games/corner-stars)、[侧落方块](/zh/games/sidefall-blocks)、[回声连线](/zh/games/echo-path)
 
 ### 本地化验收补充
@@ -8579,6 +8591,10 @@ Codex 完成后应在最终回复中报告：
 **可以用键盘选择吗？**
 
 可以。焦点可在星星间移动，并通过确认键依次选择三点。
+
+**重排次数会保存吗？**
+
+不会。刷新后棋盘、重排次数、分数与计时都会重置。
 
 **中文相关推荐：** [轨道连线](/zh/games/orbit-lines)、[色彩十字](/zh/games/color-cross)、[三色框选](/zh/games/triad-capture)、[回声连线](/zh/games/echo-path)
 
@@ -8640,6 +8656,10 @@ Codex 完成后应在最终回复中报告：
 
 不需要。棋盘与分数只存在于当前页面。
 
+**游戏会记住最佳连锁吗？**
+
+不会。所有对局统计都只在当前页面中临时保留，刷新后会重置。
+
 **中文相关推荐：** [轨道连线](/zh/games/orbit-lines)、[三色框选](/zh/games/triad-capture)、[色彩十字](/zh/games/color-cross)、[数字果园](/zh/games/sum-orchard)
 
 ### 本地化验收补充
@@ -8699,6 +8719,10 @@ Codex 完成后应在最终回复中报告：
 **颜色辨识困难怎么办？**
 
 每种类型必须同时使用独立图形和文字辅助说明。
+
+**连击会保存吗？**
+
+不会。连击只属于当前一局，刷新或重新开始后会消失。
 
 **中文相关推荐：** [数字果园](/zh/games/sum-orchard)、[色彩十字](/zh/games/color-cross)、[侧落方块](/zh/games/sidefall-blocks)、[星角拼图](/zh/games/corner-stars)
 
@@ -8760,6 +8784,10 @@ Codex 完成后应在最终回复中报告：
 
 可以在当前会话中撤销或重置关卡，但不会跨刷新保存。
 
+**重新开始会恢复原来的棋盘吗？**
+
+不会。重新开始会在内存中生成新棋盘，刷新页面也会开启全新一局。
+
 **中文相关推荐：** [色彩十字](/zh/games/color-cross)、[星角拼图](/zh/games/corner-stars)、[轨道连线](/zh/games/orbit-lines)、[数学方格冲刺](/zh/games/math-grid-sprint)
 
 ### 本地化验收补充
@@ -8820,6 +8848,10 @@ Codex 完成后应在最终回复中报告：
 
 不会。没有账号、成绩档案或长期统计。
 
+**正确率结果会保存吗？**
+
+不会。刷新页面后，正确率、分数、连胜和回合进度都会重置。
+
 **中文相关推荐：** [数学方格冲刺](/zh/games/math-grid-sprint)、[数字果园](/zh/games/sum-orchard)、[三色框选](/zh/games/triad-capture)、[色彩十字](/zh/games/color-cross)
 
 ### 本地化验收补充
@@ -8879,6 +8911,10 @@ Codex 完成后应在最终回复中报告：
 **会保存我的完成时间吗？**
 
 不会。计时、答案和分数在刷新后全部清空。
+
+**刷新页面后会怎样？**
+
+当前模式、行列数字、答案、分数、计时和正确率都会重置。
 
 **中文相关推荐：** [目标数字篮](/zh/games/target-basket)、[数字果园](/zh/games/sum-orchard)、[回声连线](/zh/games/echo-path)、[色彩十字](/zh/games/color-cross)
 
